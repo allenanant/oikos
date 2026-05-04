@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oikos by Angelina — For a life that sustains you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap">
+<style>
+  :root {
+    --cream: #FFF8EB;
+    --forest: #0B3910;
+    --terracotta: #B46A2C;
+    --sand: #ECCDB2;
+    --honey: #DA9B66;
+    --gold: #E4C58A;
+    --earth: #3C230F;
+    --sage: #939991;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body { background: var(--cream); color: var(--forest); }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1, "onum" 1;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(28px, 4vh, 56px) clamp(24px, 5vw, 88px);
+    position: relative;
+  }
+
+  /* Subtle paper grain — barely perceptible warm noise on the cream */
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(circle at 18% 30%, rgba(180, 106, 44, 0.018) 0, transparent 36%),
+                      radial-gradient(circle at 82% 78%, rgba(11, 57, 16, 0.015) 0, transparent 38%);
+    mix-blend-mode: multiply;
+    z-index: 0;
+  }
+
+  .hero > * { position: relative; z-index: 1; }
+
+  /* ─── Topbar ─────────────────────────────────────── */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: var(--forest);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    line-height: 1;
+  }
+
+  .brand .hairline {
+    width: 36px;
+    height: 1px;
+    background: var(--forest);
+    opacity: 0.5;
+    flex: none;
+  }
+
+  .brand .ampersand {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 14px;
+    margin: 0 2px;
+    color: var(--forest);
+    opacity: 0.85;
+  }
+
+  .meta {
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  .meta .gloss {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.005em;
+    font-size: 14px;
+    color: var(--forest);
+    opacity: 0.85;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* ─── Headline composition ───────────────────────── */
+  .composition {
+    align-self: center;
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(18px, 4vh, 48px) 0;
+  }
+
+  .poster {
+    font-family: 'EB Garamond', "Hoefler Text", Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--forest);
+    line-height: 1;
+    font-feature-settings: "kern" 1, "liga" 1, "dlig" 1, "swsh" 0;
+  }
+
+  .h-line { display: block; }
+
+  .h-oikos {
+    font-size: clamp(54px, 6.4vw, 102px);
+    letter-spacing: -0.022em;
+    line-height: 1.0;
+    margin-bottom: clamp(16px, 2.4vh, 34px);
+    font-weight: 500;
+  }
+
+  .h-prelude {
+    font-size: clamp(38px, 4.7vw, 78px);
+    letter-spacing: -0.018em;
+    line-height: 1.05;
+    margin-bottom: clamp(2px, 0.4vh, 8px);
+  }
+
+  .h-keyword {
+    font-size: clamp(96px, 11.6vw, 204px);
+    letter-spacing: -0.04em;
+    line-height: 0.92;
+    font-weight: 400;
+    margin: clamp(2px, 0.4vh, 6px) 0 clamp(4px, 0.6vh, 10px);
+  }
+
+  .h-tail {
+    font-size: clamp(38px, 4.7vw, 78px);
+    letter-spacing: -0.018em;
+    line-height: 1.05;
+    display: inline-flex;
+    align-items: baseline;
+    gap: clamp(16px, 1.8vw, 28px);
+    flex-wrap: wrap;
+  }
+
+  .fleuron {
+    width: clamp(40px, 4vw, 64px);
+    height: auto;
+    color: var(--terracotta);
+    flex: none;
+    transform: translateY(-0.22em);
+  }
+
+  /* ─── Footer (subhead + CTAs) ────────────────────── */
+  .bottom {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(28px, 6vw, 80px);
+    align-items: end;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-top: clamp(20px, 2.6vh, 38px);
+    position: relative;
+  }
+  .bottom::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--forest);
+    opacity: 0.16;
+  }
+
+  .sub {
+    font-size: clamp(13.5px, 1.05vw, 16px);
+    line-height: 1.7;
+    color: var(--forest);
+    opacity: 0.92;
+    max-width: 58ch;
+    font-weight: 400;
+    letter-spacing: 0.005em;
+  }
+
+  .sub::first-letter {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 1.05em;
+  }
+
+  .ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-end;
+    text-align: right;
+    flex: none;
+  }
+
+  .cta-primary {
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--forest);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--forest);
+    transition: color .35s ease, border-color .35s ease, gap .35s ease;
+    white-space: nowrap;
+  }
+  .cta-primary .arrow {
+    display: inline-block;
+    transform: translateY(-1px);
+    transition: transform .35s ease;
+    font-size: 15px;
+    line-height: 1;
+  }
+  .cta-primary:hover {
+    color: var(--terracotta);
+    border-bottom-color: var(--terracotta);
+    gap: 18px;
+  }
+  .cta-primary:hover .arrow {
+    transform: translate(4px, -1px);
+  }
+
+  .cta-secondary {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--forest);
+    opacity: 0.72;
+    text-decoration: none;
+    transition: color .3s ease, opacity .3s ease;
+    letter-spacing: 0.005em;
+  }
+  .cta-secondary:hover {
+    color: var(--terracotta);
+    opacity: 1;
+  }
+
+  /* ─── Mobile ─────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .hero { padding: 26px 22px; gap: 32px; }
+    .topbar { font-size: 9.5px; gap: 16px; }
+    .topbar .brand .hairline { width: 22px; }
+    .meta .gloss { font-size: 12px; }
+    .h-oikos { margin-bottom: 12px; }
+    .h-tail { gap: 12px; }
+    .bottom { grid-template-columns: 1fr; gap: 24px; }
+    .ctas { align-items: flex-start; text-align: left; }
+  }
+
+  @media (max-width: 420px) {
+    .meta .gloss { display: none; }
+    .h-keyword { letter-spacing: -0.045em; }
+  }
+</style>
+</head>
+<body>
+  <main class="hero">
+
+    <header class="topbar" role="banner">
+      <div class="brand" aria-label="Oikos by Angelina">
+        <span class="hairline" aria-hidden="true"></span>
+        <span>Oikos<span class="ampersand"> by </span>Angelina</span>
+      </div>
+      <div class="meta">
+        <span class="gloss">From the Greek — home, household, the small ecology within.</span>
+        Delhi &nbsp;·&nbsp; MMXXVI
+      </div>
+    </header>
+
+    <section class="composition" aria-labelledby="hero-headline">
+      <h1 id="hero-headline" class="poster">
+        <span class="h-line h-oikos">Oikos.</span>
+        <span class="h-line h-prelude">For a life that</span>
+        <span class="h-line h-keyword">sustains</span>
+        <span class="h-line h-tail">
+          <span>you.</span>
+          <svg class="fleuron" viewBox="0 0 120 50" fill="none" stroke="currentColor" stroke-width="1.05" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <!-- main rachis with a crozier curl at the tip -->
+            <path d="M3 38 C 30 36, 64 22, 108 7 C 112 5.5, 115 8, 114.5 11 C 114 14, 111 16, 108.5 14"/>
+            <!-- lower pinnae -->
+            <path d="M16 36 Q15 42 10 44"/>
+            <path d="M30 33 Q29 39 24 41"/>
+            <path d="M44 29 Q43 35 38 37"/>
+            <path d="M58 24 Q57 30 52 32"/>
+            <path d="M72 19 Q71 25 66 27"/>
+            <path d="M86 14 Q85 20 80 22"/>
+            <path d="M100 10 Q99 16 94 18"/>
+            <!-- upper pinnae -->
+            <path d="M16 36 Q14 31 9 29"/>
+            <path d="M30 33 Q28 27 23 25"/>
+            <path d="M44 29 Q41 22 36 20"/>
+            <path d="M58 24 Q55 17 50 15"/>
+            <path d="M72 19 Q69 12 64 10"/>
+            <path d="M86 14 Q83 7 78 5"/>
+          </svg>
+        </span>
+      </h1>
+    </section>
+
+    <footer class="bottom" role="contentinfo">
+      <p class="sub">
+        Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.
+      </p>
+      <nav class="ctas" aria-label="Primary actions">
+        <a href="#what-we-do" class="cta-primary">
+          See what we do
+          <span class="arrow" aria-hidden="true">&#x2192;</span>
+        </a>
+        <a href="#contact" class="cta-secondary">or start a conversation</a>
+      </nav>
+    </footer>
+
+  </main>
+</body>
+</html>

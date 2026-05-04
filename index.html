@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oikos · Hero Variants Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #fff8eb;
+      --forest: #0b3910;
+      --terracotta: #b46a2c;
+      --sand: #eccdb2;
+      --sage: #939991;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--cream); color: var(--forest); font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+    .display { font-family: 'EB Garamond', serif; }
+    header { padding: 56px 48px 24px; }
+    h1 { font-family: 'EB Garamond', serif; font-size: 56px; font-weight: 400; margin: 0 0 8px; letter-spacing: -0.02em; }
+    h1 em { color: var(--terracotta); }
+    header p { font-size: 14px; color: rgba(11,57,16,0.6); margin: 0; max-width: 56ch; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; padding: 32px 48px 80px; }
+    @media (max-width: 980px) { .grid { grid-template-columns: 1fr; padding: 24px; } }
+    .card { background: rgba(11,57,16,0.025); border: 1px solid rgba(11,57,16,0.1); border-radius: 4px; overflow: hidden; transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -30px rgba(60,35,15,0.25); }
+    .card .head { display: flex; justify-content: space-between; align-items: baseline; padding: 18px 22px 14px; border-bottom: 1px solid rgba(11,57,16,0.08); }
+    .num { font-family: 'EB Garamond', serif; font-style: italic; color: var(--terracotta); font-size: 22px; }
+    .name { font-family: 'EB Garamond', serif; font-size: 22px; }
+    .pill { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(11,57,16,0.5); }
+    .frame { aspect-ratio: 1440 / 900; background: var(--cream); position: relative; overflow: hidden; }
+    .frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .actions { display: flex; gap: 16px; padding: 14px 22px; align-items: center; font-size: 12px; }
+    .actions a { color: var(--forest); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; transition: color 0.3s; }
+    .actions a:hover { color: var(--terracotta); }
+    .star { color: var(--terracotta); font-size: 12px; margin-left: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Oikos &middot; <em>Hero Variants Gallery</em></h1>
+    <p>10 distinct design directions for the Oikos by Angelina hero section. Each generated independently in parallel on the Ubuntu laptop using the huashu-design skill. Click any tile to open the live HTML.</p>
+    <p style="margin-top:18px;">
+      <a href="main/" style="display:inline-flex;align-items:center;gap:10px;padding:10px 20px;background:#0b3910;color:#fff8eb;text-decoration:none;border-radius:999px;font-size:13px;letter-spacing:0.05em;">
+        See the full live site &rarr;
+      </a>
+    </p>
+  </header>
+
+  <div class="grid">
+    <!-- v01 -->
+    <a class="card" href="v01/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">01</span> &nbsp; <span class="name">Typographic Manifesto</span><span class="star">&starf; finalist</span></span><span class="pill">Pure type</span></div>
+      <div class="frame"><img src="v01/Hero.png" alt="v01" loading="lazy" /></div>
+      <div class="actions"><a href="v01/Hero.html" target="_blank">Open live</a><a href="v01/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v02 -->
+    <a class="card" href="v02/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">02</span> &nbsp; <span class="name">Full-Bleed Photographic</span><span class="star">&starf; finalist</span></span><span class="pill">Photo-led</span></div>
+      <div class="frame"><img src="v02/Hero.png" alt="v02" loading="lazy" /></div>
+      <div class="actions"><a href="v02/Hero.html" target="_blank">Open live</a><a href="v02/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v03 -->
+    <a class="card" href="v03/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">03</span> &nbsp; <span class="name">Live Botanical Centerpiece</span></span><span class="pill">Illustration</span></div>
+      <div class="frame"><img src="v03/Hero.png" alt="v03" loading="lazy" /></div>
+      <div class="actions"><a href="v03/Hero.html" target="_blank">Open live</a><a href="v03/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v04 -->
+    <a class="card" href="v04/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">04</span> &nbsp; <span class="name">Magazine Cover</span></span><span class="pill">Editorial</span></div>
+      <div class="frame"><img src="v04/Hero.png" alt="v04" loading="lazy" /></div>
+      <div class="actions"><a href="v04/Hero.html" target="_blank">Open live</a><a href="v04/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v05 -->
+    <a class="card" href="v05/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">05</span> &nbsp; <span class="name">Greek Antiquity Watermark</span><span class="star">&starf; finalist</span></span><span class="pill">Etymology</span></div>
+      <div class="frame"><img src="v05/Hero.png" alt="v05" loading="lazy" /></div>
+      <div class="actions"><a href="v05/Hero.html" target="_blank">Open live</a><a href="v05/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v06 -->
+    <a class="card" href="v06/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">06</span> &nbsp; <span class="name">Letterpress Tactile</span></span><span class="pill">Print-feel</span></div>
+      <div class="frame"><img src="v06/Hero.png" alt="v06" loading="lazy" /></div>
+      <div class="actions"><a href="v06/Hero.html" target="_blank">Open live</a><a href="v06/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v07 -->
+    <a class="card" href="v07/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">07</span> &nbsp; <span class="name">Cinematic Video Loop</span></span><span class="pill">Motion</span></div>
+      <div class="frame"><img src="v07/Hero.png" alt="v07" loading="lazy" /></div>
+      <div class="actions"><a href="v07/Hero.html" target="_blank">Open live</a><a href="v07/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v08 -->
+    <a class="card" href="v08/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">08</span> &nbsp; <span class="name">Botanical Line-Art Frame</span><span class="star">&starf; finalist</span></span><span class="pill">Herbarium</span></div>
+      <div class="frame"><img src="v08/Hero.png" alt="v08" loading="lazy" /></div>
+      <div class="actions"><a href="v08/Hero.html" target="_blank">Open live</a><a href="v08/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v09 -->
+    <a class="card" href="v09/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">09</span> &nbsp; <span class="name">Scroll-Driven Kinetic</span></span><span class="pill">Choreography</span></div>
+      <div class="frame"><img src="v09/Hero.png" alt="v09" loading="lazy" /></div>
+      <div class="actions"><a href="v09/Hero.html" target="_blank">Open live</a><a href="v09/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+
+    <!-- v10 -->
+    <a class="card" href="v10/Hero.html" target="_blank" rel="noopener">
+      <div class="head"><span><span class="num">10</span> &nbsp; <span class="name">Material Layered Parallax</span></span><span class="pill">3D depth</span></div>
+      <div class="frame"><img src="v10/Hero.png" alt="v10" loading="lazy" /></div>
+      <div class="actions"><a href="v10/Hero.html" target="_blank">Open live</a><a href="v10/BRIEF.md" target="_blank">Brief</a></div>
+    </a>
+  </div>
+</body>
+</html>

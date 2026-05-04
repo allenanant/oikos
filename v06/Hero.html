@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oikos — for a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF8EB;
+  --cream-warm:#F7EBD0;
+  --forest:#0B3910;
+  --forest-soft:rgba(11,57,16,.55);
+  --forest-ghost:rgba(11,57,16,.18);
+  --terracotta:#B46A2C;
+  --sand:#ECCDB2;
+  --honey:#DA9B66;
+  --gold:#E4C58A;
+  --earth:#3C230F;
+  --sage:#939991;
+  --press: 1px 1px 0 rgba(60,35,15,.08), -0.5px -0.5px 0 rgba(255,255,255,.5);
+  --press-soft: 1px 1px 0 rgba(60,35,15,.10), -0.5px -0.5px 0 rgba(255,255,255,.55);
+  --utility: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  background:var(--cream);
+  color:var(--forest);
+  font-family:'EB Garamond', "Georgia", serif;
+  font-feature-settings:"liga","kern","onum";
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+html,body{min-height:100%}
+
+/* Slight aged paper warming toward the edges — barely there */
+body{
+  background:
+    radial-gradient(ellipse 130% 110% at 50% 50%,
+      var(--cream) 55%,
+      #F7ECD3 92%,
+      #F0E2C2 100%);
+}
+
+/* Paper-fibre noise overlay (multiply blend, very subtle) */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.235  0 0 0 0 0.137  0 0 0 0 0.058  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-size:320px 320px;
+  mix-blend-mode:multiply;
+  opacity:.10;
+  pointer-events:none;
+  z-index:1;
+}
+/* A second, larger-scale fibre pass for a more "laid paper" feel */
+body::after{
+  content:"";
+  position:fixed; inset:0;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.40  0 0 0 0 0.27  0 0 0 0 0.12  0 0 0 0.40 0'/></filter><rect width='100%25' height='100%25' filter='url(%23m)'/></svg>");
+  background-size:800px 800px;
+  mix-blend-mode:multiply;
+  opacity:.07;
+  pointer-events:none;
+  z-index:1;
+}
+
+/* Page (the printed sheet) */
+.sheet{
+  position:relative; z-index:2;
+  min-height:100vh;
+  padding: clamp(20px, 3.6vw, 52px);
+  display:flex;
+}
+
+/* The printer's frame — Penguin / Kelmscott double rule */
+.frame{
+  flex:1;
+  position:relative;
+  border:1px solid var(--forest-soft);
+  padding: clamp(28px, 4.8vw, 64px) clamp(22px, 5vw, 80px);
+  display:flex; flex-direction:column;
+  /* whisper of paper inside the frame, lighter than the margin */
+  box-shadow: inset 0 0 0 1000px rgba(255,248,235,.35);
+}
+.frame::before{
+  content:"";
+  position:absolute; inset:7px;
+  border:1px solid var(--forest-ghost);
+  pointer-events:none;
+}
+
+/* ── masthead ────────────────────────────────────────────── */
+.masthead{
+  display:flex; align-items:center; justify-content:space-between;
+  font-family:var(--utility);
+  font-size:10px;
+  letter-spacing:.36em;
+  text-transform:uppercase;
+  color:var(--earth);
+  padding-bottom: clamp(20px, 3vw, 36px);
+}
+.masthead .left{ display:flex; align-items:center; gap:14px; }
+.masthead .swash{
+  font-family:'EB Garamond', serif;
+  font-style:italic;
+  font-size:18px;
+  letter-spacing:0;
+  color:var(--terracotta);
+  transform:translateY(1px);
+  text-shadow: var(--press);
+}
+.masthead .pip{
+  display:inline-block; width:4px; height:4px; border-radius:50%;
+  background:var(--terracotta); opacity:.85;
+  margin: 0 6px;
+}
+
+/* ── main composition ────────────────────────────────────── */
+.main{
+  flex:1;
+  display:flex; flex-direction:column;
+  align-items:center; text-align:center;
+  justify-content:center;
+  padding: clamp(8px, 1.6vw, 18px) 0;
+}
+
+.fleuron{
+  display:flex; align-items:center; gap:18px;
+  color:var(--terracotta);
+  margin-bottom: clamp(20px, 2.6vw, 34px);
+}
+.fleuron .rule{ width:64px; height:1px; background:currentColor; opacity:.55; }
+.fleuron .glyph{
+  font-family:'EB Garamond', serif;
+  font-style:italic;
+  font-size:24px;
+  line-height:1;
+  transform:translateY(-2px);
+  text-shadow: var(--press);
+}
+
+.headline{ display:flex; flex-direction:column; align-items:center; }
+
+.headline .caps{
+  font-family:'EB Garamond', serif;
+  font-weight:500;
+  font-size: clamp(64px, 12vw, 168px);
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  line-height:.92;
+  color:var(--forest);
+  text-shadow: var(--press);
+  margin-bottom: clamp(12px, 1.6vw, 22px);
+}
+
+.headline .connector{
+  font-family:'EB Garamond', serif;
+  font-style:italic;
+  font-weight:400;
+  font-size: clamp(18px, 2vw, 26px);
+  letter-spacing:.02em;
+  color: var(--earth);
+  opacity:.78;
+  text-shadow: var(--press);
+  margin-bottom: clamp(2px, 0.4vw, 6px);
+}
+
+.headline .italic{
+  font-family:'EB Garamond', serif;
+  font-style:italic;
+  font-weight:500;
+  font-size: clamp(48px, 8.6vw, 124px);
+  letter-spacing:.005em;
+  line-height:.96;
+  color:var(--terracotta);
+  text-shadow: 1px 1px 0 rgba(60,35,15,.10), -0.5px -0.5px 0 rgba(255,248,235,.55);
+}
+
+/* hairline beneath the headline — pure structure, not flourish */
+.hair{
+  width: clamp(80px, 9vw, 120px);
+  height:1px;
+  background: var(--forest);
+  opacity:.32;
+  margin: clamp(28px, 3.4vw, 44px) auto clamp(20px, 2.4vw, 30px);
+}
+
+.sub{
+  font-family:'EB Garamond', serif;
+  font-size: clamp(15px, 1.18vw, 18px);
+  line-height:1.62;
+  color:var(--earth);
+  max-width: 58ch;
+  text-wrap: balance;
+}
+.sub em{ font-style:italic; color:var(--forest); }
+
+.actions{
+  display:flex; align-items:center; justify-content:center;
+  gap: clamp(20px, 2.4vw, 36px);
+  flex-wrap:wrap;
+  margin-top: clamp(28px, 3.4vw, 42px);
+}
+
+.cta-primary{
+  font-family:var(--utility);
+  font-size:11px;
+  letter-spacing:.34em;
+  text-transform:uppercase;
+  color:var(--forest);
+  text-decoration:none;
+  padding: 14px 26px 13px;
+  border:1px solid var(--forest);
+  background:transparent;
+  position:relative;
+  transition: color .35s ease, background .35s ease, letter-spacing .35s ease;
+}
+.cta-primary::after{
+  content:"";
+  position:absolute; inset:3px;
+  border:1px solid var(--forest-ghost);
+  pointer-events:none;
+}
+.cta-primary:hover{ background:var(--forest); color:var(--cream); letter-spacing:.40em; }
+
+.cta-link{
+  font-family:'EB Garamond', serif;
+  font-style:italic;
+  font-size:19px;
+  color:var(--terracotta);
+  text-decoration:none;
+  border-bottom:1px solid currentColor;
+  padding-bottom:1px;
+  transition: color .25s ease;
+}
+.cta-link:hover{ color:var(--earth); }
+.cta-link .arrow{ display:inline-block; transition: transform .3s ease; margin-left:4px; }
+.cta-link:hover .arrow{ transform:translateX(4px); }
+
+/* ── colophon ───────────────────────────────────────────── */
+.colophon{
+  display:flex; align-items:center; justify-content:center;
+  gap:14px;
+  font-family:var(--utility);
+  font-size:10px;
+  letter-spacing:.42em;
+  text-transform:uppercase;
+  color:var(--earth);
+  padding-top: clamp(20px, 3vw, 36px);
+}
+.colophon .rule{ width:36px; height:1px; background:currentColor; opacity:.45; }
+.colophon .dot{ width:3px; height:3px; border-radius:50%; background:var(--terracotta); display:inline-block; opacity:.85; }
+
+/* ── responsive ─────────────────────────────────────────── */
+@media (max-width: 720px){
+  .sheet{ padding:14px; }
+  .frame{ padding: 28px 18px; }
+  .frame::before{ inset:5px; }
+  .masthead{ font-size:9px; letter-spacing:.28em; padding-bottom:18px; }
+  .masthead .right{ display:none; }
+  .fleuron .rule{ width:36px; }
+  .headline .caps{ letter-spacing:.04em; }
+  .colophon .rule{ width:24px; }
+  .colophon{ font-size:9px; letter-spacing:.34em; padding-top:18px; }
+}
+
+/* tiny print-quality polish at very large screens */
+@media (min-width: 1600px){
+  .sub{ font-size:19px; }
+}
+</style>
+</head>
+<body>
+  <main class="sheet" role="main">
+    <article class="frame">
+
+      <header class="masthead" aria-label="Imprint">
+        <div class="left">
+          <span>Oikos</span>
+          <span class="pip" aria-hidden="true"></span>
+          <span>By Angelina</span>
+        </div>
+        <div class="right">
+          <span>Estd. Delhi</span>
+          <span class="pip" aria-hidden="true"></span>
+          <span>No. I</span>
+        </div>
+      </header>
+
+      <section class="main">
+        <div class="fleuron" aria-hidden="true">
+          <span class="rule"></span>
+          <span class="glyph">&#10086;</span>
+          <span class="rule"></span>
+        </div>
+
+        <h1 class="headline">
+          <span class="caps">Oikos.</span>
+          <span class="connector">for a life that</span>
+          <span class="italic">sustains&nbsp;you.</span>
+        </h1>
+
+        <div class="hair" role="presentation"></div>
+
+        <p class="sub">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel <em>beautiful, calm, and personal.</em></p>
+
+        <div class="actions">
+          <a class="cta-primary" href="#what-we-do">See what we do</a>
+          <a class="cta-link" href="#contact">or start a conversation<span class="arrow"> &rsaquo;</span></a>
+        </div>
+      </section>
+
+      <footer class="colophon" aria-label="Colophon">
+        <span class="rule"></span>
+        <span>Printed in Delhi</span>
+        <span class="dot" aria-hidden="true"></span>
+        <span>MMXXIV</span>
+        <span class="rule"></span>
+      </footer>
+
+    </article>
+  </main>
+</body>
+</html>

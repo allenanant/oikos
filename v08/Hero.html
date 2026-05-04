@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oikos · For a life that sustains you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8EB;
+    --forest: #0B3910;
+    --terra: #B46A2C;
+    --sand: #ECCDB2;
+    --honey: #DA9B66;
+    --gold: #E4C58A;
+    --earth: #3C230F;
+    --sage: #939991;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--cream);
+    color: var(--forest);
+    font-family: 'EB Garamond', 'Cormorant Garamond', 'Times New Roman', serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    padding: clamp(2rem, 5vw, 5.5rem) clamp(1.25rem, 4vw, 4rem);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 18% 22%, rgba(180, 106, 44, 0.045), transparent 55%),
+      radial-gradient(ellipse at 82% 78%, rgba(11, 57, 16, 0.035), transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 10% 30%, rgba(60, 35, 15, 0.018) 1px, transparent 1.5px),
+      radial-gradient(circle at 70% 60%, rgba(60, 35, 15, 0.014) 1px, transparent 1.5px),
+      radial-gradient(circle at 35% 80%, rgba(60, 35, 15, 0.012) 1px, transparent 1.5px);
+    background-size: 220px 220px, 180px 180px, 260px 260px;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  .frame {
+    position: absolute;
+    inset: clamp(1.25rem, 2.5vw, 2.5rem);
+    border: 1px solid rgba(180, 106, 44, 0.32);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .frame::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(180, 106, 44, 0.14);
+  }
+
+  .corner {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-color: rgba(180, 106, 44, 0.55);
+    z-index: 2;
+  }
+  .corner.tl { top: clamp(1rem, 2.2vw, 2.2rem); left: clamp(1rem, 2.2vw, 2.2rem); border-top: 1px solid; border-left: 1px solid; }
+  .corner.tr { top: clamp(1rem, 2.2vw, 2.2rem); right: clamp(1rem, 2.2vw, 2.2rem); border-top: 1px solid; border-right: 1px solid; }
+  .corner.bl { bottom: clamp(1rem, 2.2vw, 2.2rem); left: clamp(1rem, 2.2vw, 2.2rem); border-bottom: 1px solid; border-left: 1px solid; }
+  .corner.br { bottom: clamp(1rem, 2.2vw, 2.2rem); right: clamp(1rem, 2.2vw, 2.2rem); border-bottom: 1px solid; border-right: 1px solid; }
+
+  .caption {
+    position: absolute;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 0.72rem;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgba(60, 35, 15, 0.65);
+    z-index: 3;
+    white-space: nowrap;
+  }
+  .cap-tl { top: clamp(2rem, 4.2vw, 3.8rem); left: clamp(2rem, 4.2vw, 3.8rem); }
+  .cap-tr { top: clamp(2rem, 4.2vw, 3.8rem); right: clamp(2rem, 4.2vw, 3.8rem); }
+  .cap-bl { bottom: clamp(2rem, 4.2vw, 3.8rem); left: clamp(2rem, 4.2vw, 3.8rem); }
+  .cap-br { bottom: clamp(2rem, 4.2vw, 3.8rem); right: clamp(2rem, 4.2vw, 3.8rem); }
+
+  .plate {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: minmax(110px, 1fr) auto minmax(110px, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 6rem);
+    width: 100%;
+    max-width: 1280px;
+  }
+
+  .specimen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+  }
+  .specimen svg {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+    display: block;
+  }
+  .specimen .label {
+    text-align: center;
+  }
+  .specimen .label .roman {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-style: normal;
+    font-size: 0.6rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: rgba(180, 106, 44, 0.72);
+    margin-bottom: 0.3rem;
+  }
+  .specimen .label .latin {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--terra);
+  }
+  .specimen .label .latin::before,
+  .specimen .label .latin::after {
+    content: "·";
+    margin: 0 0.6em;
+    font-style: normal;
+    color: rgba(180, 106, 44, 0.5);
+  }
+
+  .center {
+    text-align: center;
+    max-width: 58ch;
+    position: relative;
+  }
+
+  .ornament {
+    width: 32px;
+    height: 14px;
+    margin: 0 auto 1.4rem;
+    display: block;
+    color: var(--terra);
+    opacity: 0.85;
+  }
+
+  .headline {
+    line-height: 1;
+  }
+  .headline .oikos {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: clamp(4.2rem, 9.8vw, 9rem);
+    letter-spacing: -0.025em;
+    color: var(--forest);
+    line-height: 0.92;
+  }
+  .headline .midline {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.95rem, 1.45vw, 1.25rem);
+    letter-spacing: 0.06em;
+    color: var(--earth);
+    margin: 1.5rem 0 0.7rem;
+    opacity: 0.78;
+  }
+  .headline .midline em {
+    font-style: italic;
+    color: rgba(60, 35, 15, 0.4);
+    margin: 0 0.55em;
+    font-weight: 400;
+  }
+  .headline .sustains {
+    display: block;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 6.2vw, 5.6rem);
+    letter-spacing: -0.005em;
+    color: var(--terra);
+    line-height: 0.98;
+  }
+
+  .rules {
+    width: 9rem;
+    margin: 2.6rem auto 1.9rem;
+  }
+  .rules hr {
+    border: 0;
+    border-top: 1px solid var(--terra);
+    margin: 0;
+  }
+  .rules hr:first-child { opacity: 0.85; }
+  .rules hr + hr { margin-top: 3px; opacity: 0.38; }
+
+  .about {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-size: clamp(1rem, 1.18vw, 1.12rem);
+    line-height: 1.62;
+    color: var(--forest);
+    max-width: 50ch;
+    margin: 0 auto 2.6rem;
+    letter-spacing: 0.005em;
+  }
+
+  .ctas {
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 2.4rem;
+    flex-wrap: wrap;
+  }
+  .cta {
+    font-family: 'EB Garamond', serif;
+    text-decoration: none;
+    font-size: 1.04rem;
+    letter-spacing: 0.04em;
+    transition: color 240ms ease, border-color 240ms ease, transform 240ms ease;
+  }
+  .cta.primary {
+    color: var(--forest);
+    border-bottom: 1px solid var(--forest);
+    padding-bottom: 4px;
+    font-weight: 400;
+  }
+  .cta.primary:hover {
+    color: var(--terra);
+    border-bottom-color: var(--terra);
+  }
+  .cta.secondary {
+    color: var(--terra);
+    font-style: italic;
+  }
+  .cta.secondary::after {
+    content: " →";
+    font-style: normal;
+    margin-left: 0.15em;
+    transition: margin-left 240ms ease;
+  }
+  .cta.secondary:hover::after { margin-left: 0.4em; }
+
+  /* draw-in animation for SVG paths */
+  svg .draw {
+    fill: none;
+    stroke: var(--terra);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  svg .draw [data-draw],
+  svg .draw path,
+  svg .draw ellipse,
+  svg .draw use {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: draw 1.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+  }
+  svg .draw.d0 [data-draw], svg .draw.d0 path, svg .draw.d0 use, svg .draw.d0 ellipse { animation-delay: 0.05s; }
+  svg .draw.d1 [data-draw], svg .draw.d1 path, svg .draw.d1 use, svg .draw.d1 ellipse { animation-delay: 0.25s; }
+  svg .draw.d2 [data-draw], svg .draw.d2 path, svg .draw.d2 use, svg .draw.d2 ellipse { animation-delay: 0.45s; }
+  svg .draw.d3 [data-draw], svg .draw.d3 path, svg .draw.d3 use, svg .draw.d3 ellipse { animation-delay: 0.65s; }
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .fade {
+    opacity: 0;
+    animation: fade 1.2s ease-out forwards;
+  }
+  .fade.f1 { animation-delay: 0.4s; }
+  .fade.f2 { animation-delay: 0.7s; }
+  .fade.f3 { animation-delay: 1.0s; }
+  .fade.f4 { animation-delay: 1.25s; }
+  .fade.f5 { animation-delay: 1.5s; }
+  .fade.f6 { animation-delay: 1.7s; }
+  .fade.f7 { animation-delay: 1.9s; }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 980px) {
+    .plate {
+      grid-template-columns: 1fr;
+      gap: 1.6rem;
+    }
+    .specimen { max-width: 110px; margin: 0 auto; }
+    .specimen.first { order: 1; }
+    .center { order: 2; }
+    .specimen.last { order: 3; }
+    .cap-bl, .cap-br { display: none; }
+  }
+  @media (max-width: 560px) {
+    .specimen { max-width: 92px; }
+    .ctas { flex-direction: column; gap: 1.2rem; }
+    .cap-tl, .cap-tr { font-size: 0.6rem; letter-spacing: 0.22em; }
+    .frame::before { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0s !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+</style>
+</head>
+<body>
+<section class="hero">
+  <div class="frame"></div>
+  <span class="corner tl"></span>
+  <span class="corner tr"></span>
+  <span class="corner bl"></span>
+  <span class="corner br"></span>
+
+  <span class="caption cap-tl fade f1">Plate VIII · Hortus Domesticus</span>
+  <span class="caption cap-tr fade f1">Oikos · MMXXVI</span>
+  <span class="caption cap-bl fade f7">Drawn from life · Studio Angelina</span>
+  <span class="caption cap-br fade f7">Delhi · India</span>
+
+  <div class="plate">
+
+    <!-- LEFT SPECIMEN: Boston Fern -->
+    <div class="specimen first">
+      <svg viewBox="0 0 200 620" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <!-- rachis (main stem) -->
+        <g class="draw d0" stroke="#B46A2C" stroke-width="1.4">
+          <path d="M 105,592 C 100,500 96,360 95,210 C 94.5,110 95,60 96,28" />
+          <!-- small leaflets at very tip -->
+          <path d="M 96,32 C 94,26 95,22 97,20" stroke-width="0.8"/>
+        </g>
+
+        <!-- pinnae (leaflets) -->
+        <g class="draw d1" stroke="#B46A2C" stroke-width="0.95" opacity="0.95">
+          <!-- LEFT side, base to tip -->
+          <path d="M 104,572 Q 88,569 72,569"/>
+          <path d="M 103,548 Q 82,544 60,543"/>
+          <path d="M 102,520 Q 78,514 50,513"/>
+          <path d="M 100,488 Q 70,480 39,478"/>
+          <path d="M 99,452 Q 64,444 30,442"/>
+          <path d="M 98,414 Q 60,404 22,402"/>
+          <path d="M 97,372 Q 58,361 18,358"/>
+          <path d="M 96,330 Q 57,318 17,313"/>
+          <path d="M 96,288 Q 60,275 22,272"/>
+          <path d="M 96,248 Q 63,236 28,234"/>
+          <path d="M 96,210 Q 68,200 38,198"/>
+          <path d="M 95,176 Q 72,168 48,167"/>
+          <path d="M 95,146 Q 76,140 56,139"/>
+          <path d="M 95,118 Q 81,113 65,112"/>
+          <path d="M 95,92 Q 85,89 73,88"/>
+          <path d="M 95,68 Q 89,66 80,65"/>
+          <path d="M 95,46 Q 91,45 86,44"/>
+        </g>
+
+        <g class="draw d1" stroke="#B46A2C" stroke-width="0.95" opacity="0.95">
+          <!-- RIGHT side, mirrored -->
+          <path d="M 104,572 Q 120,569 136,569"/>
+          <path d="M 103,548 Q 124,544 146,543"/>
+          <path d="M 102,520 Q 126,514 154,513"/>
+          <path d="M 100,488 Q 130,480 161,478"/>
+          <path d="M 99,452 Q 134,444 168,442"/>
+          <path d="M 98,414 Q 136,404 174,402"/>
+          <path d="M 97,372 Q 136,361 176,358"/>
+          <path d="M 96,330 Q 135,318 175,313"/>
+          <path d="M 96,288 Q 132,275 170,272"/>
+          <path d="M 96,248 Q 129,236 164,234"/>
+          <path d="M 96,210 Q 124,200 154,198"/>
+          <path d="M 95,176 Q 118,168 142,167"/>
+          <path d="M 95,146 Q 114,140 134,139"/>
+          <path d="M 95,118 Q 109,113 125,112"/>
+          <path d="M 95,92 Q 105,89 117,88"/>
+          <path d="M 95,68 Q 101,66 110,65"/>
+          <path d="M 95,46 Q 99,45 104,44"/>
+        </g>
+
+        <!-- subtle pinna midribs -->
+        <g class="draw d2" stroke="#B46A2C" stroke-width="0.4" opacity="0.55">
+          <path d="M 100,488 L 70,481"/>
+          <path d="M 99,452 L 64,445"/>
+          <path d="M 98,414 L 60,405"/>
+          <path d="M 97,372 L 58,362"/>
+          <path d="M 96,330 L 57,319"/>
+          <path d="M 96,288 L 60,276"/>
+          <path d="M 96,248 L 63,237"/>
+          <path d="M 100,488 L 130,481"/>
+          <path d="M 99,452 L 134,445"/>
+          <path d="M 98,414 L 136,405"/>
+          <path d="M 97,372 L 136,362"/>
+          <path d="M 96,330 L 135,319"/>
+          <path d="M 96,288 L 132,276"/>
+          <path d="M 96,248 L 129,237"/>
+        </g>
+
+        <!-- petiole base ornament -->
+        <g class="draw d2" stroke="#B46A2C" stroke-width="0.9" opacity="0.65">
+          <path d="M 105,592 Q 102,605 100,612"/>
+          <path d="M 105,592 Q 110,602 113,608"/>
+          <path d="M 100,612 Q 97,615 94,615"/>
+          <path d="M 113,608 Q 117,612 120,612"/>
+        </g>
+      </svg>
+      <div class="label fade f3">
+        <span class="roman">Specimen i</span>
+        <span class="latin">Nephrolepis exaltata</span>
+      </div>
+    </div>
+
+    <!-- CENTER -->
+    <div class="center">
+      <svg class="ornament fade f2" viewBox="0 0 60 14" aria-hidden="true">
+        <g fill="none" stroke="#B46A2C" stroke-width="0.8" stroke-linecap="round">
+          <path d="M 2,7 L 22,7"/>
+          <path d="M 38,7 L 58,7"/>
+          <circle cx="30" cy="7" r="1.6" fill="#B46A2C" stroke="none"/>
+          <path d="M 25,7 Q 28,3 30,3 Q 32,3 35,7"/>
+          <path d="M 25,7 Q 28,11 30,11 Q 32,11 35,7"/>
+        </g>
+      </svg>
+
+      <h1 class="headline">
+        <span class="oikos fade f3">Oikos.</span>
+        <span class="midline fade f4"><em>—</em>for a life that<em>—</em></span>
+        <span class="sustains fade f5">sustains&nbsp;you.</span>
+      </h1>
+
+      <div class="rules fade f6"><hr><hr></div>
+
+      <p class="about fade f6">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.</p>
+
+      <div class="ctas fade f6">
+        <a href="#what-we-do" class="cta primary">See what we do</a>
+        <a href="#contact" class="cta secondary">Or start a conversation</a>
+      </div>
+    </div>
+
+    <!-- RIGHT SPECIMEN: Olive Branch -->
+    <div class="specimen last">
+      <svg viewBox="0 0 200 620" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <!-- a single olive leaf, lance-shaped, tip at -50,0 base at 0,0 -->
+          <path id="oleaf" d="M 0,0 C -10,-3.4 -28,-5.2 -45,-3.5 C -49,-2.5 -50,-1.2 -50,0 C -50,1.2 -49,2.5 -45,3.5 C -28,5.2 -10,3.4 0,0 Z" />
+          <path id="oleaf-rib" d="M 0,0 Q -25,-0.4 -48,0" />
+          <!-- a smaller leaf for terminal cluster -->
+          <path id="oleaf-sm" d="M 0,0 C -7,-2.4 -19,-3.6 -32,-2.4 C -34,-1.5 -35,-0.7 -35,0 C -35,0.7 -34,1.5 -32,2.4 C -19,3.6 -7,2.4 0,0 Z" />
+        </defs>
+
+        <!-- main stem -->
+        <g class="draw d0" stroke="#B46A2C" stroke-width="1.3" fill="none">
+          <path d="M 110,592 C 106,490 112,360 108,230 C 105,140 110,75 107,30"/>
+          <!-- twig branches -->
+          <path d="M 109,330 Q 130,322 152,320" stroke-width="0.9"/>
+          <path d="M 108,180 Q 88,172 68,168" stroke-width="0.9"/>
+          <!-- petiole at base -->
+          <path d="M 110,592 Q 106,608 102,616" stroke-width="0.8" opacity="0.7"/>
+          <path d="M 110,592 Q 116,605 122,612" stroke-width="0.8" opacity="0.7"/>
+        </g>
+
+        <!-- olive leaf outlines (left + right pairs) -->
+        <g class="draw d1" stroke="#B46A2C" stroke-width="0.85" fill="none">
+          <use href="#oleaf" transform="translate(108,560) rotate(22)"/>
+          <use href="#oleaf" transform="translate(108,560) rotate(158)"/>
+          <use href="#oleaf" transform="translate(110,510) rotate(28)"/>
+          <use href="#oleaf" transform="translate(110,510) rotate(152)"/>
+          <use href="#oleaf" transform="translate(108,460) rotate(25)"/>
+          <use href="#oleaf" transform="translate(108,460) rotate(155)"/>
+          <use href="#oleaf" transform="translate(110,410) rotate(30)"/>
+          <use href="#oleaf" transform="translate(110,410) rotate(150)"/>
+          <use href="#oleaf" transform="translate(108,360) rotate(24)"/>
+          <use href="#oleaf" transform="translate(108,360) rotate(156)"/>
+          <use href="#oleaf" transform="translate(109,310) rotate(28)"/>
+          <use href="#oleaf" transform="translate(109,310) rotate(152)"/>
+          <!-- twig leaves -->
+          <use href="#oleaf-sm" transform="translate(140,322) rotate(18)"/>
+          <use href="#oleaf-sm" transform="translate(140,322) rotate(-15)"/>
+          <use href="#oleaf-sm" transform="translate(80,170) rotate(165)"/>
+          <use href="#oleaf-sm" transform="translate(80,170) rotate(195)"/>
+          <use href="#oleaf" transform="translate(108,260) rotate(32)"/>
+          <use href="#oleaf" transform="translate(108,260) rotate(148)"/>
+          <use href="#oleaf" transform="translate(108,220) rotate(28) scale(0.85)"/>
+          <use href="#oleaf" transform="translate(108,220) rotate(152) scale(0.85)"/>
+          <use href="#oleaf" transform="translate(109,178) rotate(34) scale(0.85)"/>
+          <use href="#oleaf" transform="translate(109,178) rotate(146) scale(0.85)"/>
+          <use href="#oleaf-sm" transform="translate(108,140) rotate(40)"/>
+          <use href="#oleaf-sm" transform="translate(108,140) rotate(140)"/>
+          <use href="#oleaf-sm" transform="translate(108,108) rotate(45) scale(0.9)"/>
+          <use href="#oleaf-sm" transform="translate(108,108) rotate(135) scale(0.9)"/>
+          <use href="#oleaf-sm" transform="translate(108,78) rotate(55) scale(0.78)"/>
+          <use href="#oleaf-sm" transform="translate(108,78) rotate(125) scale(0.78)"/>
+          <use href="#oleaf-sm" transform="translate(107,52) rotate(75) scale(0.6)"/>
+          <use href="#oleaf-sm" transform="translate(107,52) rotate(105) scale(0.6)"/>
+          <use href="#oleaf-sm" transform="translate(107,30) rotate(90) scale(0.5)"/>
+        </g>
+
+        <!-- olive leaf midribs -->
+        <g class="draw d2" stroke="#B46A2C" stroke-width="0.45" opacity="0.6" fill="none">
+          <use href="#oleaf-rib" transform="translate(108,560) rotate(22)"/>
+          <use href="#oleaf-rib" transform="translate(108,560) rotate(158)"/>
+          <use href="#oleaf-rib" transform="translate(110,510) rotate(28)"/>
+          <use href="#oleaf-rib" transform="translate(110,510) rotate(152)"/>
+          <use href="#oleaf-rib" transform="translate(108,460) rotate(25)"/>
+          <use href="#oleaf-rib" transform="translate(108,460) rotate(155)"/>
+          <use href="#oleaf-rib" transform="translate(110,410) rotate(30)"/>
+          <use href="#oleaf-rib" transform="translate(110,410) rotate(150)"/>
+          <use href="#oleaf-rib" transform="translate(108,360) rotate(24)"/>
+          <use href="#oleaf-rib" transform="translate(108,360) rotate(156)"/>
+          <use href="#oleaf-rib" transform="translate(109,310) rotate(28)"/>
+          <use href="#oleaf-rib" transform="translate(109,310) rotate(152)"/>
+          <use href="#oleaf-rib" transform="translate(108,260) rotate(32)"/>
+          <use href="#oleaf-rib" transform="translate(108,260) rotate(148)"/>
+        </g>
+
+        <!-- olives (drupes) at the base -->
+        <g class="draw d3" stroke="#B46A2C" stroke-width="0.95" fill="rgba(180,106,44,0.06)">
+          <ellipse cx="92" cy="582" rx="3.4" ry="5.4" transform="rotate(-15 92 582)"/>
+          <ellipse cx="105" cy="592" rx="3.4" ry="5.4" transform="rotate(8 105 592)"/>
+          <ellipse cx="120" cy="588" rx="3.4" ry="5.4" transform="rotate(20 120 588)"/>
+          <ellipse cx="98" cy="568" rx="3" ry="4.8" transform="rotate(-25 98 568)"/>
+        </g>
+        <g class="draw d3" stroke="#B46A2C" stroke-width="0.6" opacity="0.7" fill="none">
+          <!-- peduncles connecting olives to stem -->
+          <path d="M 106,560 Q 100,572 95,578"/>
+          <path d="M 108,565 Q 106,580 105,587"/>
+          <path d="M 110,560 Q 116,575 119,584"/>
+          <path d="M 105,560 Q 100,562 99,564"/>
+        </g>
+      </svg>
+      <div class="label fade f3">
+        <span class="roman">Specimen ii</span>
+        <span class="latin">Olea europaea</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+</body>
+</html>

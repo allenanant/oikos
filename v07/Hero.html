@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Oikos — For a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --forest:#0B3910;
+    --terracotta:#B46A2C;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#0a0a08;color:var(--cream);height:100%;overflow:hidden}
+  body{
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+  }
+
+  .stage{
+    position:relative;
+    height:100vh;
+    width:100vw;
+    overflow:hidden;
+    background:#0a0a08
+      url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=70') center/cover no-repeat;
+  }
+
+  .stage video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    z-index:1;
+    opacity:0;
+    transition:opacity 1400ms ease;
+  }
+  .stage video.is-ready{opacity:1}
+
+  /* Warm cinematic gradient — earth tones top & bottom for headline contrast */
+  .stage::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:2;
+    pointer-events:none;
+    background:
+      linear-gradient(180deg,
+        rgba(11,57,16,0.55) 0%,
+        rgba(11,57,16,0.18) 14%,
+        rgba(0,0,0,0) 38%,
+        rgba(60,35,15,0.10) 58%,
+        rgba(60,35,15,0.55) 86%,
+        rgba(180,106,44,0.32) 100%);
+  }
+
+  /* Subtle film-grain via SVG noise — adds analog warmth */
+  .stage::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:3;
+    pointer-events:none;
+    opacity:.10;
+    mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* Soft vertical vignette frame — barely there */
+  .vignette{
+    position:absolute; inset:0; z-index:4; pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 50%, rgba(0,0,0,0) 55%, rgba(10,7,4,0.55) 100%);
+  }
+
+  /* Top bar */
+  .top{
+    position:absolute;
+    top:0; left:0; right:0;
+    z-index:10;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:34px 48px 0;
+    color:var(--cream);
+  }
+
+  .mark{
+    display:flex; align-items:baseline; gap:14px;
+    color:var(--cream);
+  }
+  .mark .o{
+    font-family:'EB Garamond', Georgia, serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:24px;
+    letter-spacing:.01em;
+    color:var(--cream);
+    line-height:1;
+  }
+  .mark .by{
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.66);
+    line-height:1;
+    transform:translateY(-1px);
+  }
+  .mark .rule{
+    display:inline-block;
+    width:28px; height:1px;
+    background:rgba(255,248,235,.5);
+    margin:0 4px;
+    transform:translateY(-4px);
+  }
+
+  .controls{
+    display:flex; align-items:center; gap:22px;
+    color:var(--cream);
+  }
+  .controls .meta{
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.66);
+  }
+  .controls .meta .dot{
+    display:inline-block;
+    width:5px; height:5px; border-radius:50%;
+    background:var(--honey);
+    margin-right:8px;
+    transform:translateY(-1px);
+    box-shadow:0 0 0 0 rgba(218,155,102,.65);
+    animation:pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%   { box-shadow:0 0 0 0 rgba(218,155,102,.55) }
+    70%  { box-shadow:0 0 0 9px rgba(218,155,102,0)  }
+    100% { box-shadow:0 0 0 0 rgba(218,155,102,0)    }
+  }
+
+  .ctl{
+    background:transparent;
+    border:1px solid rgba(255,248,235,.45);
+    color:var(--cream);
+    width:38px; height:38px;
+    border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:border-color .35s ease, background-color .35s ease, transform .35s ease;
+  }
+  .ctl:hover{ border-color:var(--cream); background:rgba(255,248,235,.08) }
+  .ctl:active{ transform:scale(.96) }
+  .ctl svg{ width:14px; height:14px; display:block }
+  .ctl svg .show{ display:block }
+  .ctl svg .hide{ display:none }
+  .ctl[data-state="paused"] .play{ display:block } .ctl[data-state="paused"] .pause{ display:none }
+  .ctl[data-state="playing"] .play{ display:none } .ctl[data-state="playing"] .pause{ display:block }
+  .ctl[data-mute="muted"]   .on{ display:none }   .ctl[data-mute="muted"] .off{ display:block }
+  .ctl[data-mute="unmuted"] .on{ display:block }  .ctl[data-mute="unmuted"] .off{ display:none }
+
+  /* Side rails — minimalist film credit feel */
+  .rail{
+    position:absolute;
+    z-index:9;
+    color:rgba(255,248,235,.7);
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:.36em;
+    text-transform:uppercase;
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+  }
+  .rail.left{ left:18px; top:50%; transform:translateY(-50%) rotate(180deg) }
+  .rail.right{ right:18px; top:50%; transform:translateY(-50%) rotate(180deg) }
+
+  /* Bottom hero block */
+  .hero{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    z-index:8;
+    padding:0 48px 56px;
+    text-align:center;
+    color:var(--cream);
+    display:flex; flex-direction:column; align-items:center;
+  }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:14px;
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:10px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.78);
+    margin-bottom:30px;
+  }
+  .eyebrow .line{
+    display:inline-block; width:36px; height:1px;
+    background:rgba(255,248,235,.55);
+  }
+
+  h1.headline{
+    font-family:'EB Garamond', Georgia, serif;
+    font-style:italic;
+    font-weight:400;
+    color:var(--cream);
+    font-size:clamp(2.8rem, 7.4vw, 8.6rem);
+    line-height:1.02;
+    letter-spacing:-.012em;
+    max-width:18ch;
+    margin:0 auto;
+    text-shadow:0 2px 28px rgba(0,0,0,.35);
+  }
+  h1.headline .lead{
+    display:block;
+    font-style:normal;
+    font-weight:400;
+    font-family:'EB Garamond', Georgia, serif;
+    color:rgba(255,248,235,.86);
+    font-size:.46em;
+    letter-spacing:.02em;
+    margin-bottom:.18em;
+  }
+  h1.headline .you{
+    position:relative;
+    white-space:nowrap;
+  }
+  h1.headline .you::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:.04em;
+    height:1px;
+    background:rgba(255,248,235,.5);
+    transform:scaleX(0);
+    transform-origin:left center;
+    animation:underline 2.6s ease-out 1.4s forwards;
+  }
+  @keyframes underline{
+    0%{transform:scaleX(0)}
+    100%{transform:scaleX(1)}
+  }
+
+  .sub{
+    font-family:'EB Garamond', Georgia, serif;
+    font-weight:400;
+    font-size:clamp(.95rem, 1.05vw, 1.05rem);
+    line-height:1.6;
+    color:rgba(255,248,235,.84);
+    max-width:48ch;
+    margin:26px auto 0;
+    letter-spacing:.005em;
+  }
+
+  .ctas{
+    margin-top:30px;
+    display:flex; align-items:center; gap:28px;
+    flex-wrap:wrap; justify-content:center;
+  }
+  .cta{
+    text-decoration:none;
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:12px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    display:inline-flex; align-items:center; gap:14px;
+    padding:14px 0;
+    border-bottom:1px solid rgba(255,248,235,.55);
+    transition:color .3s ease, border-color .3s ease, gap .3s ease;
+  }
+  .cta:hover{ border-color:var(--cream); gap:20px }
+  .cta .arrow{ display:inline-block; transform:translateY(-1px); transition:transform .35s ease }
+  .cta:hover .arrow{ transform:translate(3px,-1px) }
+  .cta.secondary{
+    border-bottom-color:rgba(255,248,235,.0);
+    color:rgba(255,248,235,.78);
+  }
+  .cta.secondary:hover{ color:var(--cream); border-bottom-color:rgba(255,248,235,.4) }
+
+  /* Bottom credit line */
+  .credit{
+    position:absolute;
+    left:48px; bottom:32px;
+    z-index:9;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.55);
+    display:flex; align-items:center; gap:12px;
+  }
+  .credit .pip{
+    display:inline-block; width:6px; height:1px; background:rgba(255,248,235,.45);
+  }
+
+  .timecode{
+    position:absolute;
+    right:48px; bottom:32px;
+    z-index:9;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.55);
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* Slow gentle drift on the hero block as it appears */
+  .hero, .top, .credit, .timecode, .rail{
+    opacity:0;
+    animation:rise 1800ms cubic-bezier(.2,.7,.1,1) 200ms forwards;
+  }
+  .top{ animation-delay:120ms }
+  .credit, .timecode, .rail{ animation-delay:520ms }
+  .hero{ animation-delay:340ms }
+  @keyframes rise{
+    0%   { opacity:0; transform:translateY(14px) }
+    100% { opacity:1; transform:translateY(0) }
+  }
+
+  /* Mobile */
+  @media (max-width:760px){
+    .top{ padding:22px 22px 0 }
+    .controls .meta{ display:none }
+    .rail{ display:none }
+    .hero{ padding:0 24px 36px }
+    .credit{ left:22px; bottom:20px; font-size:9px; letter-spacing:.28em }
+    .timecode{ right:22px; bottom:20px; font-size:9px; letter-spacing:.28em }
+    .mark .by{ display:none }
+    .mark .rule{ display:none }
+    h1.headline{ font-size:clamp(2.2rem, 11vw, 4rem); max-width:14ch }
+    .sub{ font-size:.92rem; max-width:34ch }
+    .ctas{ gap:18px; margin-top:22px }
+    .cta{ font-size:11px; letter-spacing:.22em }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .stage video{ display:none }
+    .top, .hero, .credit, .timecode, .rail{ animation:none; opacity:1 }
+    h1.headline .you::after{ animation:none; transform:scaleX(1) }
+  }
+</style>
+</head>
+<body>
+  <main class="stage" id="stage">
+    <video
+      id="film"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1920&q=70"
+    >
+      <source src="https://videos.pexels.com/video-files/2519660/2519660-uhd_2732_1440_25fps.mp4" type="video/mp4" />
+      <source src="https://videos.pexels.com/video-files/4625747/4625747-uhd_2160_3840_30fps.mp4" type="video/mp4" />
+      <source src="https://videos.pexels.com/video-files/855128/855128-hd_1920_1080_25fps.mp4" type="video/mp4" />
+    </video>
+
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="top">
+      <a class="mark" href="#" aria-label="Oikos by Angelina">
+        <span class="o">Oikos.</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span class="by">by Angelina</span>
+      </a>
+
+      <div class="controls">
+        <span class="meta"><span class="dot"></span>Film № 01 — Sunlight, &nbsp;in passing</span>
+        <button class="ctl" id="btnPlay" data-state="playing" aria-label="Pause film">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <g class="pause"><line x1="9" y1="5" x2="9" y2="19"/><line x1="15" y1="5" x2="15" y2="19"/></g>
+            <g class="play"><polygon points="7,4.5 19.5,12 7,19.5" fill="none"/></g>
+          </svg>
+        </button>
+        <button class="ctl" id="btnMute" data-mute="muted" aria-label="Unmute film">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+            <g class="off">
+              <polygon points="4,9 9,9 13.5,5 13.5,19 9,15 4,15"/>
+              <line x1="17" y1="9" x2="21" y2="13"/>
+              <line x1="21" y1="9" x2="17" y2="13"/>
+            </g>
+            <g class="on">
+              <polygon points="4,9 9,9 13.5,5 13.5,19 9,15 4,15"/>
+              <path d="M16.5 8.5a5 5 0 0 1 0 7"/>
+              <path d="M19 6a8 8 0 0 1 0 12"/>
+            </g>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <span class="rail left" aria-hidden="true">Oikos · biophilia · delhi</span>
+    <span class="rail right" aria-hidden="true">a return to the household ecosystem</span>
+
+    <section class="hero">
+      <div class="eyebrow">
+        <span class="line" aria-hidden="true"></span>
+        Biophilic interiors · conscious gifting · workplace concierge
+        <span class="line" aria-hidden="true"></span>
+      </div>
+
+      <h1 class="headline">
+        <span class="lead">Oikos.</span>
+        For a life that <span class="you">sustains&nbsp;you</span>.
+      </h1>
+
+      <p class="sub">
+        Designed by someone who believes that doing right by the planet
+        should also feel beautiful, calm, and personal.
+      </p>
+
+      <div class="ctas">
+        <a class="cta" href="#what-we-do">
+          See what we do
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="cta secondary" href="#contact">
+          Or start a conversation
+        </a>
+      </div>
+    </section>
+
+    <div class="credit" aria-hidden="true">
+      <span>An Oikos film</span>
+      <span class="pip"></span>
+      <span>shot on light</span>
+    </div>
+    <div class="timecode" aria-hidden="true">00 : 42 / loop</div>
+  </main>
+
+<script>
+  (function(){
+    var v = document.getElementById('film');
+    var btnPlay = document.getElementById('btnPlay');
+    var btnMute = document.getElementById('btnMute');
+
+    function reveal(){ v.classList.add('is-ready'); }
+    if (v.readyState >= 2) reveal();
+    v.addEventListener('loadeddata', reveal, { once:true });
+    v.addEventListener('canplay', reveal, { once:true });
+
+    // If every source fails, the poster + bg image stays — graceful fallback.
+    v.addEventListener('error', function(){ /* keep poster */ }, true);
+
+    btnPlay.addEventListener('click', function(){
+      if (v.paused){
+        v.play().then(function(){
+          btnPlay.dataset.state = 'playing';
+          btnPlay.setAttribute('aria-label','Pause film');
+        }).catch(function(){});
+      } else {
+        v.pause();
+        btnPlay.dataset.state = 'paused';
+        btnPlay.setAttribute('aria-label','Play film');
+      }
+    });
+
+    btnMute.addEventListener('click', function(){
+      v.muted = !v.muted;
+      btnMute.dataset.mute = v.muted ? 'muted' : 'unmuted';
+      btnMute.setAttribute('aria-label', v.muted ? 'Unmute film' : 'Mute film');
+    });
+
+    // Nudge autoplay on iOS Safari quirks
+    document.addEventListener('visibilitychange', function(){
+      if (!document.hidden && v.paused && btnPlay.dataset.state === 'playing'){
+        v.play().catch(function(){});
+      }
+    });
+  })();
+</script>
+</body>
+</html>
