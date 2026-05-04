@@ -1,0 +1,63 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install + build Next.js (static export)
+        working-directory: web
+        env:
+          NEXT_PUBLIC_BASE_PATH: /oikos/main
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - name: Assemble deploy bundle
+        run: |
+          mkdir -p _site
+          # Variant gallery + each v01..v10 at the root
+          cp -r hero-variants/* _site/
+          # Next.js static export under /main
+          mkdir -p _site/main
+          cp -r web/out/* _site/main/
+          # Quick top-level index that just redirects to the gallery
+          # (gallery's own index.html lives at hero-variants/index.html → copied to _site/index.html)
+          ls -la _site
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

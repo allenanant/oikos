@@ -1,0 +1,15 @@
+
+_site/
+.DS_Store
+.env
+.env.local
+.env*.local
+.idea/
+.next/
+.vercel
+.vscode/
+*.log
+# build artifacts
+# editor
+node_modules/
+out/
