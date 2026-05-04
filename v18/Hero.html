@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oikos by Angelina — Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --cream-warm:#FBEED2;
+    --paper-tint:#F5E2BC;
+    --forest:#0B3910;
+    --terracotta:#B46A2C;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+    --ink:#2A1E10;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html,body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-height:100vh;
+  }
+
+  /* very faint paper grain across both pages */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(60,35,15,0.025), transparent 30%),
+      radial-gradient(circle at 82% 78%, rgba(60,35,15,0.022), transparent 30%);
+    pointer-events:none;
+    z-index:5;
+  }
+
+  .spread{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    min-height:100vh;
+    position:relative;
+  }
+
+  /* center fold — barely perceptible spine */
+  .spread::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:0;bottom:0;
+    width:36px;
+    transform:translateX(-50%);
+    background:
+      linear-gradient(to right,
+        transparent 0%,
+        rgba(60,35,15,0.04) 35%,
+        rgba(60,35,15,0.085) 50%,
+        rgba(60,35,15,0.04) 65%,
+        transparent 100%);
+    pointer-events:none;
+    z-index:2;
+  }
+
+  .page{
+    position:relative;
+    padding:60px 72px 56px;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+
+  .page--left{ background:var(--cream); }
+  .page--right{
+    background:var(--cream-warm);
+    background-image:
+      radial-gradient(ellipse at 50% 50%, rgba(228,197,138,0.18), transparent 70%);
+  }
+
+  /* corner ornament — tiny letterpress mark top-right of left page */
+  .corner-mark{
+    position:absolute;
+    top:22px;
+    right:24px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:11px;
+    letter-spacing:0.04em;
+    color:var(--sage);
+    opacity:0.55;
+  }
+
+  /* ============ LEFT PAGE ============ */
+
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--sage);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:74px;
+  }
+  .eyebrow .rule{
+    flex:0 0 28px;
+    height:1px;
+    background:currentColor;
+    opacity:0.55;
+  }
+  .eyebrow .dot{ opacity:0.55; }
+
+  .headline{
+    font-family:'EB Garamond',serif;
+    color:var(--forest);
+    font-weight:400;
+    line-height:1;
+    margin-bottom:36px;
+  }
+  .headline .oikos{
+    display:block;
+    font-size:108px;
+    letter-spacing:-0.022em;
+    line-height:0.95;
+  }
+  .headline .oikos .period{ color:var(--terracotta); }
+  .headline .for-a-life{
+    display:block;
+    font-style:italic;
+    font-size:30px;
+    color:var(--earth);
+    opacity:0.78;
+    margin-top:18px;
+    letter-spacing:0.005em;
+    font-weight:400;
+  }
+  .headline .sustains{
+    display:block;
+    font-style:italic;
+    font-size:62px;
+    color:var(--forest);
+    margin-top:6px;
+    letter-spacing:-0.005em;
+    line-height:1.05;
+  }
+
+  .ornament{
+    width:42px;
+    height:1px;
+    background:var(--terracotta);
+    opacity:0.55;
+    margin:30px 0 28px;
+  }
+
+  .about{
+    font-size:14.5px;
+    line-height:1.78;
+    color:var(--earth);
+    max-width:480px;
+    text-align:justify;
+    hyphens:auto;
+    opacity:0.86;
+    font-weight:400;
+  }
+
+  .actions{
+    display:flex;
+    gap:28px;
+    align-items:center;
+    margin-top:auto;
+    padding-top:48px;
+  }
+
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.06em;
+    text-decoration:none;
+    transition:all 0.25s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .btn--primary{
+    background:var(--forest);
+    color:var(--cream);
+    padding:15px 26px;
+    border:1px solid var(--forest);
+  }
+  .btn--primary:hover{
+    background:transparent;
+    color:var(--forest);
+  }
+  .btn--primary .arrow{
+    transition:transform 0.25s ease;
+  }
+  .btn--primary:hover .arrow{ transform:translateX(4px); }
+
+  .btn--secondary{
+    color:var(--forest);
+    font-style:italic;
+    font-family:'EB Garamond',serif;
+    font-size:16.5px;
+    letter-spacing:0.005em;
+    font-weight:400;
+    padding:8px 0;
+    border-bottom:1px solid rgba(11,57,16,0.35);
+    text-transform:none;
+  }
+  .btn--secondary:hover{ border-bottom-color:var(--forest); }
+
+  /* footer meta */
+  .page-meta{
+    position:absolute;
+    bottom:24px;
+    left:72px;
+    right:72px;
+    display:flex;
+    justify-content:space-between;
+    font-family:'Inter',sans-serif;
+    font-size:9.5px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--sage);
+    opacity:0.7;
+  }
+  .page-meta .num{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:12px;
+    letter-spacing:0.05em;
+    text-transform:none;
+    opacity:0.85;
+  }
+
+  /* ============ RIGHT PAGE ============ */
+
+  .plate-eyebrow{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13.5px;
+    color:var(--sage);
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:12px;
+    margin-bottom:36px;
+    letter-spacing:0.01em;
+  }
+  .plate-eyebrow .roman{
+    font-style:normal;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--sage);
+    opacity:0.7;
+  }
+
+  .specimen-mount{
+    flex:1;
+    position:relative;
+    border:1px solid rgba(11,57,16,0.16);
+    background:
+      linear-gradient(155deg,
+        #FBEFD2 0%,
+        #F4DEB4 60%,
+        #ECCDB2 100%);
+    box-shadow:
+      inset 0 0 70px rgba(60,35,15,0.06),
+      0 1px 0 rgba(255,255,255,0.6);
+    padding:28px 22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  /* faint inner dashed register */
+  .specimen-mount::before{
+    content:"";
+    position:absolute;
+    inset:10px;
+    border:1px dashed rgba(11,57,16,0.09);
+    pointer-events:none;
+  }
+
+  /* corner ticks like a botanical mounting card */
+  .tick{
+    position:absolute;
+    width:14px;
+    height:14px;
+    border:0 solid rgba(11,57,16,0.3);
+  }
+  .tick--tl{ top:6px; left:6px; border-top-width:1px; border-left-width:1px; }
+  .tick--tr{ top:6px; right:6px; border-top-width:1px; border-right-width:1px; }
+  .tick--bl{ bottom:6px; left:6px; border-bottom-width:1px; border-left-width:1px; }
+  .tick--br{ bottom:6px; right:6px; border-bottom-width:1px; border-right-width:1px; }
+
+  /* pencil-style annotation in corner of mount */
+  .mount-annot{
+    position:absolute;
+    top:20px;
+    right:24px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:11px;
+    color:rgba(11,57,16,0.55);
+    text-align:right;
+    line-height:1.35;
+    z-index:3;
+  }
+  .mount-annot .small{
+    display:block;
+    font-style:normal;
+    font-family:'Inter',sans-serif;
+    font-size:8.5px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:rgba(11,57,16,0.4);
+    margin-top:4px;
+  }
+
+  .mount-annot--bl{
+    top:auto;
+    right:auto;
+    bottom:18px;
+    left:24px;
+    text-align:left;
+  }
+
+  .specimen-svg{
+    height:88%;
+    max-height:560px;
+    width:auto;
+    max-width:78%;
+    display:block;
+    filter:drop-shadow(0 2px 1px rgba(60,35,15,0.06));
+  }
+
+  .caption{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:14px;
+    color:var(--earth);
+    text-align:center;
+    margin-top:22px;
+    letter-spacing:0.01em;
+    opacity:0.78;
+    line-height:1.5;
+  }
+  .caption .sep{
+    color:var(--sage);
+    margin:0 8px;
+    opacity:0.7;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:980px){
+    .spread{ grid-template-columns:1fr; }
+    .spread::after{ display:none; }
+    .page{
+      padding:36px 26px 88px;
+      min-height:auto;
+    }
+    .page--left{ padding-bottom:40px; }
+    .eyebrow{ margin-bottom:42px; }
+    .headline .oikos{ font-size:64px; }
+    .headline .for-a-life{ font-size:22px; margin-top:12px; }
+    .headline .sustains{ font-size:42px; }
+    .about{ font-size:14px; line-height:1.72; }
+    .actions{ padding-top:32px; flex-wrap:wrap; gap:18px; }
+    .specimen-mount{
+      min-height:520px;
+    }
+    .page-meta{ bottom:18px; left:26px; right:26px; }
+    .corner-mark{ display:none; }
+  }
+
+  @media (max-width:420px){
+    .headline .oikos{ font-size:54px; }
+    .headline .sustains{ font-size:34px; }
+    .actions .btn--primary{ width:100%; justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<main class="spread" role="main">
+
+  <!-- ================= LEFT PAGE ================= -->
+  <section class="page page--left" aria-labelledby="hd">
+    <span class="corner-mark">recto</span>
+
+    <div class="eyebrow">
+      <span class="rule" aria-hidden="true"></span>
+      Journal <span class="dot">·</span> No. 01 <span class="dot">·</span> May MMXXVI
+    </div>
+
+    <h1 id="hd" class="headline">
+      <span class="oikos">Oikos<span class="period">.</span></span>
+      <span class="for-a-life">for a life that</span>
+      <span class="sustains">sustains&nbsp;you.</span>
+    </h1>
+
+    <span class="ornament" aria-hidden="true"></span>
+
+    <p class="about">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.</p>
+
+    <div class="actions">
+      <a href="#what-we-do" class="btn btn--primary">
+        See what we do
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="#contact" class="btn btn--secondary">or start a conversation</a>
+    </div>
+
+    <div class="page-meta">
+      <span>Atelier &nbsp;·&nbsp; Delhi</span>
+      <span class="num">i.</span>
+    </div>
+  </section>
+
+
+  <!-- ================= RIGHT PAGE ================= -->
+  <section class="page page--right" aria-labelledby="plate">
+    <span class="corner-mark" id="plate">verso</span>
+
+    <div class="plate-eyebrow">
+      <span class="roman">Plate I</span>
+      a pressed specimen
+    </div>
+
+    <figure class="specimen-mount">
+      <span class="tick tick--tl"></span>
+      <span class="tick tick--tr"></span>
+      <span class="tick tick--bl"></span>
+      <span class="tick tick--br"></span>
+
+      <div class="mount-annot">
+        <em>L. angustifolia</em>
+        <span class="small">Specimen 01</span>
+      </div>
+
+      <div class="mount-annot mount-annot--bl">
+        <em>collected ix·iii·xxiv</em>
+        <span class="small">Field</span>
+      </div>
+
+      <!-- pressed lavender SVG illustration -->
+      <svg class="specimen-svg" viewBox="0 0 240 720" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <filter id="press-grain" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="1.3" numOctaves="2" seed="7" stitchTiles="stitch"/>
+            <feColorMatrix values="0 0 0 0 0
+                                   0 0 0 0 0
+                                   0 0 0 0 0
+                                   0 0 0 0.18 0"/>
+            <feComposite in2="SourceGraphic" operator="in"/>
+          </filter>
+          <linearGradient id="stem-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6E7C5C"/>
+            <stop offset="55%" stop-color="#5A6B4E"/>
+            <stop offset="100%" stop-color="#4A5B40"/>
+          </linearGradient>
+          <linearGradient id="leaf-grad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7E8C6F"/>
+            <stop offset="100%" stop-color="#94A284"/>
+          </linearGradient>
+          <radialGradient id="bud-grad" cx="0.5" cy="0.4" r="0.7">
+            <stop offset="0%" stop-color="#A98AA0"/>
+            <stop offset="60%" stop-color="#8A6F84"/>
+            <stop offset="100%" stop-color="#6B5267"/>
+          </radialGradient>
+        </defs>
+
+        <!-- subtle paper "press" mark — wide soft ellipse behind the specimen -->
+        <ellipse cx="120" cy="420" rx="105" ry="290" fill="rgba(120,90,40,0.04)"/>
+
+        <!-- main stem -->
+        <path d="M 120 715 Q 117 600 121 480 Q 124 380 119 290"
+              stroke="url(#stem-grad)" stroke-width="1.8" fill="none"
+              stroke-linecap="round"/>
+
+        <!-- paired narrow leaves down the stem -->
+        <g fill="url(#leaf-grad)" opacity="0.92">
+          <ellipse cx="92" cy="660" rx="22" ry="2.6" transform="rotate(-12 92 660)"/>
+          <ellipse cx="148" cy="660" rx="22" ry="2.6" transform="rotate(12 148 660)"/>
+
+          <ellipse cx="94" cy="612" rx="20" ry="2.4" transform="rotate(-15 94 612)"/>
+          <ellipse cx="146" cy="612" rx="20" ry="2.4" transform="rotate(15 146 612)"/>
+
+          <ellipse cx="96" cy="566" rx="18" ry="2.2" transform="rotate(-18 96 566)"/>
+          <ellipse cx="144" cy="566" rx="18" ry="2.2" transform="rotate(18 144 566)"/>
+
+          <ellipse cx="99" cy="522" rx="16" ry="2" transform="rotate(-20 99 522)"/>
+          <ellipse cx="141" cy="522" rx="16" ry="2" transform="rotate(20 141 522)"/>
+
+          <ellipse cx="102" cy="478" rx="14" ry="1.9" transform="rotate(-22 102 478)"/>
+          <ellipse cx="138" cy="478" rx="14" ry="1.9" transform="rotate(22 138 478)"/>
+
+          <ellipse cx="105" cy="436" rx="12" ry="1.7" transform="rotate(-25 105 436)"/>
+          <ellipse cx="135" cy="436" rx="12" ry="1.7" transform="rotate(25 135 436)"/>
+
+          <ellipse cx="108" cy="396" rx="10" ry="1.5" transform="rotate(-28 108 396)"/>
+          <ellipse cx="132" cy="396" rx="10" ry="1.5" transform="rotate(28 132 396)"/>
+
+          <ellipse cx="110" cy="358" rx="8" ry="1.3" transform="rotate(-30 110 358)"/>
+          <ellipse cx="130" cy="358" rx="8" ry="1.3" transform="rotate(30 130 358)"/>
+
+          <ellipse cx="112" cy="322" rx="6.5" ry="1.2" transform="rotate(-32 112 322)"/>
+          <ellipse cx="128" cy="322" rx="6.5" ry="1.2" transform="rotate(32 128 322)"/>
+        </g>
+
+        <!-- a couple of leaves slightly faded for depth -->
+        <g fill="#6B7B5C" opacity="0.5">
+          <ellipse cx="92" cy="660" rx="22" ry="0.8" transform="rotate(-12 92 660)"/>
+          <ellipse cx="148" cy="660" rx="22" ry="0.8" transform="rotate(12 148 660)"/>
+        </g>
+
+        <!-- continuation of stem up through the flower spike -->
+        <path d="M 119 290 Q 120 230 119 168 Q 119 130 121 92"
+              stroke="url(#stem-grad)" stroke-width="1.4" fill="none"
+              stroke-linecap="round"/>
+
+        <!-- flower spike — clustered buds along upper stem -->
+        <g fill="url(#bud-grad)">
+          <ellipse cx="115" cy="285" rx="4" ry="5"/>
+          <ellipse cx="124" cy="278" rx="4.2" ry="5.4"/>
+          <ellipse cx="113" cy="268" rx="3.8" ry="5"/>
+          <ellipse cx="125" cy="258" rx="4.2" ry="5.4"/>
+          <ellipse cx="114" cy="248" rx="4" ry="5.2"/>
+          <ellipse cx="124" cy="238" rx="4" ry="5"/>
+          <ellipse cx="115" cy="228" rx="3.7" ry="4.8"/>
+          <ellipse cx="123" cy="218" rx="3.8" ry="4.8"/>
+          <ellipse cx="116" cy="208" rx="3.6" ry="4.5"/>
+          <ellipse cx="123" cy="198" rx="3.5" ry="4.4"/>
+          <ellipse cx="117" cy="188" rx="3.3" ry="4.2"/>
+          <ellipse cx="122" cy="178" rx="3.1" ry="4"/>
+          <ellipse cx="118" cy="168" rx="2.9" ry="3.7"/>
+          <ellipse cx="121" cy="158" rx="2.7" ry="3.5"/>
+          <ellipse cx="119" cy="148" rx="2.5" ry="3.2"/>
+          <ellipse cx="120" cy="138" rx="2.3" ry="3"/>
+          <ellipse cx="120" cy="128" rx="2.1" ry="2.7"/>
+          <ellipse cx="120" cy="118" rx="1.9" ry="2.4"/>
+          <ellipse cx="120" cy="108" rx="1.6" ry="2"/>
+          <ellipse cx="120" cy="100" rx="1.3" ry="1.6"/>
+          <ellipse cx="120" cy="93" rx="1" ry="1.3"/>
+        </g>
+
+        <!-- highlight specks on flower spike -->
+        <g fill="#C4A6BB" opacity="0.5">
+          <circle cx="116" cy="283" r="0.9"/>
+          <circle cx="125" cy="276" r="0.9"/>
+          <circle cx="125" cy="256" r="0.9"/>
+          <circle cx="115" cy="246" r="0.8"/>
+          <circle cx="124" cy="236" r="0.8"/>
+          <circle cx="116" cy="226" r="0.7"/>
+          <circle cx="123" cy="216" r="0.7"/>
+        </g>
+
+        <!-- subtle deep purple within buds -->
+        <g fill="#5C4358" opacity="0.4">
+          <ellipse cx="115" cy="285" rx="2.2" ry="2.6"/>
+          <ellipse cx="124" cy="278" rx="2.4" ry="2.8"/>
+          <ellipse cx="113" cy="268" rx="2.1" ry="2.5"/>
+          <ellipse cx="125" cy="258" rx="2.4" ry="2.8"/>
+          <ellipse cx="114" cy="248" rx="2.2" ry="2.6"/>
+          <ellipse cx="124" cy="238" rx="2.2" ry="2.5"/>
+          <ellipse cx="115" cy="228" rx="2" ry="2.3"/>
+          <ellipse cx="123" cy="218" rx="2" ry="2.3"/>
+          <ellipse cx="116" cy="208" rx="1.8" ry="2.1"/>
+          <ellipse cx="123" cy="198" rx="1.8" ry="2.1"/>
+          <ellipse cx="117" cy="188" rx="1.6" ry="1.9"/>
+          <ellipse cx="122" cy="178" rx="1.5" ry="1.8"/>
+        </g>
+
+        <!-- pressed shadow halo -->
+        <g opacity="0.5">
+          <ellipse cx="120" cy="245" rx="20" ry="100" fill="rgba(60,35,15,0.05)"/>
+        </g>
+      </svg>
+
+      <!-- specimen tag — tiny "label" pinned bottom-center of mount -->
+    </figure>
+
+    <figcaption class="caption">
+      Field note <span class="sep">·</span> pressed <em>Lavandula</em>, Delhi atelier <span class="sep">·</span> March '24
+    </figcaption>
+
+    <div class="page-meta">
+      <span>Hand-pressed &nbsp;·&nbsp; folio i</span>
+      <span class="num">ii.</span>
+    </div>
+  </section>
+
+</main>
+
+</body>
+</html>

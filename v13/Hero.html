@@ -1,0 +1,634 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oikos by Angelina — For a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --forest:#0B3910;
+    --terracotta:#B46A2C;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--cream);color:var(--forest)}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    font-weight:400;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+
+  /* paper grain — barely there */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.04  0 0 0 0 0.03  0 0 0 0 0.02  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.55;
+    mix-blend-mode:multiply;
+  }
+  /* gentle warm vignette */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    background:radial-gradient(140% 90% at 18% 8%, rgba(255,251,232,.55), transparent 55%),
+               radial-gradient(120% 80% at 92% 100%, rgba(228,197,138,.18), transparent 60%);
+  }
+
+  .hero{
+    position:relative;
+    z-index:2;
+    min-height:100vh;
+    padding:34px 64px 32px;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+  }
+
+  /* ───── topbar ───── */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:14px;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+  }
+  .brand-mark{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:22px;
+    letter-spacing:.005em;
+    color:var(--forest);
+  }
+  .brand-mark .dot{color:var(--terracotta)}
+  .brand-tag{
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--sage);
+  }
+  .nav{
+    display:flex;
+    gap:36px;
+    font-family:'Inter',sans-serif;
+    font-size:11.5px;
+    font-weight:500;
+    text-transform:uppercase;
+    letter-spacing:.2em;
+    color:var(--forest);
+  }
+  .nav a{color:inherit;text-decoration:none;opacity:.72;transition:opacity .2s}
+  .nav a:hover{opacity:1}
+
+  /* ───── main ───── */
+  .main{
+    display:grid;
+    grid-template-columns:1.12fr 1fr;
+    gap:88px;
+    align-items:center;
+    padding:18px 0 12px;
+  }
+
+  /* left copy column */
+  .copy{max-width:600px}
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    font-weight:500;
+    text-transform:uppercase;
+    letter-spacing:.28em;
+    color:var(--sage);
+    margin-bottom:36px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:30px;
+    height:1px;
+    background:var(--sage);
+    opacity:.6;
+  }
+  .eyebrow em{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:13px;
+    letter-spacing:.01em;
+    text-transform:none;
+    color:var(--earth);
+    opacity:.85;
+  }
+
+  .headline{
+    font-family:'EB Garamond',serif;
+    font-weight:400;
+    color:var(--forest);
+    margin-bottom:30px;
+  }
+  .h-oikos{
+    display:block;
+    font-size:104px;
+    line-height:.92;
+    letter-spacing:-.025em;
+  }
+  .h-oikos .dot{color:var(--terracotta)}
+  .h-mid{
+    display:block;
+    font-size:30px;
+    line-height:1.15;
+    letter-spacing:.005em;
+    margin-top:18px;
+    color:var(--earth);
+    opacity:.78;
+    font-style:italic;
+  }
+  .h-end{
+    display:block;
+    font-style:italic;
+    font-size:88px;
+    line-height:1;
+    letter-spacing:-.015em;
+    margin-top:4px;
+    color:var(--terracotta);
+  }
+
+  .sub{
+    font-family:'EB Garamond',serif;
+    font-weight:400;
+    font-size:19px;
+    line-height:1.55;
+    color:var(--forest);
+    opacity:.78;
+    max-width:498px;
+    margin-bottom:38px;
+  }
+
+  .ctas{
+    display:flex;
+    align-items:center;
+    gap:30px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:16px 28px;
+    border-radius:999px;
+    background:var(--forest);
+    color:var(--cream);
+    transition:transform .25s ease, background .25s ease;
+  }
+  .btn:hover{background:var(--earth);transform:translateY(-1px)}
+  .btn .arrow{
+    display:inline-block;
+    width:14px;height:1px;
+    background:var(--cream);
+    position:relative;
+    transition:width .25s ease;
+  }
+  .btn .arrow::after{
+    content:"";
+    position:absolute;
+    right:0;top:-3px;
+    width:7px;height:7px;
+    border-top:1px solid var(--cream);
+    border-right:1px solid var(--cream);
+    transform:rotate(45deg);
+  }
+  .btn:hover .arrow{width:20px}
+
+  .btn-text{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:18px;
+    color:var(--forest);
+    text-decoration:none;
+    border-bottom:1px solid rgba(11,57,16,.3);
+    padding-bottom:2px;
+    transition:border-color .25s, color .25s;
+  }
+  .btn-text:hover{color:var(--terracotta);border-color:var(--terracotta)}
+
+  /* ───── right column: framed window ───── */
+  .frame-col{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    justify-self:end;
+    width:100%;
+    max-width:480px;
+  }
+  .frame-meta-top{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--sage);
+    margin-bottom:14px;
+  }
+  .frame-meta-top .num{color:var(--earth);opacity:.6}
+
+  .video-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:4/5;
+    border:1px solid var(--terracotta);
+    background:var(--cream);
+    padding:9px;
+    box-shadow:
+      0 1px 0 rgba(11,57,16,.04),
+      0 30px 60px -32px rgba(60,35,15,.32),
+      0 16px 36px -22px rgba(60,35,15,.24);
+  }
+  .video-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:var(--sand);
+  }
+  /* SVG still-life poster — guaranteed render */
+  .poster{
+    position:absolute;
+    inset:0;
+    width:100%;height:100%;
+    display:block;
+  }
+  .video-inner video{
+    position:absolute;
+    inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+    filter:sepia(.15) saturate(1.05) brightness(1.02);
+  }
+
+  /* corner markers — letterpress feel */
+  .video-frame::before,
+  .video-frame::after,
+  .corner-tl, .corner-bl{
+    content:"";
+    position:absolute;
+    width:7px;height:7px;
+    border:0 solid var(--terracotta);
+    opacity:.85;
+  }
+  .video-frame::before{top:-1px;right:-1px;border-top-width:1px;border-right-width:1px}
+  .video-frame::after{bottom:-1px;left:-1px;border-bottom-width:1px;border-left-width:1px}
+
+  .frame-meta-bottom{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-top:18px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:14.5px;
+    color:var(--earth);
+  }
+  .frame-meta-bottom .runtime{
+    font-family:'Inter',sans-serif;
+    font-style:normal;
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:.24em;
+    color:var(--sage);
+    text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;
+  }
+  .frame-meta-bottom .runtime::before{
+    content:"";
+    width:6px;height:6px;border-radius:50%;
+    background:var(--terracotta);
+    box-shadow:0 0 0 0 rgba(180,106,44,.6);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 0 0 rgba(180,106,44,.6)}
+    50%{box-shadow:0 0 0 5px rgba(180,106,44,0)}
+  }
+
+  /* ───── footer ───── */
+  .footer{
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:32px;
+    padding-top:22px;
+    border-top:1px solid rgba(11,57,16,.09);
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    font-weight:500;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--sage);
+  }
+  .footer .center{
+    justify-self:center;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13.5px;
+    text-transform:none;
+    letter-spacing:.005em;
+    color:var(--earth);
+    opacity:.75;
+  }
+  .footer .right{
+    justify-self:end;
+    display:flex;align-items:center;gap:10px;
+  }
+  .footer .right .line{
+    display:inline-block;
+    width:24px;height:1px;
+    background:var(--sage);
+    opacity:.5;
+  }
+
+  /* ───── responsive ───── */
+  @media (max-width:1100px){
+    .hero{padding:28px 40px 28px}
+    .main{gap:48px}
+    .h-oikos{font-size:84px}
+    .h-end{font-size:72px}
+    .nav{display:none}
+  }
+  @media (max-width:760px){
+    .hero{padding:24px 22px 28px}
+    .topbar{padding-bottom:6px}
+    .main{
+      grid-template-columns:1fr;
+      gap:36px;
+      padding:18px 0 6px;
+    }
+    .h-oikos{font-size:62px}
+    .h-mid{font-size:22px;margin-top:10px}
+    .h-end{font-size:56px}
+    .sub{font-size:17px}
+    .frame-col{max-width:100%}
+    .footer{
+      grid-template-columns:1fr;
+      gap:8px;
+      text-align:left;
+    }
+    .footer .center,.footer .right{justify-self:start}
+    .nav{display:none}
+  }
+  @media (max-width:380px){
+    .h-oikos{font-size:54px}
+    .h-end{font-size:48px}
+    .ctas{gap:18px}
+  }
+</style>
+</head>
+<body>
+<main class="hero">
+
+  <!-- topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">Oikos<span class="dot">.</span></span>
+      <span class="brand-tag">by Angelina · Est. New Delhi</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="#what-we-do">What we do</a>
+      <a href="#approach">Approach</a>
+      <a href="#journal">Journal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- main two-column -->
+  <section class="main">
+
+    <!-- left: editorial copy -->
+    <div class="copy">
+      <div class="eyebrow"><em>A quiet manifesto, vol. ii</em></div>
+      <h1 class="headline">
+        <span class="h-oikos">Oikos<span class="dot">.</span></span>
+        <span class="h-mid">For a life that</span>
+        <span class="h-end">sustains&nbsp;you.</span>
+      </h1>
+      <p class="sub">
+        Biophilic interiors, conscious gifting, and a quiet workplace concierge
+        — designed by someone who believes that doing right by the planet
+        should also feel beautiful, calm, and personal.
+      </p>
+      <div class="ctas">
+        <a class="btn" href="#what-we-do">See what we do <span class="arrow" aria-hidden="true"></span></a>
+        <a class="btn-text" href="#contact">or start a conversation</a>
+      </div>
+    </div>
+
+    <!-- right: framed window onto a moment -->
+    <aside class="frame-col" aria-label="Still life">
+      <div class="frame-meta-top">
+        <span>Still life · Nº 011</span>
+        <span class="num">2025 / Series ii</span>
+      </div>
+
+      <figure class="video-frame">
+        <div class="video-inner">
+          <!-- SVG still-life: linen curtain light, ceramic vessel, single sprig, dust motes.
+               Acts as poster + permanent fallback. -->
+          <svg class="poster" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%"  stop-color="#FFF4DC"/>
+                <stop offset="35%" stop-color="#F1D9AC"/>
+                <stop offset="72%" stop-color="#DA9B66"/>
+                <stop offset="100%" stop-color="#9C5A24"/>
+              </linearGradient>
+              <linearGradient id="sun" x1="0" y1="0" x2="0.7" y2="1">
+                <stop offset="0%"  stop-color="#FFFBE8" stop-opacity="0.85"/>
+                <stop offset="55%" stop-color="#FFFBE8" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#3C230F" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#3C230F" stop-opacity="0.85"/>
+              </linearGradient>
+              <linearGradient id="vase" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%"  stop-color="#FFF8EB"/>
+                <stop offset="60%" stop-color="#ECCDB2"/>
+                <stop offset="100%" stop-color="#C49467"/>
+              </linearGradient>
+              <pattern id="linen" width="3" height="3" patternUnits="userSpaceOnUse">
+                <rect width="3" height="3" fill="transparent"/>
+                <line x1="0" y1="0" x2="0" y2="3" stroke="#7a4a1f" stroke-width="0.35" opacity="0.18"/>
+                <line x1="0" y1="0.5" x2="3" y2="0.5" stroke="#7a4a1f" stroke-width="0.2" opacity="0.10"/>
+              </pattern>
+              <radialGradient id="halo" cx="0.25" cy="0.18" r="0.7">
+                <stop offset="0%"  stop-color="#FFFBE8" stop-opacity="0.65"/>
+                <stop offset="60%" stop-color="#FFFBE8" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- warm gradient ground -->
+            <rect width="400" height="500" fill="url(#bg)"/>
+            <!-- linen weave texture -->
+            <rect width="400" height="500" fill="url(#linen)"/>
+            <!-- diagonal sun shaft -->
+            <rect width="400" height="500" fill="url(#sun)"/>
+            <!-- soft halo top-left -->
+            <rect width="400" height="500" fill="url(#halo)"/>
+
+            <!-- linen curtain hint, far left -->
+            <g opacity="0.32">
+              <rect x="0" y="0" width="56" height="500" fill="#FFF4DC"/>
+              <line x1="14" y1="0" x2="14" y2="500" stroke="#7a4a1f" stroke-width="0.4" opacity="0.5"/>
+              <line x1="28" y1="0" x2="28" y2="500" stroke="#7a4a1f" stroke-width="0.3" opacity="0.4"/>
+              <line x1="42" y1="0" x2="42" y2="500" stroke="#7a4a1f" stroke-width="0.4" opacity="0.5"/>
+            </g>
+
+            <!-- wood surface bottom -->
+            <rect x="0" y="378" width="400" height="122" fill="url(#wood)"/>
+            <line x1="0" y1="378" x2="400" y2="378" stroke="#1f1207" stroke-width="0.6" opacity="0.7"/>
+            <!-- wood grain -->
+            <g stroke="#1f1207" stroke-width="0.4" opacity="0.18" fill="none">
+              <path d="M0 410 Q 200 405 400 412"/>
+              <path d="M0 438 Q 220 432 400 442"/>
+              <path d="M0 462 Q 180 458 400 466"/>
+              <path d="M0 482 Q 220 478 400 486"/>
+            </g>
+
+            <!-- shadow under vase -->
+            <ellipse cx="218" cy="380" rx="76" ry="6" fill="#1f1207" opacity="0.45"/>
+
+            <!-- ceramic vase -->
+            <g transform="translate(166,250)">
+              <path d="M 18 50 Q 16 28 30 22 L 30 12 Q 30 6 38 6 L 66 6 Q 74 6 74 12 L 74 22 Q 88 28 86 50 L 92 122 Q 92 132 52 132 Q 12 132 18 122 Z"
+                    fill="url(#vase)" stroke="#7a4a1f" stroke-width="0.5" stroke-opacity="0.35"/>
+              <!-- vase highlight -->
+              <path d="M 30 30 Q 30 70 32 120" stroke="#FFF8EB" stroke-width="1.2" opacity="0.55" fill="none"/>
+              <!-- rim -->
+              <ellipse cx="52" cy="22" rx="22" ry="3" fill="#3C230F" opacity="0.35"/>
+              <!-- tiny shadow under rim -->
+              <ellipse cx="52" cy="24" rx="20" ry="1.5" fill="#3C230F" opacity="0.15"/>
+            </g>
+
+            <!-- single sprig: olive-ish silhouette -->
+            <g transform="translate(218,250)" stroke="#0B3910" stroke-linecap="round" fill="#0B3910">
+              <!-- main stem -->
+              <path d="M 0 0 C -2 -40 -10 -78 -22 -118" stroke-width="1.4" fill="none" opacity="0.92"/>
+              <!-- side stems -->
+              <path d="M -5 -30 Q -22 -36 -34 -52" stroke-width="1" fill="none" opacity="0.85"/>
+              <path d="M -10 -60 Q 4 -68 18 -76" stroke-width="1" fill="none" opacity="0.85"/>
+              <path d="M -16 -88 Q -32 -94 -40 -108" stroke-width="1" fill="none" opacity="0.85"/>
+              <path d="M -20 -108 Q -10 -120 0 -128" stroke-width="1" fill="none" opacity="0.85"/>
+
+              <!-- leaves: small almond-shaped silhouettes -->
+              <g opacity="0.92">
+                <ellipse cx="-34" cy="-52" rx="7" ry="2.6" transform="rotate(-32 -34 -52)"/>
+                <ellipse cx="-28" cy="-44" rx="6" ry="2.3" transform="rotate(-18 -28 -44)"/>
+                <ellipse cx="18"  cy="-76" rx="7" ry="2.6" transform="rotate(28 18 -76)"/>
+                <ellipse cx="10"  cy="-66" rx="5.5" ry="2.1" transform="rotate(14 10 -66)"/>
+                <ellipse cx="-40" cy="-108" rx="6.5" ry="2.4" transform="rotate(-44 -40 -108)"/>
+                <ellipse cx="-30" cy="-98"  rx="5.5" ry="2.1" transform="rotate(-30 -30 -98)"/>
+                <ellipse cx="0"   cy="-128" rx="6"   ry="2.2" transform="rotate(20 0 -128)"/>
+                <ellipse cx="-8"  cy="-118" rx="5"   ry="1.9" transform="rotate(8 -8 -118)"/>
+              </g>
+            </g>
+
+            <!-- folded linen napkin, lower right -->
+            <g transform="translate(280,360)" opacity="0.7">
+              <rect width="98" height="20" fill="#FFF4DC" stroke="#7a4a1f" stroke-width="0.4" stroke-opacity="0.35"/>
+              <line x1="0" y1="6" x2="98" y2="6" stroke="#7a4a1f" stroke-width="0.3" opacity="0.4"/>
+              <line x1="0" y1="14" x2="98" y2="14" stroke="#7a4a1f" stroke-width="0.3" opacity="0.4"/>
+            </g>
+
+            <!-- small ceramic cup, lower left on wood -->
+            <g transform="translate(60,388)" opacity="0.92">
+              <ellipse cx="22" cy="36" rx="22" ry="3.2" fill="#1f1207" opacity="0.45"/>
+              <path d="M 4 8 Q 4 4 8 4 L 36 4 Q 40 4 40 8 L 38 32 Q 38 36 22 36 Q 6 36 6 32 Z" fill="#ECCDB2" stroke="#7a4a1f" stroke-width="0.4" stroke-opacity="0.5"/>
+              <ellipse cx="22" cy="6" rx="16" ry="2.2" fill="#3C230F" opacity="0.45"/>
+              <!-- tiny steam wisp -->
+              <path d="M 18 -2 Q 20 -8 17 -12 Q 14 -16 18 -22" stroke="#FFF8EB" stroke-width="1.1" fill="none" opacity="0.55" stroke-linecap="round"/>
+              <path d="M 26 -2 Q 24 -8 27 -12 Q 30 -16 26 -22" stroke="#FFF8EB" stroke-width="1.1" fill="none" opacity="0.45" stroke-linecap="round"/>
+            </g>
+
+            <!-- dust motes -->
+            <g fill="#FFFBE8">
+              <circle cx="58"  cy="120" r="1.8" opacity="0.75"/>
+              <circle cx="118" cy="68"  r="1.2" opacity="0.55"/>
+              <circle cx="92"  cy="190" r="1"   opacity="0.5"/>
+              <circle cx="170" cy="90"  r="1.4" opacity="0.6"/>
+              <circle cx="248" cy="130" r="1"   opacity="0.45"/>
+              <circle cx="310" cy="64"  r="1.6" opacity="0.55"/>
+              <circle cx="346" cy="160" r="1.1" opacity="0.45"/>
+              <circle cx="200" cy="220" r="0.9" opacity="0.4"/>
+              <circle cx="74"  cy="260" r="1.2" opacity="0.5"/>
+              <circle cx="358" cy="240" r="1"   opacity="0.4"/>
+            </g>
+
+            <!-- subtle vignette -->
+            <radialGradient id="vig" cx="0.5" cy="0.5" r="0.85">
+              <stop offset="60%" stop-color="#3C230F" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#3C230F" stop-opacity="0.32"/>
+            </radialGradient>
+            <rect width="400" height="500" fill="url(#vig)"/>
+          </svg>
+
+          <!-- Optional video enhancement: if a Pexels CDN resolves, video covers the SVG.
+               Otherwise the still-life poster above remains the rendered image. -->
+          <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+            <source src="https://videos.pexels.com/video-files/4109269/4109269-uhd_2732_1440_25fps.mp4" type="video/mp4">
+            <source src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_24fps.mp4" type="video/mp4">
+          </video>
+        </div>
+      </figure>
+
+      <figcaption class="frame-meta-bottom">
+        <span>A Delhi morning, in a glass.</span>
+        <span class="runtime">00:08 loop</span>
+      </figcaption>
+    </aside>
+
+  </section>
+
+  <!-- footer -->
+  <footer class="footer">
+    <span class="left">Conscious by design</span>
+    <span class="center">οἶκος · the home that holds you</span>
+    <span class="right"><span class="line"></span> Scroll</span>
+  </footer>
+
+</main>
+</body>
+</html>

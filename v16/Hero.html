@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oikos by Angelina — For a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --forest:#0B3910;
+    --terra:#B46A2C;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--earth);color:var(--cream);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{font-family:'Inter',sans-serif;line-height:1.5;overflow-x:hidden}
+
+  .hero{
+    position:relative;
+    min-height:100vh;
+    width:100%;
+    overflow:hidden;
+    background-color:#7a5a3e;
+  }
+  .hero__photo{
+    position:absolute;inset:0;
+    background-image:url('https://images.unsplash.com/photo-1522444195799-478538b28823?w=2000&q=85&auto=format&fit=crop');
+    background-size:cover;
+    background-position:50% 26%;
+    filter:sepia(0.07) saturate(1.05) brightness(1.0) contrast(1.03);
+  }
+  .hero__photo::after{
+    content:"";
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 70% 60% at 78% 22%, rgba(228,197,138,0.14), transparent 65%),
+      linear-gradient(to bottom, rgba(11,35,14,0.55) 0%, rgba(11,35,14,0.08) 14%, rgba(11,35,14,0) 38%, rgba(34,20,8,0.55) 78%, rgba(34,20,8,0.78) 100%),
+      linear-gradient(to right, rgba(34,20,8,0.55) 0%, rgba(34,20,8,0.05) 50%, rgba(34,20,8,0) 70%);
+  }
+  .hero__grain{
+    position:absolute;inset:0;
+    pointer-events:none;
+    opacity:.07;
+    mix-blend-mode:overlay;
+  }
+
+  /* Top masthead */
+  .masthead{
+    position:absolute;
+    top:0;left:0;right:0;
+    padding:28px 56px 0;
+    display:grid;
+    grid-template-columns:1fr auto 1fr;
+    align-items:center;
+    gap:24px;
+    z-index:5;
+  }
+  .masthead__rule{
+    height:1px;
+    background:rgba(255,248,235,.32);
+  }
+  .masthead__brand{
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.94);
+    white-space:nowrap;
+  }
+  .masthead__brand .dot{
+    display:inline-block;
+    width:3px;height:3px;
+    background:var(--terra);
+    border-radius:50%;
+    vertical-align:middle;
+    margin:0 12px 4px;
+  }
+
+  /* Editorial date stamp top right */
+  .stamp{
+    position:absolute;
+    top:80px;
+    right:56px;
+    text-align:center;
+    z-index:6;
+  }
+  .stamp__seal{
+    width:84px;height:84px;
+    border-radius:50%;
+    background:var(--terra);
+    color:var(--cream);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:24px;
+    letter-spacing:.02em;
+    box-shadow:0 18px 40px -16px rgba(0,0,0,.45);
+    position:relative;
+  }
+  .stamp__seal::before{
+    content:"";
+    position:absolute;inset:5px;
+    border:1px solid rgba(255,248,235,.32);
+    border-radius:50%;
+  }
+  .stamp__place{
+    margin-top:14px;
+    font-family:'Inter',sans-serif;
+    font-size:9.5px;
+    font-weight:500;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.86);
+  }
+  .stamp__place::before,.stamp__place::after{
+    content:"·";
+    margin:0 8px;
+    color:rgba(255,248,235,.5);
+  }
+
+  /* Side index left vertical */
+  .index{
+    position:absolute;
+    top:50%;
+    left:30px;
+    transform:translateY(-50%) rotate(-90deg);
+    transform-origin:left center;
+    font-family:'Inter',sans-serif;
+    font-size:9.5px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.55);
+    z-index:5;
+    white-space:nowrap;
+  }
+
+  /* Bottom-left copy block */
+  .copy{
+    position:absolute;
+    left:56px;
+    bottom:64px;
+    max-width:600px;
+    z-index:6;
+  }
+  .copy__kicker{
+    display:flex;align-items:center;gap:14px;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:rgba(228,197,138,.95);
+    margin-bottom:24px;
+  }
+  .copy__kicker .line{
+    width:36px;height:1px;background:rgba(228,197,138,.6);
+  }
+  .copy__kicker em{
+    font-style:normal;
+    color:rgba(255,248,235,.7);
+    letter-spacing:.32em;
+    font-size:9.5px;
+  }
+  .copy__head{
+    font-family:'EB Garamond',serif;
+    font-weight:400;
+    font-style:italic;
+    font-size:clamp(40px,5.6vw,78px);
+    line-height:1.02;
+    letter-spacing:-0.012em;
+    color:var(--cream);
+    margin-bottom:26px;
+  }
+  .copy__head .oikos{
+    font-style:italic;
+    color:var(--cream);
+  }
+  .copy__head .roman{
+    font-style:normal;
+    font-weight:400;
+  }
+  .copy__head .verb{
+    font-style:italic;
+    color:var(--cream);
+    position:relative;
+    display:inline-block;
+  }
+  .copy__head .verb::after{
+    content:"";
+    position:absolute;
+    left:2%;right:6%;bottom:0.06em;
+    height:1px;
+    background:rgba(228,197,138,.55);
+  }
+  .copy__head .you{
+    font-style:italic;
+    color:var(--cream);
+  }
+  .copy__sub{
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    line-height:1.7;
+    font-weight:400;
+    color:rgba(255,248,235,.84);
+    max-width:480px;
+    margin-bottom:36px;
+    letter-spacing:0.005em;
+  }
+  .ctas{
+    display:flex;
+    align-items:center;
+    gap:28px;
+    flex-wrap:wrap;
+  }
+  .cta{
+    font-family:'Inter',sans-serif;
+    font-size:13px;
+    letter-spacing:.06em;
+    font-weight:500;
+    text-decoration:none;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+  .cta--primary{
+    background:var(--terra);
+    color:var(--cream);
+    padding:15px 28px 16px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    box-shadow:0 14px 30px -14px rgba(0,0,0,.45);
+  }
+  .cta--primary:hover{transform:translateY(-1px)}
+  .cta--primary svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5}
+  .cta--secondary{
+    color:rgba(255,248,235,.92);
+    border-bottom:1px solid rgba(255,248,235,.32);
+    padding:6px 0 5px;
+  }
+  .cta--secondary:hover{border-color:rgba(255,248,235,.7)}
+  .cta--secondary em{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:14px;
+    margin-right:2px;
+    letter-spacing:0;
+  }
+
+  /* Bottom-right caption */
+  .caption{
+    position:absolute;
+    right:56px;
+    bottom:64px;
+    text-align:right;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    line-height:1.7;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:rgba(255,248,235,.6);
+    z-index:5;
+    max-width:200px;
+  }
+  .caption em{
+    display:block;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    text-transform:none;
+    letter-spacing:0;
+    font-size:13px;
+    color:rgba(255,248,235,.88);
+    margin-top:6px;
+  }
+  .caption .num{
+    color:var(--gold);
+  }
+
+  @media (max-width:760px){
+    .masthead{padding:22px 22px 0;grid-template-columns:1fr auto 1fr;gap:14px}
+    .masthead__brand{font-size:10px;letter-spacing:.32em}
+    .stamp{top:64px;right:22px}
+    .stamp__seal{width:64px;height:64px;font-size:18px}
+    .stamp__place{font-size:8.5px;letter-spacing:.32em}
+    .index{display:none}
+    .copy{left:22px;right:22px;bottom:36px;max-width:none}
+    .copy__head{font-size:38px;line-height:1.05}
+    .copy__sub{font-size:13.5px}
+    .ctas{gap:20px}
+    .cta--primary{padding:12px 22px;font-size:12px}
+    .caption{display:none}
+  }
+</style>
+</head>
+<body>
+  <section class="hero" role="banner">
+    <div class="hero__photo" aria-hidden="true"></div>
+
+    <svg class="hero__grain" aria-hidden="true" preserveAspectRatio="none">
+      <filter id="g">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+        <feColorMatrix values="0 0 0 0 1  0 0 0 0 0.97  0 0 0 0 0.92  0 0 0 1 0"/>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#g)"/>
+    </svg>
+
+    <header class="masthead" role="navigation" aria-label="Oikos by Angelina">
+      <div class="masthead__rule"></div>
+      <div class="masthead__brand">Oikos<span class="dot"></span>By Angelina</div>
+      <div class="masthead__rule"></div>
+    </header>
+
+    <aside class="stamp" aria-hidden="true">
+      <div class="stamp__seal">2024</div>
+      <div class="stamp__place">Delhi</div>
+    </aside>
+
+    <div class="index" aria-hidden="true">№ 01 — Quiet Beginnings</div>
+
+    <div class="copy">
+      <div class="copy__kicker">
+        <span class="line"></span>
+        <span>Hospitality of Material</span>
+        <em>Volume One</em>
+      </div>
+
+      <h1 class="copy__head">
+        <span class="oikos">Oikos.</span>
+        <span class="roman"> For a life that </span>
+        <span class="verb">sustains</span>
+        <span class="you"> you.</span>
+      </h1>
+
+      <p class="copy__sub">
+        Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.
+      </p>
+
+      <div class="ctas">
+        <a href="#what-we-do" class="cta cta--primary">
+          See what we do
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#contact" class="cta cta--secondary"><em>Or</em> start a conversation</a>
+      </div>
+    </div>
+
+    <aside class="caption" aria-hidden="true">
+      Plate <span class="num">i</span> — A reading nook,<br>afternoon
+      <em>"the room as a kind of slow correspondence."</em>
+    </aside>
+  </section>
+</body>
+</html>

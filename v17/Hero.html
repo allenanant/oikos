@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Oikos — For a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --cream-deep:#F4E9D0;
+    --forest:#0B3910;
+    --forest-soft:#1f4a25;
+    --terra:#B46A2C;
+    --terra-deep:#7a3f17;
+    --wax:#6E1919;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --earth:#3C230F;
+    --sage:#939991;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--forest);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  /* paper texture — extremely subtle */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.27  0 0 0 0 0.18  0 0 0 0 0.05  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity:.55;
+    mix-blend-mode:multiply;
+    z-index:1;
+  }
+  /* soft warm vignette to suggest interior light from upper-left */
+  body::after{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    background:
+      radial-gradient(60% 50% at 18% 8%, rgba(228,197,138,.28), transparent 70%),
+      radial-gradient(70% 60% at 100% 100%, rgba(60,35,15,.10), transparent 65%);
+    z-index:1;
+  }
+
+  .scene{
+    position:relative; z-index:2;
+    min-height:100vh;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    padding:28px 40px 24px;
+  }
+
+  /* TOP BAR */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--earth);
+  }
+  .topbar .mark{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:18px;
+    letter-spacing:.01em;
+    text-transform:none;
+    color:var(--forest);
+  }
+  .topbar nav{display:flex; gap:30px}
+  .topbar nav a{
+    color:var(--earth);
+    text-decoration:none;
+    opacity:.78;
+    transition:opacity .2s;
+  }
+  .topbar nav a:hover{opacity:1; color:var(--terra-deep)}
+  .topbar .meta{opacity:.55}
+
+  /* CENTER FRAME */
+  .center{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:36px 16px 12px;
+  }
+  .frame{
+    width:100%;
+    max-width:640px;
+    display:flex; flex-direction:column; align-items:center;
+  }
+
+  /* SEAL */
+  .seal-wrap{
+    position:relative;
+    width:172px; height:172px;
+    margin-bottom:46px;
+    filter:drop-shadow(3px 8px 14px rgba(60,25,12,.28)) drop-shadow(0 1px 2px rgba(60,25,12,.22));
+    transform:rotate(-4deg);
+  }
+  .seal-wrap svg{display:block; width:100%; height:100%}
+
+  /* TYPE */
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--terra-deep);
+    opacity:.78;
+    margin-bottom:20px;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:"";
+    display:inline-block;
+    vertical-align:middle;
+    width:22px; height:1px;
+    background:var(--terra);
+    opacity:.55;
+    margin:0 14px;
+  }
+
+  .wordmark{
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-size:104px;
+    line-height:.92;
+    letter-spacing:-0.018em;
+    color:var(--forest);
+    margin:0;
+  }
+  .wordmark .dot{color:var(--terra)}
+
+  .rule{
+    width:64px; height:1px;
+    background:var(--terra);
+    opacity:.7;
+    margin:26px 0 22px;
+  }
+
+  .headline{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:32px;
+    line-height:1.25;
+    color:var(--forest);
+    margin:0;
+    letter-spacing:.002em;
+  }
+  .headline .verb{
+    position:relative;
+    color:var(--forest);
+  }
+
+  .lede{
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--earth);
+    opacity:.86;
+    max-width:480px;
+    margin:24px auto 0;
+  }
+
+  .ctas{
+    margin-top:30px;
+    display:flex;
+    gap:22px;
+    align-items:center;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:14px 22px;
+    border-radius:999px;
+    transition:all .25s ease;
+    display:inline-flex; align-items:center; gap:10px;
+  }
+  .btn-primary{
+    background:var(--forest);
+    color:var(--cream);
+    border:1px solid var(--forest);
+  }
+  .btn-primary:hover{ background:#0a2d0d; }
+  .btn-primary .arrow{
+    display:inline-block; transition:transform .25s ease;
+  }
+  .btn-primary:hover .arrow{ transform:translateX(3px); }
+
+  .btn-link{
+    color:var(--earth);
+    font-style:italic;
+    font-family:'EB Garamond',serif;
+    font-size:16px;
+    letter-spacing:.005em;
+    text-transform:none;
+    padding:6px 2px;
+    border-bottom:1px solid rgba(60,35,15,.35);
+    border-radius:0;
+  }
+  .btn-link:hover{ color:var(--terra-deep); border-bottom-color:var(--terra); }
+
+  /* FOOTER */
+  .footer{
+    display:flex; align-items:flex-end; justify-content:space-between;
+    gap:24px;
+    margin-top:18px;
+  }
+  .colophon{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13.5px;
+    color:var(--earth);
+    opacity:.62;
+    letter-spacing:.01em;
+  }
+  .colophon b{
+    font-family:'Inter',sans-serif;
+    font-style:normal;
+    font-weight:500;
+    font-size:10.5px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--terra-deep);
+    margin-right:8px;
+    opacity:.85;
+  }
+  .footer .right{
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--earth);
+    opacity:.55;
+    text-align:right;
+  }
+  .footer .right span{display:block; margin-top:4px; opacity:.7}
+
+  /* mobile */
+  @media (max-width: 720px){
+    .scene{ padding:20px 22px 22px; }
+    .topbar nav{gap:18px}
+    .topbar nav a:nth-child(n+3){display:none}
+    .center{padding:18px 4px 8px}
+    .seal-wrap{ width:96px; height:96px; margin-bottom:30px;}
+    .wordmark{ font-size:62px; }
+    .headline{ font-size:22px; }
+    .lede{ font-size:13.5px; }
+    .footer{ flex-direction:column; align-items:center; text-align:center; gap:14px;}
+    .footer .right{ text-align:center; }
+  }
+
+  @media (max-width:380px){
+    .topbar .meta{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- SVG defs once, reused by seal -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- wax body radial: lit from top-left -->
+    <radialGradient id="waxBody" cx="35%" cy="30%" r="80%">
+      <stop offset="0%"  stop-color="#D17A3D"/>
+      <stop offset="28%" stop-color="#B46A2C"/>
+      <stop offset="60%" stop-color="#7E2A18"/>
+      <stop offset="100%" stop-color="#4a0f0f"/>
+    </radialGradient>
+
+    <!-- subtle highlight gloss -->
+    <radialGradient id="waxGloss" cx="32%" cy="22%" r="35%">
+      <stop offset="0%" stop-color="rgba(255,228,196,0.55)"/>
+      <stop offset="60%" stop-color="rgba(255,228,196,0)"/>
+    </radialGradient>
+
+    <!-- soft inner darkening near rim -->
+    <radialGradient id="waxRim" cx="50%" cy="55%" r="55%">
+      <stop offset="60%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="100%" stop-color="rgba(40,8,8,0.55)"/>
+    </radialGradient>
+
+    <!-- organic wavy edge via turbulence + displacement -->
+    <filter id="waxEdge" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.022" numOctaves="2" seed="7" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="9" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+
+    <!-- pressed (debossed) shadow for the O. and the leaf -->
+    <filter id="pressed" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0.6" result="blur"/>
+      <feOffset in="blur" dx="0.6" dy="1.2" result="off"/>
+      <feFlood flood-color="#2a0808" flood-opacity="0.55"/>
+      <feComposite in2="off" operator="in" result="shadow"/>
+      <feMerge>
+        <feMergeNode in="shadow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- subtle highlight (light edge) on the deboss to look indented -->
+    <filter id="indent" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="0.5" result="b"/>
+      <feSpecularLighting in="b" specularExponent="22" lighting-color="#ffd8a8" surfaceScale="2" result="spec">
+        <feDistantLight azimuth="135" elevation="55"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="SourceAlpha" operator="in" result="specClip"/>
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="specClip"/>
+      </feMerge>
+    </filter>
+
+    <!-- noise grain inside the wax -->
+    <filter id="waxGrain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="2" result="g"/>
+      <feColorMatrix in="g" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.35 0"/>
+      <feComposite in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<main class="scene">
+
+  <header class="topbar">
+    <div class="mark">Oikos<span style="color:var(--terra)">.</span> by Angelina</div>
+    <nav>
+      <a href="#what-we-do">What we do</a>
+      <a href="#process">Process</a>
+      <a href="#journal">Journal</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="meta">Athens · London · 2026</div>
+  </header>
+
+  <section class="center">
+    <div class="frame">
+
+      <div class="seal-wrap" aria-hidden="true">
+        <svg viewBox="0 0 160 160">
+          <!-- The wax body, with displacement filter for organic edge -->
+          <g filter="url(#waxEdge)">
+            <!-- main blob: a slightly off-round circle to start -->
+            <circle cx="80" cy="80" r="60" fill="url(#waxBody)"/>
+            <!-- secondary drip blobs to break the circle -->
+            <ellipse cx="118" cy="92" rx="14" ry="10" fill="#7E2A18" opacity="0.95"/>
+            <ellipse cx="44" cy="108" rx="12" ry="8" fill="#7E2A18" opacity="0.95"/>
+            <ellipse cx="84" cy="22" rx="13" ry="6" fill="#a8451f" opacity="0.85"/>
+          </g>
+
+          <!-- inner darkening ring (rim shadow) clipped to circle -->
+          <g style="mix-blend-mode:multiply">
+            <circle cx="80" cy="80" r="58" fill="url(#waxRim)" opacity="0.9"/>
+          </g>
+
+          <!-- wax grain over body -->
+          <g style="mix-blend-mode:overlay; opacity:.55">
+            <circle cx="80" cy="80" r="58" fill="#000" filter="url(#waxGrain)"/>
+          </g>
+
+          <!-- highlight gloss -->
+          <circle cx="80" cy="80" r="58" fill="url(#waxGloss)" style="mix-blend-mode:screen"/>
+
+          <!-- thin embossed border ring -->
+          <circle cx="80" cy="80" r="50" fill="none" stroke="#3a0d0d" stroke-width="0.7" opacity="0.55"/>
+          <circle cx="80" cy="80" r="50" fill="none" stroke="#f4caa1" stroke-width="0.4" opacity="0.30" transform="translate(-0.3,-0.5)"/>
+
+          <!-- pressed O. -->
+          <g filter="url(#pressed)">
+            <text x="80" y="92"
+                  text-anchor="middle"
+                  font-family="EB Garamond, serif"
+                  font-style="italic"
+                  font-weight="500"
+                  font-size="48"
+                  fill="#3a0808"
+                  opacity="0.92">O.</text>
+          </g>
+          <!-- light edge highlight on the O to amplify the press -->
+          <text x="80" y="92"
+                text-anchor="middle"
+                font-family="EB Garamond, serif"
+                font-style="italic"
+                font-weight="500"
+                font-size="48"
+                fill="none"
+                stroke="#ffd8a8"
+                stroke-width="0.4"
+                opacity="0.55"
+                transform="translate(-0.4,-0.7)">O.</text>
+
+          <!-- olive sprig: tiny, pressed, deep forest green -->
+          <g transform="translate(108,52) rotate(28)" filter="url(#pressed)">
+            <!-- stem -->
+            <path d="M 0 0 C 4 6, 9 13, 16 22"
+                  stroke="#0B3910" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.85"/>
+            <!-- 3 paired olive leaves (long oval, opposite paired) -->
+            <ellipse cx="3" cy="4" rx="3.4" ry="1.1" transform="rotate(-55 3 4)" fill="#0B3910" opacity="0.85"/>
+            <ellipse cx="6" cy="6" rx="3.4" ry="1.1" transform="rotate(55 6 6)"  fill="#0B3910" opacity="0.85"/>
+
+            <ellipse cx="8" cy="11" rx="3.8" ry="1.2" transform="rotate(-50 8 11)" fill="#0B3910" opacity="0.85"/>
+            <ellipse cx="11" cy="13" rx="3.8" ry="1.2" transform="rotate(60 11 13)"  fill="#0B3910" opacity="0.85"/>
+
+            <ellipse cx="13" cy="19" rx="3.4" ry="1.1" transform="rotate(-45 13 19)" fill="#0B3910" opacity="0.8"/>
+            <ellipse cx="16" cy="21" rx="3.4" ry="1.1" transform="rotate(65 16 21)" fill="#0B3910" opacity="0.8"/>
+
+            <!-- tiny olive fruit -->
+            <circle cx="17" cy="24" r="1.4" fill="#0B3910" opacity="0.9"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="eyebrow">Est. with care · Athens</div>
+
+      <h1 class="wordmark">Oikos<span class="dot">.</span></h1>
+
+      <div class="rule"></div>
+
+      <p class="headline">For a life that <span class="verb">sustains</span> you.</p>
+
+      <p class="lede">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.</p>
+
+      <div class="ctas">
+        <a class="btn btn-primary" href="#what-we-do">See what we do <span class="arrow">→</span></a>
+        <a class="btn btn-link" href="#contact">or start a conversation</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="colophon">
+      <b>Oikos</b> <span style="opacity:.6">/ ˈiːkɒs /  n.</span>  household · ecosystem · home
+    </div>
+    <div class="right">
+      Pressed in cream &amp; terracotta
+      <span>No. 17 — Hand-Sealed Edition</span>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>
