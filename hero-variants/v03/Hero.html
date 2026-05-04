@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Oikos — for a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --forest:#0B3910;
+    --terracotta:#B46A2C;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:var(--cream);
+    color:var(--forest);
+    font-family:'Inter',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  body{
+    min-height:100vh;
+    padding:clamp(18px,2.4vw,34px);
+    overflow-x:hidden;
+  }
+
+  /* faint herbarium plate frame */
+  .plate{
+    max-width:1340px;
+    margin:0 auto;
+    position:relative;
+    min-height:calc(100vh - clamp(36px,4.8vw,68px));
+    border:1px solid rgba(11,57,16,0.10);
+    padding:clamp(20px,2.6vw,40px) clamp(22px,2.8vw,44px) clamp(20px,2.4vw,34px);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* corner registers */
+  .reg{
+    position:absolute;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:12.5px;
+    letter-spacing:0.22em;
+    color:var(--earth);
+    opacity:0.7;
+    text-transform:uppercase;
+  }
+  .reg-tl{top:clamp(20px,2.6vw,40px);left:clamp(22px,2.8vw,44px);}
+  .reg-tr{top:clamp(20px,2.6vw,40px);right:clamp(22px,2.8vw,44px);text-align:right;}
+  .reg-bl{bottom:clamp(20px,2.4vw,34px);left:clamp(22px,2.8vw,44px);}
+  .reg-br{bottom:clamp(20px,2.4vw,34px);right:clamp(22px,2.8vw,44px);text-align:right;}
+  .reg .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--terracotta);margin:0 8px 2px;vertical-align:middle;opacity:0.8;}
+
+  /* main composition */
+  .hero{
+    flex:1;
+    display:grid;
+    grid-template-columns: minmax(240px,1fr) minmax(420px,540px) minmax(240px,1fr);
+    grid-template-rows: minmax(0,1fr) minmax(0,1fr) minmax(0,1fr);
+    column-gap:clamp(12px,1.4vw,28px);
+    align-items:center;
+    padding-top:clamp(8px,1.4vw,22px);
+    min-height:0;
+  }
+
+  .oikos{
+    grid-column:1;grid-row:1;
+    align-self:start;
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-size:clamp(56px,8.6vw,118px);
+    line-height:0.88;
+    letter-spacing:-0.025em;
+    color:var(--forest);
+    margin-top:-0.04em;
+  }
+  .oikos .dot-end{color:var(--terracotta);}
+
+  .life-that{
+    grid-column:1;grid-row:2;
+    align-self:center;
+    font-family:'EB Garamond',serif;
+    font-weight:400;
+    font-size:clamp(24px,2.9vw,40px);
+    line-height:1.06;
+    letter-spacing:-0.005em;
+    color:var(--forest);
+    max-width:14ch;
+  }
+  .life-that em{
+    font-style:italic;
+    color:var(--earth);
+    opacity:0.88;
+  }
+
+  .sustains{
+    grid-column:3;grid-row:3;
+    align-self:end;
+    text-align:right;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(48px,7.4vw,104px);
+    line-height:0.9;
+    letter-spacing:-0.012em;
+    color:var(--terracotta);
+    margin-bottom:-0.05em;
+  }
+
+  /* centerpiece */
+  .branch{
+    grid-column:2;
+    grid-row:1 / span 3;
+    align-self:stretch;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    min-height:0;
+  }
+  .branch svg{
+    width:100%;
+    max-width:520px;
+    height:100%;
+    max-height:74vh;
+    display:block;
+    overflow:visible;
+  }
+  .specimen{
+    margin-top:clamp(8px,1vw,16px);
+    text-align:center;
+    color:var(--earth);
+    opacity:0.78;
+    pointer-events:none;
+  }
+  .specimen .latin{
+    display:block;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:14px;
+    letter-spacing:0.04em;
+  }
+  .specimen .num{
+    display:block;
+    margin-top:4px;
+    font-family:'Inter',sans-serif;
+    font-size:9.5px;
+    letter-spacing:0.34em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    opacity:0.8;
+  }
+  .specimen .rule{
+    display:block;
+    width:48px;
+    height:1px;
+    background:var(--earth);
+    opacity:0.35;
+    margin:6px auto;
+  }
+
+  /* coda — sub + ctas */
+  .coda{
+    margin-top:auto;
+    padding-top:clamp(28px,3vw,40px);
+    border-top:1px solid rgba(11,57,16,0.12);
+    display:grid;
+    grid-template-columns: minmax(0,1.5fr) auto;
+    gap:clamp(24px,3vw,56px);
+    align-items:end;
+  }
+  .sub{
+    font-family:'EB Garamond',serif;
+    font-size:clamp(15px,1.18vw,18.5px);
+    line-height:1.55;
+    color:var(--earth);
+    max-width:62ch;
+    letter-spacing:0.005em;
+  }
+  .sub em{color:var(--forest);font-style:italic;}
+  .ctas{
+    display:flex;
+    align-items:center;
+    gap:clamp(20px,2.2vw,36px);
+    white-space:nowrap;
+  }
+  .cta{
+    font-family:'EB Garamond',serif;
+    font-size:17px;
+    color:var(--forest);
+    text-decoration:none;
+    position:relative;
+    padding-bottom:5px;
+    letter-spacing:0.005em;
+    transition:color .35s ease;
+  }
+  .cta-primary::after{
+    content:"";position:absolute;left:0;bottom:0;
+    width:100%;height:1px;background:var(--forest);
+    transition:background .35s ease;
+  }
+  .cta-primary:hover{color:var(--terracotta);}
+  .cta-primary:hover::after{background:var(--terracotta);}
+  .cta-arrow{display:inline-block;margin-left:9px;transition:transform .4s ease;}
+  .cta-primary:hover .cta-arrow{transform:translateX(5px);}
+  .cta-secondary{
+    font-style:italic;
+    color:var(--earth);
+    opacity:0.78;
+  }
+  .cta-secondary:hover{opacity:1;color:var(--forest);}
+
+  /* leaf sway — gentle, varied */
+  .leaf{transform-box:fill-box;transform-origin:0% 50%;will-change:transform;}
+  .l01{animation:swayA 7.4s ease-in-out -0.2s infinite;}
+  .l02{animation:swayB 8.6s ease-in-out -1.2s infinite;}
+  .l03{animation:swayA 9.1s ease-in-out -2.4s infinite;}
+  .l04{animation:swayB 7.9s ease-in-out -0.8s infinite;}
+  .l05{animation:swayA 8.3s ease-in-out -3.1s infinite;}
+  .l06{animation:swayB 9.6s ease-in-out -1.6s infinite;}
+  .l07{animation:swayA 7.7s ease-in-out -2.0s infinite;}
+  .l08{animation:swayB 8.9s ease-in-out -3.5s infinite;}
+  .l09{animation:swayA 9.4s ease-in-out -1.0s infinite;}
+  .l10{animation:swayB 8.1s ease-in-out -2.7s infinite;}
+  .l11{animation:swayA 9.8s ease-in-out -0.5s infinite;}
+  .drupe{transform-box:fill-box;transform-origin:50% 0%;animation:drift 11s ease-in-out -2s infinite;}
+  .drupe2{animation:drift 12.4s ease-in-out -4s infinite;}
+
+  @keyframes swayA{
+    0%,100%{transform:rotate(-1.4deg);}
+    50%{transform:rotate(1.5deg);}
+  }
+  @keyframes swayB{
+    0%,100%{transform:rotate(1.2deg);}
+    50%{transform:rotate(-1.7deg);}
+  }
+  @keyframes drift{
+    0%,100%{transform:rotate(-0.8deg) translateY(0);}
+    50%{transform:rotate(0.8deg) translateY(1px);}
+  }
+
+  /* breathing sun */
+  .sun{transform-box:fill-box;transform-origin:50% 50%;animation:breathe 14s ease-in-out infinite;}
+  @keyframes breathe{
+    0%,100%{transform:scale(1);opacity:0.10;}
+    50%{transform:scale(1.06);opacity:0.16;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .leaf,.drupe,.sun{animation:none !important;}
+  }
+
+  /* mobile */
+  @media (max-width:860px){
+    .plate{padding:24px 18px 24px;}
+    .reg{font-size:10.5px;letter-spacing:0.18em;}
+    .hero{
+      grid-template-columns:1fr;
+      grid-template-rows:auto auto auto auto;
+      gap:8px;
+      padding-top:32px;
+    }
+    .oikos{grid-column:1;grid-row:1;font-size:64px;text-align:center;}
+    .branch{grid-column:1;grid-row:2;margin:8px 0 16px;}
+    .branch svg{height:46vh;max-height:420px;}
+    .life-that{grid-column:1;grid-row:3;text-align:center;font-size:30px;max-width:none;}
+    .sustains{grid-column:1;grid-row:4;text-align:center;font-size:60px;margin-bottom:0;}
+    .coda{grid-template-columns:1fr;gap:18px;padding-top:28px;}
+    .ctas{flex-direction:column;align-items:flex-start;gap:14px;white-space:normal;}
+    .reg-tr,.reg-br{display:none;}
+  }
+  @media (max-width:420px){
+    .oikos{font-size:54px;}
+    .sustains{font-size:50px;}
+  }
+</style>
+</head>
+<body>
+<main class="plate">
+
+  <span class="reg reg-tl">Oikos<span class="dot"></span>Atelier · Delhi</span>
+  <span class="reg reg-tr">Anno<span class="dot"></span>MMXXVI</span>
+
+  <section class="hero">
+
+    <h1 class="oikos">Oikos<span class="dot-end">.</span></h1>
+
+    <p class="life-that">for a life<br/>that <em>—</em></p>
+
+    <p class="sustains">sustains<br/>you.</p>
+
+    <figure class="branch" aria-hidden="true">
+      <svg viewBox="0 0 600 820" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+
+        <!-- soft sun -->
+        <circle class="sun" cx="380" cy="290" r="78" fill="#B46A2C" />
+
+        <g stroke="#B46A2C" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+          <!-- main stem with subtle organic kinks -->
+          <path d="M 168 790
+                   C 200 700, 270 668, 290 596
+                   C 308 528, 250 484, 280 396
+                   C 308 312, 376 304, 396 226
+                   C 412 162, 462 122, 498 70"
+                stroke-width="1.55" />
+
+          <!-- tiny lenticels (texture pricks on stem) -->
+          <path d="M 234 706 l 0 0" stroke-width="1.4" />
+          <path d="M 286 588 l 0 0" stroke-width="1.4" />
+          <circle cx="234" cy="706" r="0.9" fill="#B46A2C" stroke="none"/>
+          <circle cx="262" cy="652" r="0.8" fill="#B46A2C" stroke="none"/>
+          <circle cx="296" cy="556" r="0.9" fill="#B46A2C" stroke="none"/>
+          <circle cx="276" cy="468" r="0.8" fill="#B46A2C" stroke="none"/>
+          <circle cx="300" cy="412" r="0.9" fill="#B46A2C" stroke="none"/>
+          <circle cx="358" cy="332" r="0.8" fill="#B46A2C" stroke="none"/>
+          <circle cx="396" cy="240" r="0.9" fill="#B46A2C" stroke="none"/>
+          <circle cx="438" cy="166" r="0.8" fill="#B46A2C" stroke="none"/>
+          <circle cx="476" cy="108" r="0.9" fill="#B46A2C" stroke="none"/>
+
+          <!-- ============ LEAF PAIR 1 — base, node (228, 698) ============ -->
+          <g transform="translate(228 698) rotate(214)"><g class="leaf l01">
+            <path d="M 0 0 C 22 -10, 64 -13, 96 0 C 64 12, 22 9, 0 0 Z" stroke-width="1.42"/>
+            <path d="M 0 0 L 96 0" stroke-width="0.95"/>
+            <path d="M 22 0 Q 30 -3, 40 -8" stroke-width="0.85"/>
+            <path d="M 22 0 Q 30 3, 40 7" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 -3, 62 -8" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 3, 62 7" stroke-width="0.85"/>
+            <path d="M 64 0 Q 72 -2, 80 -5" stroke-width="0.8"/>
+            <path d="M 64 0 Q 72 2, 80 5" stroke-width="0.8"/>
+          </g></g>
+          <g transform="translate(228 698) rotate(38)"><g class="leaf l02">
+            <path d="M 0 0 C 24 -11, 70 -14, 104 0 C 70 13, 24 11, 0 0 Z" stroke-width="1.5"/>
+            <path d="M 0 0 L 104 0" stroke-width="1"/>
+            <path d="M 24 0 Q 32 -4, 44 -9" stroke-width="0.9"/>
+            <path d="M 24 0 Q 32 4, 44 8" stroke-width="0.9"/>
+            <path d="M 48 0 Q 56 -3, 68 -9" stroke-width="0.9"/>
+            <path d="M 48 0 Q 56 3, 68 8" stroke-width="0.9"/>
+            <path d="M 72 0 Q 80 -2, 90 -5" stroke-width="0.85"/>
+            <path d="M 72 0 Q 80 2, 90 5" stroke-width="0.85"/>
+          </g></g>
+
+          <!-- ============ LEAF PAIR 2 — node (286, 580) ============ -->
+          <g transform="translate(286 580) rotate(208)"><g class="leaf l03">
+            <path d="M 0 0 C 22 -9, 66 -12, 98 0 C 66 11, 22 9, 0 0 Z" stroke-width="1.4"/>
+            <path d="M 0 0 L 98 0" stroke-width="0.95"/>
+            <path d="M 22 0 Q 30 -3, 42 -8" stroke-width="0.85"/>
+            <path d="M 22 0 Q 30 3, 42 7" stroke-width="0.85"/>
+            <path d="M 46 0 Q 54 -3, 66 -8" stroke-width="0.85"/>
+            <path d="M 46 0 Q 54 3, 66 7" stroke-width="0.85"/>
+            <path d="M 68 0 Q 76 -2, 84 -5" stroke-width="0.8"/>
+            <path d="M 68 0 Q 76 2, 84 5" stroke-width="0.8"/>
+          </g></g>
+          <g transform="translate(286 580) rotate(28)"><g class="leaf l04">
+            <path d="M 0 0 C 23 -10, 66 -12, 92 0 C 66 11, 23 10, 0 0 Z" stroke-width="1.45"/>
+            <path d="M 0 0 L 92 0" stroke-width="0.95"/>
+            <path d="M 22 0 Q 30 -3, 40 -7" stroke-width="0.85"/>
+            <path d="M 22 0 Q 30 3, 40 7" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 -3, 62 -7" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 3, 62 7" stroke-width="0.85"/>
+            <path d="M 66 0 Q 72 -2, 80 -4" stroke-width="0.8"/>
+            <path d="M 66 0 Q 72 2, 80 4" stroke-width="0.8"/>
+          </g></g>
+
+          <!-- ============ LEAF PAIR 3 — middle, node (272, 458) ============ -->
+          <g transform="translate(272 458) rotate(198)"><g class="leaf l05">
+            <path d="M 0 0 C 24 -11, 70 -13, 102 0 C 70 12, 24 10, 0 0 Z" stroke-width="1.5"/>
+            <path d="M 0 0 L 102 0" stroke-width="1"/>
+            <path d="M 24 0 Q 32 -4, 44 -9" stroke-width="0.9"/>
+            <path d="M 24 0 Q 32 4, 44 8" stroke-width="0.9"/>
+            <path d="M 48 0 Q 56 -3, 68 -9" stroke-width="0.9"/>
+            <path d="M 48 0 Q 56 3, 68 8" stroke-width="0.9"/>
+            <path d="M 72 0 Q 80 -2, 90 -5" stroke-width="0.85"/>
+            <path d="M 72 0 Q 80 2, 90 5" stroke-width="0.85"/>
+          </g></g>
+          <g transform="translate(272 458) rotate(18)"><g class="leaf l06">
+            <path d="M 0 0 C 22 -10, 66 -12, 95 0 C 66 11, 22 9, 0 0 Z" stroke-width="1.4"/>
+            <path d="M 0 0 L 95 0" stroke-width="0.95"/>
+            <path d="M 22 0 Q 30 -3, 40 -8" stroke-width="0.85"/>
+            <path d="M 22 0 Q 30 3, 40 7" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 -3, 62 -8" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 3, 62 7" stroke-width="0.85"/>
+            <path d="M 66 0 Q 72 -2, 80 -5" stroke-width="0.8"/>
+            <path d="M 66 0 Q 72 2, 80 5" stroke-width="0.8"/>
+          </g></g>
+
+          <!-- ============ LEAF PAIR 4 — node (348, 332) ============ -->
+          <g transform="translate(348 332) rotate(220)"><g class="leaf l07">
+            <path d="M 0 0 C 22 -9, 64 -12, 90 0 C 64 11, 22 9, 0 0 Z" stroke-width="1.4"/>
+            <path d="M 0 0 L 90 0" stroke-width="0.95"/>
+            <path d="M 20 0 Q 28 -3, 38 -7" stroke-width="0.85"/>
+            <path d="M 20 0 Q 28 3, 38 7" stroke-width="0.85"/>
+            <path d="M 42 0 Q 50 -3, 60 -7" stroke-width="0.85"/>
+            <path d="M 42 0 Q 50 3, 60 7" stroke-width="0.85"/>
+            <path d="M 62 0 Q 68 -2, 76 -4" stroke-width="0.8"/>
+            <path d="M 62 0 Q 68 2, 76 4" stroke-width="0.8"/>
+          </g></g>
+          <g transform="translate(348 332) rotate(42)"><g class="leaf l08">
+            <path d="M 0 0 C 23 -10, 66 -12, 96 0 C 66 11, 23 9, 0 0 Z" stroke-width="1.45"/>
+            <path d="M 0 0 L 96 0" stroke-width="0.95"/>
+            <path d="M 22 0 Q 30 -3, 42 -8" stroke-width="0.85"/>
+            <path d="M 22 0 Q 30 3, 42 7" stroke-width="0.85"/>
+            <path d="M 46 0 Q 54 -3, 66 -8" stroke-width="0.85"/>
+            <path d="M 46 0 Q 54 3, 66 7" stroke-width="0.85"/>
+            <path d="M 68 0 Q 76 -2, 84 -5" stroke-width="0.8"/>
+            <path d="M 68 0 Q 76 2, 84 5" stroke-width="0.8"/>
+          </g></g>
+
+          <!-- ============ LEAF PAIR 5 — upper, node (424, 196) ============ -->
+          <g transform="translate(424 196) rotate(204)"><g class="leaf l09">
+            <path d="M 0 0 C 22 -10, 66 -12, 94 0 C 66 11, 22 9, 0 0 Z" stroke-width="1.42"/>
+            <path d="M 0 0 L 94 0" stroke-width="0.95"/>
+            <path d="M 22 0 Q 30 -3, 40 -7" stroke-width="0.85"/>
+            <path d="M 22 0 Q 30 3, 40 7" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 -3, 62 -7" stroke-width="0.85"/>
+            <path d="M 44 0 Q 52 3, 62 7" stroke-width="0.85"/>
+            <path d="M 66 0 Q 72 -2, 80 -4" stroke-width="0.8"/>
+            <path d="M 66 0 Q 72 2, 80 4" stroke-width="0.8"/>
+          </g></g>
+          <g transform="translate(424 196) rotate(20)"><g class="leaf l10">
+            <path d="M 0 0 C 22 -9, 60 -11, 84 0 C 60 10, 22 8, 0 0 Z" stroke-width="1.38"/>
+            <path d="M 0 0 L 84 0" stroke-width="0.92"/>
+            <path d="M 20 0 Q 28 -3, 38 -7" stroke-width="0.85"/>
+            <path d="M 20 0 Q 28 3, 38 6" stroke-width="0.85"/>
+            <path d="M 42 0 Q 50 -3, 58 -6" stroke-width="0.85"/>
+            <path d="M 42 0 Q 50 3, 58 6" stroke-width="0.85"/>
+          </g></g>
+
+          <!-- ============ APEX LEAF ============ -->
+          <g transform="translate(498 70) rotate(-18)"><g class="leaf l11">
+            <path d="M 0 0 C 18 -8, 50 -10, 76 0 C 50 9, 18 7, 0 0 Z" stroke-width="1.36"/>
+            <path d="M 0 0 L 76 0" stroke-width="0.92"/>
+            <path d="M 18 0 Q 26 -2, 34 -5" stroke-width="0.82"/>
+            <path d="M 18 0 Q 26 2, 34 5" stroke-width="0.82"/>
+            <path d="M 38 0 Q 46 -2, 54 -5" stroke-width="0.82"/>
+            <path d="M 38 0 Q 46 2, 54 5" stroke-width="0.82"/>
+          </g></g>
+
+          <!-- ============ OLIVES (drupes) clustered at node 3 ============ -->
+          <g transform="translate(284 506)"><g class="drupe">
+            <path d="M -2 -22 Q 0 -16, 0 -12" stroke-width="0.95"/>
+            <ellipse cx="0" cy="0" rx="9.5" ry="13.5" stroke-width="1.35"/>
+            <path d="M -3 -8 Q -1 -3, 2 1" stroke-width="0.7"/>
+          </g></g>
+          <g transform="translate(316 522)"><g class="drupe drupe2">
+            <path d="M 1 -20 Q -1 -14, -2 -10" stroke-width="0.95"/>
+            <ellipse cx="0" cy="0" rx="8.5" ry="12.5" stroke-width="1.3"/>
+            <path d="M -2 -7 Q 0 -2, 3 2" stroke-width="0.7"/>
+          </g></g>
+
+        </g>
+
+      </svg>
+
+      <figcaption class="specimen">
+        <span class="latin">Olea europaea</span>
+        <span class="rule"></span>
+        <span class="num">No. iii · Mediterranean</span>
+      </figcaption>
+    </figure>
+
+  </section>
+
+  <div class="coda">
+    <p class="sub">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel <em>beautiful, calm, and personal</em>.</p>
+    <nav class="ctas" aria-label="primary">
+      <a href="#what-we-do" class="cta cta-primary">See what we do<span class="cta-arrow">→</span></a>
+      <a href="#contact" class="cta cta-secondary">Or start a conversation</a>
+    </nav>
+  </div>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Oikos. For a life that sustains you.</title>
+<meta name="description" content="Biophilic interiors, conscious gifting, and a quiet workplace concierge — Oikos by Angelina, Delhi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap">
+<style>
+  :root {
+    --cream:      #FFF8EB;
+    --forest:     #0B3910;
+    --terracotta: #B46A2C;
+    --sand:       #ECCDB2;
+    --honey:      #DA9B66;
+    --gold:       #E4C58A;
+    --earth:      #3C230F;
+    --sage:       #939991;
+
+    /* progress channels — defaults to 1 so a no-JS render shows the full composed state */
+    --p:  1;
+    --p1: 1;
+    --p2: 1;
+    --p3: 1;
+    --p4: 1;
+
+    --serif: 'EB Garamond', 'Georgia', 'Times New Roman', serif;
+    --sans:  'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--forest);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  body { font-size: 16px; line-height: 1.5; }
+
+  /* the hero is twice the viewport so we have a 100vh sticky stage + 100vh of scroll-driven choreography */
+  .hero {
+    position: relative;
+    min-height: 200vh;
+    background: var(--cream);
+  }
+
+  .stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* faint paper warmth — barely there, just enough to lift the cream off pure flat */
+  .stage::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(11,57,16,0.045), transparent 70%),
+      radial-gradient(ellipse 50% 50% at 0%   0%,  rgba(180,106,44,0.035), transparent 60%),
+      radial-gradient(ellipse 50% 50% at 100% 0%,  rgba(228,197,138,0.06), transparent 60%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* hairline frame, classical biophilic / Aesop-restaurant feel */
+  .stage::after {
+    content: "";
+    position: absolute;
+    inset: clamp(0.85rem, 1.4vw, 1.4rem);
+    border: 1px solid rgba(11,57,16,0.10);
+    border-radius: 2px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ───── meta header ───── */
+
+  .meta {
+    position: relative;
+    z-index: 3;
+    padding: clamp(1.4rem, 2.8vw, 2.4rem) clamp(1.6rem, 3.5vw, 3rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    color: var(--forest);
+  }
+
+  .mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(0.95rem, 1.05vw, 1.05rem);
+    letter-spacing: 0.005em;
+    color: var(--forest);
+  }
+
+  .mark .glyph {
+    width: 1.05em; height: 1.05em;
+    display: inline-block;
+    color: var(--terracotta);
+  }
+
+  .mark .glyph svg { width: 100%; height: 100%; display: block; }
+
+  .meta-right {
+    text-align: right;
+    font-size: 0.7rem;
+    line-height: 1.7;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--earth);
+  }
+
+  .meta-right .place {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    text-transform: none;
+    color: var(--forest);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .meta-right .tags { opacity: 0.72; }
+
+  /* ───── kinetic composition ───── */
+
+  .composition {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 clamp(1.25rem, 5vw, 4rem);
+    gap: clamp(1.6rem, 3.5vh, 3.2rem);
+  }
+
+  .display {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--forest);
+    line-height: 0.95;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.45rem, 1.2vh, 1.1rem);
+    will-change: transform;
+  }
+
+  /* a delicate bracketed mark above Oikos — like a manuscript fold-mark */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.7rem, 1.4vw, 1.1rem);
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--earth);
+    font-size: clamp(0.7rem, 0.85vw, 0.82rem);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: clamp(0.6rem, 1.6vh, 1.4rem);
+  }
+  .ornament .rule {
+    width: clamp(2.2rem, 5vw, 4.5rem);
+    height: 1px;
+    background: linear-gradient(to right, transparent, currentColor 40%, currentColor 60%, transparent);
+  }
+  .ornament .word-meta { letter-spacing: 0.18em; font-style: normal; font-family: var(--sans); font-weight: 500; font-size: 0.62rem; }
+
+  .word {
+    display: inline-block;
+    will-change: opacity, transform, filter, letter-spacing;
+  }
+
+  /* ‘Oikos.’ — anchor of the composition, present from the start */
+  .oikos {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(5rem, 18vw, 17rem);
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+    color: var(--forest);
+    /* a subtle ‘settle’ as the rest of the line composes around it */
+    transform: translateY(calc((1 - var(--p)) * 4vh));
+    transition: letter-spacing 0.3s ease;
+  }
+
+  .oikos .period {
+    color: var(--terracotta);
+  }
+
+  /* ‘for a life that’ — line 2 */
+  .line2 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(1.4rem, 4.2vw, 3.4rem);
+    line-height: 1.05;
+    color: var(--sage);
+    margin-top: clamp(0.4rem, 1vh, 1rem);
+
+    opacity: var(--p1);
+    transform: translateY(calc((1 - var(--p1)) * 40px));
+    filter: blur(calc((1 - var(--p1)) * 8px));
+    letter-spacing: calc(-0.005em + (1 - var(--p1)) * 0.06em);
+  }
+
+  .line3 {
+    display: inline-flex;
+    gap: 0.32em;
+    align-items: baseline;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.7rem, 5.4vw, 4.4rem);
+    line-height: 1.05;
+  }
+
+  /* ‘sustains’ — italic terracotta — the emotional core of the line */
+  .sustains {
+    color: var(--terracotta);
+    font-weight: 500;
+    position: relative;
+
+    opacity: var(--p2);
+    transform: translateY(calc((1 - var(--p2)) * 40px));
+    filter: blur(calc((1 - var(--p2)) * 8px));
+    letter-spacing: calc(-0.012em + (1 - var(--p2)) * 0.07em);
+  }
+
+  /* a barely-there underline that draws as ‘sustains’ settles in */
+  .sustains::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    bottom: -0.05em;
+    height: 1px;
+    background: var(--terracotta);
+    transform-origin: left center;
+    transform: scaleX(var(--p2));
+    opacity: 0.35;
+    transition: transform 0.05s linear;
+  }
+
+  /* ‘you.’ — closes the thought */
+  .you {
+    color: var(--forest);
+    font-weight: 500;
+
+    opacity: var(--p3);
+    transform: translateY(calc((1 - var(--p3)) * 40px));
+    filter: blur(calc((1 - var(--p3)) * 8px));
+    letter-spacing: calc(-0.012em + (1 - var(--p3)) * 0.07em);
+  }
+
+  /* ───── epilogue (sub + CTAs) ───── */
+
+  .epilogue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 2.2vh, 1.7rem);
+    margin-top: clamp(1rem, 2vh, 2rem);
+    max-width: 60ch;
+    opacity: var(--p4);
+    transform: translateY(calc((1 - var(--p4)) * 22px));
+    transition: filter 0.2s ease;
+  }
+
+  .sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(0.98rem, 1.18vw, 1.18rem);
+    line-height: 1.6;
+    color: var(--earth);
+    text-align: center;
+    max-width: 56ch;
+    opacity: 0.86;
+  }
+
+  .ctas {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.8rem, 2vw, 1.6rem);
+    flex-wrap: wrap;
+    justify-content: center;
+    font-family: var(--sans);
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 220ms ease, background 220ms ease, transform 220ms ease, border-color 220ms ease;
+  }
+
+  .cta-primary {
+    background: var(--forest);
+    color: var(--cream);
+    padding: 0.95em 1.65em;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid var(--forest);
+  }
+  .cta-primary:hover {
+    background: var(--earth);
+    border-color: var(--earth);
+    transform: translateY(-1px);
+  }
+  .cta-primary .arrow {
+    display: inline-block;
+    transition: transform 220ms ease;
+  }
+  .cta-primary:hover .arrow { transform: translateX(4px); }
+
+  .cta-secondary {
+    color: var(--forest);
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.02rem;
+    letter-spacing: 0.005em;
+    border-bottom: 1px solid rgba(11,57,16,0.35);
+    padding: 0 0 0.18em;
+  }
+  .cta-secondary:hover {
+    color: var(--terracotta);
+    border-color: var(--terracotta);
+  }
+
+  /* ───── stamp / footer rail ───── */
+
+  .stamp {
+    position: relative;
+    z-index: 3;
+    padding: 0 clamp(1.6rem, 3.5vw, 3rem) clamp(1.2rem, 2.4vh, 2rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  .progress-rail {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75em;
+  }
+  .progress-rail .label {
+    font-family: var(--serif);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 0.86rem;
+    color: var(--earth);
+    opacity: 0.7;
+  }
+  .dots {
+    display: inline-flex;
+    gap: 0.42em;
+    align-items: center;
+  }
+  .dot {
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: rgba(11,57,16,0.12);
+    transition: background 320ms ease, transform 320ms ease, box-shadow 320ms ease;
+  }
+  .dot.active {
+    background: var(--terracotta);
+    transform: scale(1.05);
+    box-shadow: 0 0 0 3px rgba(180,106,44,0.10);
+  }
+
+  .continue {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    color: var(--forest);
+    text-decoration: none;
+    font-family: var(--serif);
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-size: 0.95rem;
+    opacity: var(--p4);
+    transform: translateY(calc((1 - var(--p4)) * 8px));
+    transition: color 220ms ease;
+  }
+  .continue:hover { color: var(--terracotta); }
+  .continue .arrow {
+    display: inline-block;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(3px); }
+  }
+
+  /* ‘scroll’ hint — only meaningful while the choreography is unspent */
+  .scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(4.5rem, 8vh, 6.5rem);
+    transform: translateX(-50%) translateY(calc(var(--p) * 12px));
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--sage);
+    opacity: max(0, 1 - var(--p) * 6);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .scroll-hint .stem {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(to bottom, var(--sage) 0%, transparent 100%);
+    animation: stem-pulse 2.6s ease-in-out infinite;
+  }
+
+  @keyframes stem-pulse {
+    0%, 100% { opacity: 0.45; }
+    50%      { opacity: 0.95; }
+  }
+
+  /* ───── mobile ───── */
+
+  @media (max-width: 720px) {
+    .stage::after { inset: 0.6rem; }
+    .meta { padding: 1.1rem 1.2rem; }
+    .meta-right { display: none; }
+    .ornament { font-size: 0.6rem; letter-spacing: 0.24em; gap: 0.6rem; }
+    .ornament .rule { width: 1.6rem; }
+    .ornament .word-meta { font-size: 0.56rem; }
+    .oikos { font-size: clamp(4rem, 22vw, 7rem); letter-spacing: -0.04em; }
+    .line2, .line3 { font-size: clamp(1.2rem, 6.4vw, 2.4rem); }
+    .sub { font-size: 1rem; line-height: 1.55; }
+    .ctas { flex-direction: column; gap: 0.9rem; }
+    .stamp { padding: 0 1.2rem 1rem; flex-direction: column; gap: 0.6rem; align-items: center; font-size: 0.6rem; }
+    .progress-rail .label { display: none; }
+    .scroll-hint { bottom: 7rem; font-size: 0.56rem; letter-spacing: 0.28em; }
+  }
+
+  @media (max-width: 380px) {
+    .oikos { font-size: 4.4rem; }
+    .line2, .line3 { font-size: 1.35rem; }
+  }
+
+  /* ───── reduced motion: snap to fully composed ───── */
+
+  @media (prefers-reduced-motion: reduce) {
+    :root { --p: 1; --p1: 1; --p2: 1; --p3: 1; --p4: 1; }
+    .word, .oikos, .line2, .sustains, .you, .epilogue, .continue {
+      transition: none !important;
+      animation: none !important;
+    }
+    .scroll-hint, .continue .arrow, .stem-pulse { animation: none !important; }
+    .scroll-hint { display: none; }
+    .hero { min-height: 100vh; }
+    .stage { position: static; height: auto; min-height: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="hero" aria-label="Hero">
+  <div class="stage">
+
+    <!-- top meta rail -->
+    <header class="meta" role="banner">
+      <span class="mark" aria-label="Oikos by Angelina">
+        <span class="glyph" aria-hidden="true">
+          <!-- a small organic seed-mark — three falling drops bound by a stem -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+            <path d="M12 3 C 12 8, 7 10, 7 14 a 5 5 0 0 0 10 0 C 17 10, 12 8, 12 3 Z"/>
+            <path d="M12 9 v 5" opacity="0.5"/>
+          </svg>
+        </span>
+        Oikos <span style="font-style:normal;color:var(--sage);margin:0 0.25em;letter-spacing:0.18em;font-size:0.78em;text-transform:uppercase;">by</span> Angelina
+      </span>
+      <div class="meta-right">
+        <span class="place">Studio · Delhi</span>
+        <span class="tags">Biophilia · Conscious Gifting · Concierge</span>
+      </div>
+    </header>
+
+    <!-- the centerpiece — kinetic composition -->
+    <div class="composition">
+      <div class="display" aria-label="Oikos. For a life that sustains you.">
+
+        <div class="ornament" aria-hidden="true">
+          <span class="rule"></span>
+          <span class="word-meta">A THOUGHT, IN FOUR BREATHS</span>
+          <span class="rule"></span>
+        </div>
+
+        <h1 style="all:unset;display:contents;">
+          <span class="oikos word">Oikos<span class="period">.</span></span>
+          <span class="line2 word">for a life that</span>
+          <span class="line3">
+            <em class="sustains word">sustains</em>
+            <span class="you word">you.</span>
+          </span>
+        </h1>
+
+        <div class="epilogue">
+          <p class="sub">
+            Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.
+          </p>
+          <div class="ctas">
+            <a class="cta cta-primary" href="#what-we-do">
+              See what we do <span class="arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="cta cta-secondary" href="#contact">
+              Or start a conversation
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- bottom rail: chapter dots + continue cue -->
+    <footer class="stamp">
+      <div class="progress-rail" aria-hidden="true">
+        <span class="dots">
+          <span class="dot d1"></span>
+          <span class="dot d2"></span>
+          <span class="dot d3"></span>
+          <span class="dot d4"></span>
+        </span>
+        <span class="label">an unfolding</span>
+      </div>
+      <a href="#what-we-do" class="continue">
+        continue <span class="arrow" aria-hidden="true">↓</span>
+      </a>
+    </footer>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>scroll</span>
+      <span class="stem"></span>
+    </div>
+
+  </div>
+</section>
+
+<!-- a small downstream section so the link target exists and the page has somewhere to go after the kinetic stage -->
+<section id="what-we-do" style="min-height:42vh;background:var(--cream);"></section>
+<section id="contact" style="height:1px;"></section>
+
+<script>
+(function () {
+  var hero  = document.getElementById('hero');
+  var root  = document.documentElement;
+  var dots  = [
+    document.querySelector('.dot.d1'),
+    document.querySelector('.dot.d2'),
+    document.querySelector('.dot.d3'),
+    document.querySelector('.dot.d4')
+  ];
+
+  if (!hero) return;
+
+  // mark js as live so we know the choreography is driveable —
+  // (CSS defaults already render a fully-composed state, so this is the override path)
+  root.classList.add('js');
+
+  function clamp01(v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
+  function range(p, a, b) { return clamp01((p - a) / (b - a)); }
+
+  function update() {
+    var rect  = hero.getBoundingClientRect();
+    var total = hero.offsetHeight - window.innerHeight;
+    if (total <= 0) total = 1;
+    var p = clamp01(-rect.top / total);
+
+    var p1 = range(p, 0.10, 0.28);
+    var p2 = range(p, 0.32, 0.52);
+    var p3 = range(p, 0.56, 0.74);
+    var p4 = range(p, 0.78, 0.96);
+
+    root.style.setProperty('--p',  p);
+    root.style.setProperty('--p1', p1);
+    root.style.setProperty('--p2', p2);
+    root.style.setProperty('--p3', p3);
+    root.style.setProperty('--p4', p4);
+
+    // chapter dots — first is always lit (Oikos is present from the start)
+    if (dots[0]) dots[0].classList.add('active');
+    if (dots[1]) dots[1].classList.toggle('active', p1 > 0.05);
+    if (dots[2]) dots[2].classList.toggle('active', p2 > 0.05);
+    if (dots[3]) dots[3].classList.toggle('active', p3 > 0.05);
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(function () { update(); ticking = false; });
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', update);
+
+  // run twice — once now (so initial state is correct even if scroll is non-zero on reload)
+  // and once on next frame after fonts settle so any layout-driven heights are right
+  update();
+  requestAnimationFrame(update);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(update).catch(function(){});
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oikos by Angelina — For a life that sustains you</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --forest:#0B3910;
+    --terracotta:#B46A2C;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--earth);color:var(--cream);font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+  .hero{
+    position:relative;
+    width:100%;
+    height:100vh;
+    min-height:680px;
+    overflow:hidden;
+    background:#3C230F;
+  }
+
+  .photo{
+    position:absolute;
+    inset:0;
+    background:
+      url('https://images.unsplash.com/photo-1545241047-6083a3684587?w=2400&q=85&auto=format&fit=crop&crop=entropy') center/cover no-repeat,
+      #3C230F;
+    filter:sepia(0.18) saturate(1.18) contrast(1.04) brightness(0.95);
+    transform:scale(1.04);
+    animation:slowzoom 18s ease-out forwards;
+  }
+  @keyframes slowzoom{from{transform:scale(1.08)}to{transform:scale(1.0)}}
+
+  .scrim{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(180deg, rgba(11,57,16,0.18) 0%, rgba(11,57,16,0) 22%, rgba(11,57,16,0) 50%, rgba(60,35,15,0.45) 78%, rgba(11,57,16,0.82) 100%),
+      linear-gradient(90deg, rgba(11,57,16,0.32) 0%, rgba(11,57,16,0) 38%, rgba(11,57,16,0) 100%);
+  }
+
+  /* TOP BAR */
+  .top-bar{
+    position:absolute;top:2.4rem;left:0;right:0;z-index:4;
+    display:flex;justify-content:space-between;align-items:flex-start;
+    padding:0 2.8rem;
+    opacity:0;animation:fadein 1.2s 0.15s ease forwards;
+  }
+
+  .brand{
+    font-family:'EB Garamond',serif;
+    font-style:italic;font-weight:400;font-size:1.18rem;
+    color:var(--cream);letter-spacing:0.005em;
+    line-height:1;
+    display:flex;align-items:center;gap:0.55rem;
+  }
+  .brand .glyph{
+    font-style:normal;font-family:'Inter',sans-serif;font-size:0.55rem;
+    letter-spacing:0.32em;text-transform:uppercase;font-weight:400;
+    opacity:0.65;padding-top:0.2em;
+  }
+
+  .meta{
+    display:flex;flex-direction:column;align-items:center;gap:0.85rem;
+  }
+  .circle{
+    width:4.4rem;height:4.4rem;border-radius:50%;
+    background:rgba(180,106,44,0.92);
+    border:1px solid rgba(255,248,235,0.18);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Inter',sans-serif;font-size:0.74rem;font-weight:500;
+    letter-spacing:0.22em;color:var(--cream);
+    box-shadow:0 8px 32px rgba(0,0,0,0.18);
+  }
+  .place{
+    font-family:'Inter',sans-serif;font-size:0.6rem;font-weight:500;
+    letter-spacing:0.42em;text-transform:uppercase;
+    color:var(--cream);opacity:0.86;padding-left:0.42em;
+  }
+
+  /* HEADLINE BLOCK */
+  .frame{
+    position:absolute;
+    left:8%;right:8%;bottom:8%;
+    z-index:4;
+    max-width:50rem;
+  }
+
+  .frame > *{opacity:0;transform:translateY(14px);animation:rise 1.4s cubic-bezier(0.22,0.61,0.36,1) forwards}
+  .frame > *:nth-child(1){animation-delay:0.35s}
+  .frame > *:nth-child(2){animation-delay:0.55s}
+  .frame > *:nth-child(3){animation-delay:0.85s}
+  .frame > *:nth-child(4){animation-delay:1.05s}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  @keyframes fadein{to{opacity:1}}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:0.95rem;
+    font-family:'Inter',sans-serif;font-size:0.66rem;font-weight:500;
+    letter-spacing:0.42em;text-transform:uppercase;
+    color:var(--gold);
+    margin-bottom:1.65rem;
+  }
+  .eyebrow::before{
+    content:"";display:inline-block;
+    width:1.6rem;height:1px;background:var(--gold);opacity:0.7;
+  }
+
+  h1{
+    font-family:'EB Garamond',serif;
+    font-style:italic;font-weight:400;
+    font-size:clamp(3rem, 7.4vw, 6.4rem);
+    line-height:0.98;letter-spacing:-0.014em;
+    color:var(--cream);
+    margin-bottom:1.85rem;
+    text-shadow:0 2px 28px rgba(0,0,0,0.22);
+  }
+  h1 .l{display:block}
+  h1 .oikos{font-weight:500}
+  h1 .oikos::after{
+    content:"";display:inline-block;
+    width:0.16em;height:0.16em;border-radius:50%;
+    background:var(--terracotta);
+    transform:translate(-0.1em,-0.04em);
+    margin-left:0.04em;
+  }
+  /* hide the typed period since we render a dot mark; keep accessible */
+  h1 .oikos .pd{display:none}
+
+  .cycler{
+    position:relative;display:inline-block;white-space:nowrap;
+    vertical-align:baseline;
+  }
+  .cycler .sizer{visibility:hidden;display:inline-block;font-style:italic}
+  .cycler .word{
+    position:absolute;left:0;top:0;
+    opacity:0;transform:translateY(0.18em);
+    animation:cycle 16s infinite;
+    font-style:italic;
+    color:var(--cream);
+    white-space:nowrap;
+  }
+  .cycler .word:nth-child(2){animation-delay:0s}
+  .cycler .word:nth-child(3){animation-delay:4s}
+  .cycler .word:nth-child(4){animation-delay:8s}
+  .cycler .word:nth-child(5){animation-delay:12s}
+  @keyframes cycle{
+    0%,1%   {opacity:0;transform:translateY(0.22em)}
+    5%,22%  {opacity:1;transform:translateY(0)}
+    26%,100%{opacity:0;transform:translateY(-0.16em)}
+  }
+
+  .sub{
+    font-family:'Inter',sans-serif;
+    font-size:1rem;font-weight:300;line-height:1.6;
+    color:var(--cream);opacity:0.94;
+    max-width:34rem;
+    margin-bottom:2.4rem;
+    letter-spacing:0.005em;
+  }
+  .sub em{
+    font-family:'EB Garamond',serif;font-style:italic;font-weight:400;
+    font-size:1.06em;color:var(--gold);
+    padding:0 0.05em;
+  }
+
+  .ctas{display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+
+  .cta-primary{
+    position:relative;
+    display:inline-flex;align-items:center;gap:0.85rem;
+    font-family:'Inter',sans-serif;
+    font-size:0.74rem;font-weight:500;
+    letter-spacing:0.28em;text-transform:uppercase;
+    color:var(--cream);
+    background:rgba(180,106,44,0.96);
+    border:1px solid rgba(180,106,44,0.96);
+    padding:1.1rem 1.9rem 1.1rem 2rem;
+    text-decoration:none;border-radius:999px;
+    transition:transform 0.4s ease, background 0.4s ease, padding 0.4s ease;
+  }
+  .cta-primary .arr{
+    display:inline-block;width:1rem;height:1px;background:var(--cream);
+    position:relative;transition:width 0.4s ease;
+  }
+  .cta-primary .arr::after{
+    content:"";position:absolute;right:0;top:-3px;
+    width:7px;height:7px;border-top:1px solid var(--cream);border-right:1px solid var(--cream);
+    transform:rotate(45deg);
+  }
+  .cta-primary:hover{background:#a25c25;padding-right:2.2rem}
+  .cta-primary:hover .arr{width:1.4rem}
+
+  .cta-secondary{
+    font-family:'EB Garamond',serif;font-style:italic;font-weight:400;
+    font-size:1.05rem;color:var(--cream);
+    text-decoration:none;
+    border-bottom:1px solid rgba(255,248,235,0.32);
+    padding-bottom:0.18rem;
+    transition:border-color 0.35s ease, color 0.35s ease;
+  }
+  .cta-secondary:hover{border-color:var(--gold);color:var(--gold)}
+
+  /* SCROLL CUE */
+  .scroll-cue{
+    position:absolute;right:2.8rem;bottom:8%;
+    z-index:4;
+    display:flex;flex-direction:column;align-items:center;gap:0.95rem;
+    opacity:0;animation:fadein 1.4s 1.4s ease forwards;
+  }
+  .scroll-cue .label{
+    font-family:'Inter',sans-serif;font-size:0.58rem;font-weight:500;
+    letter-spacing:0.42em;text-transform:uppercase;
+    color:var(--cream);opacity:0.7;
+    writing-mode:vertical-rl;transform:rotate(180deg);
+  }
+  .scroll-cue .line{
+    width:1px;height:4.5rem;background:var(--cream);opacity:0.4;
+    position:relative;overflow:hidden;
+  }
+  .scroll-cue .line::after{
+    content:"";position:absolute;top:-30%;left:0;right:0;
+    height:30%;background:var(--gold);
+    animation:trickle 2.6s ease-in-out infinite;
+  }
+  @keyframes trickle{
+    0%{transform:translateY(0)}
+    60%{transform:translateY(420%)}
+    100%{transform:translateY(420%)}
+  }
+
+  /* MOBILE */
+  @media (max-width: 720px){
+    .top-bar{top:1.4rem;padding:0 1.4rem}
+    .brand{font-size:1rem}
+    .brand .glyph{display:none}
+    .circle{width:3.4rem;height:3.4rem;font-size:0.62rem}
+    .place{font-size:0.55rem;letter-spacing:0.36em}
+
+    .frame{left:6%;right:6%;bottom:7%}
+    .eyebrow{font-size:0.58rem;letter-spacing:0.32em;margin-bottom:1.2rem}
+    h1{font-size:clamp(2.45rem, 11vw, 4.2rem);margin-bottom:1.4rem}
+    .sub{font-size:0.88rem;margin-bottom:1.85rem}
+    .ctas{gap:1.4rem}
+    .cta-primary{font-size:0.66rem;padding:0.95rem 1.4rem;letter-spacing:0.22em}
+    .cta-secondary{font-size:0.95rem}
+
+    .scroll-cue{display:none}
+  }
+
+  /* respect reduced motion */
+  @media (prefers-reduced-motion: reduce){
+    *,.photo,.cycler .word,.scroll-cue .line::after{animation:none !important;transition:none !important}
+    .frame > *{opacity:1;transform:none}
+    .top-bar,.scroll-cue{opacity:1}
+    .cycler .word:nth-child(2){opacity:1}
+    .cycler .word:not(:nth-child(2)){display:none}
+  }
+
+  a:focus-visible{outline:2px solid var(--gold);outline-offset:4px;border-radius:4px}
+</style>
+</head>
+<body>
+  <section class="hero" aria-label="Oikos by Angelina — biophilic design studio">
+
+    <div class="photo" role="img" aria-label="Sunlit room interior with cascading monstera plant"></div>
+    <div class="scrim"></div>
+
+    <header class="top-bar">
+      <div class="brand">
+        Oikos
+        <span class="glyph">by Angelina</span>
+      </div>
+      <div class="meta" aria-hidden="true">
+        <span class="circle">2024</span>
+        <span class="place">Delhi</span>
+      </div>
+    </header>
+
+    <div class="frame">
+      <div class="eyebrow">Biophilic Studio · Delhi</div>
+
+      <h1>
+        <span class="l oikos">Oikos<span class="pd">.</span></span>
+        <span class="l">For a life that</span>
+        <span class="l">
+          <span class="cycler" aria-label="sustains, nurtures, steadies, shelters">
+            <span class="sizer">nurtures</span>
+            <span class="word">sustains</span>
+            <span class="word">nurtures</span>
+            <span class="word">steadies</span>
+            <span class="word">shelters</span>
+          </span>
+          <span style="font-style:italic"> you.</span>
+        </span>
+      </h1>
+
+      <p class="sub">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel <em>beautiful, calm, and personal</em>.</p>
+
+      <div class="ctas">
+        <a class="cta-primary" href="#what-we-do">
+          See what we do
+          <span class="arr" aria-hidden="true"></span>
+        </a>
+        <a class="cta-secondary" href="#contact">Or start a conversation</a>
+      </div>
+    </div>
+
+    <div class="scroll-cue" aria-hidden="true">
+      <span class="label">Scroll</span>
+      <span class="line"></span>
+    </div>
+
+  </section>
+</body>
+</html>
