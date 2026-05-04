@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Oikos. For a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream:      #FFF8EB;
+    --forest:     #0B3910;
+    --terracotta: #B46A2C;
+    --sand:       #ECCDB2;
+    --honey:      #DA9B66;
+    --gold:       #E4C58A;
+    --earth:      #3C230F;
+    --sage:       #939991;
+  }
+
+  html, body {
+    background: var(--cream);
+    color: var(--forest);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto;
+  }
+
+  /* ── LEFT PANEL — DICTIONARY ENTRY ───────────────────────────────── */
+  .panel-word {
+    background: var(--cream);
+    padding: 56px 72px 64px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-right: 1px solid rgba(11, 57, 16, 0.08);
+  }
+
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--forest);
+  }
+  .topbar .left  { opacity: 0.85; }
+  .topbar .right { opacity: 0.55; font-weight: 400; }
+
+  .topbar .mark {
+    display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--terracotta);
+    margin-right: 10px;
+    transform: translateY(-1px);
+  }
+
+  /* the entry block, mid-panel */
+  .entry {
+    margin-top: 72px;
+    margin-bottom: auto;
+  }
+
+  .glyph {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 152px;
+    color: var(--forest);
+    line-height: 0.9;
+    letter-spacing: -0.015em;
+    margin-bottom: 28px;
+    margin-left: -6px; /* optical correction for italic Greek */
+  }
+
+  .translit {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 34px;
+    color: var(--forest);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .translit .dot { color: var(--terracotta); }
+
+  .pos {
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--forest);
+    opacity: 0.6;
+    margin-bottom: 18px;
+  }
+
+  .definition {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 19.5px;
+    line-height: 1.55;
+    color: var(--forest);
+    opacity: 0.88;
+    max-width: 360px;
+    margin-bottom: 36px;
+  }
+
+  .rule {
+    width: 56px;
+    height: 1px;
+    background: var(--forest);
+    opacity: 0.32;
+    margin-bottom: 36px;
+  }
+
+  .headline {
+    font-family: 'EB Garamond', serif;
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 1.12;
+    color: var(--forest);
+    letter-spacing: -0.01em;
+    margin-bottom: 22px;
+    max-width: 460px;
+  }
+  .headline em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .sub {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--forest);
+    opacity: 0.78;
+    max-width: 440px;
+    margin-bottom: 34px;
+  }
+
+  .ctas {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .cta-primary {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cream);
+    background: var(--forest);
+    padding: 15px 26px;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: background 0.3s ease;
+  }
+  .cta-primary:hover { background: var(--earth); }
+  .cta-primary .arrow { display: inline-block; margin-left: 8px; transition: transform 0.3s ease; }
+  .cta-primary:hover .arrow { transform: translateX(3px); }
+
+  .cta-secondary {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--forest);
+    opacity: 0.72;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+    transition: opacity 0.3s ease;
+  }
+  .cta-secondary:hover { opacity: 1; }
+
+  /* ── RIGHT PANEL — STILL LIFE ─────────────────────────────────────── */
+  .panel-photo {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 110% 80% at 22% 18%, rgba(255, 248, 235, 0.32) 0%, rgba(255, 248, 235, 0) 55%),
+      linear-gradient(165deg, #E8C8A4 0%, #D2A479 38%, #9B6B3C 72%, #5C381B 100%);
+  }
+
+  /* linen weave texture */
+  .weave {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(60,35,15,0.05) 0px, rgba(60,35,15,0.05) 1px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(90deg, rgba(60,35,15,0.04) 0px, rgba(60,35,15,0.04) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .vignette {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 130% 100% at 50% 50%, transparent 45%, rgba(60,35,15,0.32) 100%),
+      linear-gradient(180deg, transparent 70%, rgba(60,35,15,0.28) 100%);
+    pointer-events: none;
+  }
+
+  .stillife {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 86%;
+    max-width: 560px;
+    height: auto;
+    pointer-events: none;
+  }
+
+  .photo-meta {
+    position: absolute;
+    top: 32px;
+    right: 36px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5px;
+    font-weight: 400;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.72;
+    text-align: right;
+    line-height: 1.7;
+  }
+  .photo-meta .num {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    opacity: 0.95;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .photo-caption {
+    position: absolute;
+    bottom: 32px;
+    left: 36px;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--cream);
+    opacity: 0.88;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+  .photo-caption .tick {
+    display: inline-block;
+    width: 18px; height: 1px;
+    background: var(--cream);
+    opacity: 0.7;
+    vertical-align: middle;
+    margin-right: 10px;
+    transform: translateY(-2px);
+  }
+
+  /* ── BOTTOM META STRIP ────────────────────────────────────────────── */
+  .meta-strip {
+    grid-column: 1 / -1;
+    background: var(--cream);
+    border-top: 1px solid rgba(11, 57, 16, 0.12);
+    padding: 18px 72px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--forest);
+  }
+  .meta-strip > span { opacity: 0.7; }
+  .meta-strip .center { opacity: 0.55; font-weight: 400; }
+  .meta-strip em {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    opacity: 0.78;
+  }
+
+  /* fine grain overlay (full-page) */
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    z-index: 5;
+  }
+
+  /* ── MOBILE ───────────────────────────────────────────────────────── */
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: 1fr; }
+    .panel-photo {
+      min-height: 360px;
+      order: -1;
+      border-bottom: 1px solid rgba(11, 57, 16, 0.08);
+    }
+    .panel-word {
+      padding: 36px 28px 48px;
+      border-right: none;
+    }
+    .topbar { font-size: 10px; }
+    .entry { margin-top: 44px; }
+    .glyph { font-size: 96px; margin-bottom: 20px; }
+    .translit { font-size: 26px; }
+    .definition { font-size: 17px; max-width: 100%; margin-bottom: 28px; }
+    .headline { font-size: 30px; max-width: 100%; }
+    .sub { font-size: 13.5px; max-width: 100%; }
+    .ctas { gap: 20px; }
+    .meta-strip {
+      padding: 14px 28px;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 9.5px;
+      text-align: center;
+    }
+    .photo-meta { top: 18px; right: 20px; font-size: 9.5px; }
+    .photo-caption { bottom: 18px; left: 20px; font-size: 13px; }
+    .stillife { width: 64%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+
+  <!-- ── LEFT: DICTIONARY ENTRY ─────────────────────────────────────── -->
+  <section class="panel-word">
+    <header class="topbar">
+      <span class="left"><span class="mark"></span>Oikos&nbsp;by&nbsp;Angelina</span>
+      <span class="right">Vol.&nbsp;I &nbsp;·&nbsp; Spring&nbsp;'26</span>
+    </header>
+
+    <div class="entry">
+      <div class="glyph">οἶκος</div>
+      <div class="translit"><em>oíkos</em><span class="dot">.</span></div>
+      <div class="pos">noun · ancient Greek</div>
+      <p class="definition">home; household; the small ecosystem within.</p>
+      <div class="rule" aria-hidden="true"></div>
+
+      <h1 class="headline">For a life<br />that <em>sustains</em> you.</h1>
+      <p class="sub">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.</p>
+
+      <div class="ctas">
+        <a href="#what-we-do" class="cta-primary">See what we do<span class="arrow">→</span></a>
+        <a href="#contact" class="cta-secondary">or start a conversation</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── RIGHT: STILL LIFE ──────────────────────────────────────────── -->
+  <section class="panel-photo" aria-label="Still life: stoneware vessel with dried grasses in morning light">
+    <div class="weave"></div>
+
+    <!-- still-life composition: linen runner + ceramic vessel + dried wheat -->
+    <svg class="stillife" viewBox="0 0 600 700" preserveAspectRatio="xMidYEnd meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <!-- vessel face: warm cream stoneware, light from upper-left -->
+        <radialGradient id="vesselFace" cx="34%" cy="32%" r="78%">
+          <stop offset="0%"  stop-color="#F4DFC1" />
+          <stop offset="48%" stop-color="#DDB683" />
+          <stop offset="100%" stop-color="#80532A" />
+        </radialGradient>
+        <linearGradient id="vesselSideShadow" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%"   stop-color="rgba(60,35,15,0)" />
+          <stop offset="70%"  stop-color="rgba(60,35,15,0.28)" />
+          <stop offset="100%" stop-color="rgba(60,35,15,0.55)" />
+        </linearGradient>
+        <linearGradient id="rimShadow" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%"   stop-color="rgba(60,35,15,0.7)" />
+          <stop offset="100%" stop-color="rgba(60,35,15,0.1)" />
+        </linearGradient>
+        <linearGradient id="linenFold" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%"   stop-color="#F4E4C7" />
+          <stop offset="100%" stop-color="#D6B58A" />
+        </linearGradient>
+        <linearGradient id="linenShadow" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%"   stop-color="rgba(60,35,15,0.05)" />
+          <stop offset="100%" stop-color="rgba(60,35,15,0.45)" />
+        </linearGradient>
+        <linearGradient id="stalk" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%"   stop-color="#F0D5A1" />
+          <stop offset="100%" stop-color="#A57841" />
+        </linearGradient>
+      </defs>
+
+      <!-- folded linen runner under the vessel -->
+      <path d="M 60 660 L 540 660 L 560 612 L 80 600 Z" fill="url(#linenFold)" />
+      <path d="M 60 660 L 540 660 L 560 612 L 80 600 Z" fill="url(#linenShadow)" opacity="0.45" />
+      <!-- linen fold edge highlight -->
+      <path d="M 80 600 L 560 612" stroke="rgba(255,248,235,0.55)" stroke-width="1" fill="none" />
+      <!-- linen weave hatch -->
+      <g opacity="0.18" stroke="#3C230F" stroke-width="0.4">
+        <line x1="80"  y1="618" x2="560" y2="630" />
+        <line x1="80"  y1="630" x2="560" y2="642" />
+        <line x1="80"  y1="642" x2="560" y2="654" />
+      </g>
+
+      <!-- soft cast shadow under vessel -->
+      <ellipse cx="300" cy="640" rx="160" ry="11" fill="rgba(60,35,15,0.42)" />
+
+      <!-- DRIED WHEAT / PAMPAS — single quiet sprig -->
+      <g transform="translate(298,330)">
+        <!-- main stalk -->
+        <path d="M 0 0 Q -10 -130 -28 -260" stroke="url(#stalk)" stroke-width="2.4" fill="none" stroke-linecap="round" />
+        <g transform="translate(-28,-260)">
+          <ellipse cx="-2" cy="-30" rx="20" ry="40" fill="#E4C58A" opacity="0.85" />
+          <ellipse cx="-10" cy="-18" rx="11" ry="28" fill="#C99861" opacity="0.55" />
+          <ellipse cx="6"  cy="-22" rx="10" ry="32" fill="#F0D9A8" opacity="0.7"  />
+        </g>
+        <!-- secondary stalk -->
+        <path d="M 8 -3 Q 28 -110 44 -208" stroke="#B58853" stroke-width="1.7" fill="none" stroke-linecap="round" opacity="0.85" />
+        <g transform="translate(44,-208)">
+          <ellipse cx="0" cy="-22" rx="14" ry="30" fill="#D9B47A" opacity="0.78" />
+          <ellipse cx="6" cy="-14" rx="8"  ry="20" fill="#E4C58A" opacity="0.6"  />
+        </g>
+        <!-- third small blade -->
+        <path d="M -10 -4 Q -22 -82 -36 -158" stroke="#C29862" stroke-width="1.3" fill="none" stroke-linecap="round" opacity="0.72" />
+        <g transform="translate(-36,-158)">
+          <ellipse cx="0" cy="-14" rx="8" ry="20" fill="#E4C58A" opacity="0.62" />
+        </g>
+      </g>
+
+      <!-- CERAMIC VESSEL — tall stoneware bottle -->
+      <g>
+        <path d="M 268 332
+                 Q 268 318 277 314
+                 L 318 314
+                 Q 327 318 327 332
+                 L 329 366
+                 Q 358 388 363 446
+                 L 363 588
+                 Q 363 624 320 628
+                 L 275 628
+                 Q 232 624 232 588
+                 L 232 446
+                 Q 237 388 266 366
+                 Z" fill="url(#vesselFace)" />
+
+        <!-- right-side body shadow -->
+        <path d="M 329 366 Q 358 388 363 446 L 363 588 Q 363 624 320 628 L 305 628 Q 348 620 348 588 L 348 450 Q 344 392 326 370 Z"
+              fill="url(#vesselSideShadow)" opacity="0.92" />
+
+        <!-- subtle highlight on left shoulder -->
+        <path d="M 266 366 Q 240 388 235 446 L 235 480"
+              stroke="rgba(255,248,235,0.42)" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+        <!-- mouth: outer rim + inner shadow -->
+        <ellipse cx="298" cy="316" rx="28" ry="5" fill="#A07442" />
+        <ellipse cx="298" cy="314" rx="28" ry="4.5" fill="#C18B57" />
+        <ellipse cx="298" cy="315" rx="22" ry="3" fill="url(#rimShadow)" />
+      </g>
+    </svg>
+
+    <div class="vignette"></div>
+
+    <div class="photo-meta">
+      Plate&nbsp;011
+      <span class="num">Still life, no.&nbsp;xi</span>
+    </div>
+    <div class="photo-caption">
+      <span class="tick"></span>Stoneware, dried grasses, morning light.
+    </div>
+  </section>
+
+  <!-- ── BOTTOM META STRIP ──────────────────────────────────────────── -->
+  <div class="meta-strip">
+    <span>Studio · Delhi · <em>Est. 2024</em></span>
+    <span class="center">Biophilic Interiors &nbsp;·&nbsp; Conscious Gifting &nbsp;·&nbsp; Workplace Concierge</span>
+    <span>oikosbyangelina.com</span>
+  </div>
+</div>
+
+<!-- fine grain noise (full page overlay) -->
+<svg class="grain" xmlns="http://www.w3.org/2000/svg">
+  <filter id="g">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" />
+    <feColorMatrix values="0 0 0 0 0.18  0 0 0 0 0.10  0 0 0 0 0.05  0 0 0 1 0" />
+  </filter>
+  <rect width="100%" height="100%" filter="url(#g)" />
+</svg>
+
+</body>
+</html>

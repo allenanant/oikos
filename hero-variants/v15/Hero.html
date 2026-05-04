@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Oikos — for a life that sustains you.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --forest:#0B3910;
+    --terracotta:#B46A2C;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html,body{
+    background:var(--cream);
+    color:var(--forest);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    font-feature-settings:"kern","liga","ss01";
+  }
+
+  body{
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ───────────  topbar  ─────────── */
+  .topbar{
+    position:absolute;
+    top:0;left:0;right:0;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 36px;
+    z-index:10;
+    border-bottom:1px solid rgba(11,57,16,.08);
+    background:var(--cream);
+  }
+  .topbar .mark{
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-size:19px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--forest);
+  }
+  .topbar .nav{
+    display:flex;
+    align-items:center;
+    gap:32px;
+  }
+  .topbar .nav a{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    font-weight:400;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--forest);
+    opacity:.65;
+    text-decoration:none;
+    transition:opacity .2s ease;
+  }
+  .topbar .nav a:hover{opacity:1}
+  .topbar .meta{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    font-weight:400;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--forest);
+    opacity:.6;
+  }
+  .topbar .meta em{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13px;
+    letter-spacing:.02em;
+    text-transform:none;
+    opacity:.85;
+  }
+
+  /* ───────────  layout  ─────────── */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    min-height:100vh;
+    padding-top:58px;
+    position:relative;
+  }
+  .hero::before{
+    content:'';
+    position:absolute;
+    top:58px;
+    bottom:0;
+    left:50%;
+    width:1px;
+    background:rgba(11,57,16,.10);
+    z-index:5;
+  }
+
+  /* ───────────  left panel  ─────────── */
+  .left{
+    background:var(--cream);
+    padding:72px 84px 88px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+  }
+
+  .eyebrow{
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:10.5px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--forest);
+    opacity:.65;
+    margin-bottom:38px;
+    line-height:1.7;
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:0 14px;
+  }
+  .eyebrow .dot{
+    color:var(--terracotta);
+    opacity:.9;
+    font-size:14px;
+    line-height:1;
+    transform:translateY(-1px);
+  }
+
+  .headline{
+    margin-bottom:36px;
+  }
+  .headline .line1{
+    display:block;
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-style:normal;
+    font-size:96px;
+    line-height:.92;
+    letter-spacing:-.02em;
+    color:var(--forest);
+    margin-bottom:14px;
+  }
+  .headline .line2{
+    display:block;
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    font-style:italic;
+    font-size:18px;
+    line-height:1.4;
+    letter-spacing:.005em;
+    color:var(--forest);
+    opacity:.66;
+    margin:6px 0 4px 6px;
+  }
+  .headline .line3{
+    display:block;
+    font-family:'EB Garamond',serif;
+    font-weight:400;
+    font-style:italic;
+    font-size:80px;
+    line-height:.95;
+    letter-spacing:-.005em;
+    color:var(--terracotta);
+  }
+
+  /* verb cycler */
+  .cycler{
+    position:relative;
+    display:inline-block;
+    vertical-align:baseline;
+  }
+  .cycler .ghost{visibility:hidden}
+  .cycler .word{
+    position:absolute;
+    left:0;
+    top:0;
+    opacity:0;
+    animation:cycle 16s infinite;
+  }
+  .cycler .w1{animation-delay:0s}
+  .cycler .w2{animation-delay:4s}
+  .cycler .w3{animation-delay:8s}
+  .cycler .w4{animation-delay:12s}
+  @keyframes cycle{
+    0%,22%{opacity:1}
+    27%,100%{opacity:0}
+  }
+
+  .about{
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:15.5px;
+    line-height:1.62;
+    color:var(--forest);
+    opacity:.82;
+    max-width:48ch;
+    margin-bottom:36px;
+  }
+
+  .ctas{
+    display:flex;
+    align-items:center;
+    gap:30px;
+    flex-wrap:wrap;
+  }
+
+  .cta-primary{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    background:var(--forest);
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:13.5px;
+    letter-spacing:.04em;
+    padding:15px 26px;
+    border-radius:999px;
+    text-decoration:none;
+    transition:transform .25s ease,background .25s ease;
+  }
+  .cta-primary:hover{
+    background:var(--earth);
+    transform:translateY(-1px);
+  }
+  .cta-primary .arrow{
+    font-size:15px;
+    line-height:1;
+    transition:transform .25s ease;
+  }
+  .cta-primary:hover .arrow{transform:translateX(3px)}
+
+  .cta-secondary{
+    font-family:'Inter',sans-serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:13.5px;
+    color:var(--forest);
+    text-decoration:none;
+    border-bottom:1px solid rgba(11,57,16,.35);
+    padding-bottom:3px;
+    transition:border-color .2s ease,color .2s ease;
+  }
+  .cta-secondary:hover{
+    border-bottom-color:var(--terracotta);
+    color:var(--terracotta);
+  }
+
+  .footnote{
+    position:absolute;
+    bottom:30px;
+    left:84px;
+    right:84px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:10.5px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--forest);
+    opacity:.45;
+  }
+  .footnote .greek{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:14px;
+    letter-spacing:.01em;
+    text-transform:none;
+    opacity:1;
+  }
+  .footnote .greek b{
+    color:var(--terracotta);
+    font-weight:400;
+    margin-right:.35em;
+  }
+
+  /* ───────────  right panel  ─────────── */
+  .right{
+    background:linear-gradient(160deg,#ECCDB2 0%,#DA9B66 60%,#B46A2C 130%);
+    position:relative;
+    overflow:hidden;
+  }
+  .right .photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 50%;
+    filter:saturate(.94) contrast(1.02) brightness(1.01);
+  }
+  .right::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(120% 80% at 70% 18%,transparent 55%,rgba(60,35,15,.18) 100%),
+      linear-gradient(180deg,rgba(255,248,235,0) 65%,rgba(60,35,15,.10) 100%);
+    pointer-events:none;
+  }
+
+  .plate{
+    position:absolute;
+    left:30px;
+    top:24px;
+    z-index:2;
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--cream);
+    opacity:.85;
+    text-shadow:0 1px 2px rgba(60,35,15,.25);
+  }
+  .plate em{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:13px;
+    letter-spacing:.02em;
+    text-transform:none;
+    opacity:.92;
+    display:block;
+    margin-top:6px;
+  }
+
+  .frameno{
+    position:absolute;
+    right:30px;
+    top:24px;
+    z-index:2;
+    font-family:'Inter',sans-serif;
+    font-weight:500;
+    font-size:10px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--cream);
+    opacity:.7;
+    text-shadow:0 1px 2px rgba(60,35,15,.25);
+  }
+
+  .right-caption{
+    position:absolute;
+    left:30px;
+    right:30px;
+    bottom:28px;
+    z-index:2;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:16px;
+    color:var(--cream);
+    text-shadow:0 1px 2px rgba(60,35,15,.30);
+  }
+  .right-caption .quote{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:18px;
+    line-height:1.35;
+    letter-spacing:.005em;
+    max-width:32ch;
+  }
+  .right-caption .credit{
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:10px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    opacity:.75;
+    text-align:right;
+    line-height:1.6;
+    flex-shrink:0;
+  }
+
+  /* ───────────  mobile  ─────────── */
+  @media (max-width:880px){
+    .hero{
+      grid-template-columns:1fr;
+      min-height:auto;
+    }
+    .hero::before{display:none}
+    .right{min-height:460px;order:2}
+    .left{padding:48px 24px 88px;order:1}
+    .topbar{padding:0 20px;height:54px}
+    .topbar .nav{display:none}
+    .hero{padding-top:54px}
+    .headline .line1{font-size:62px;letter-spacing:-.022em}
+    .headline .line2{font-size:16px}
+    .headline .line3{font-size:54px}
+    .about{font-size:15px}
+    .footnote{
+      position:relative;left:auto;right:auto;bottom:auto;
+      margin-top:48px;flex-direction:column;align-items:flex-start;gap:14px;
+    }
+    .right-caption .quote{font-size:15px}
+    .ctas{gap:20px}
+  }
+
+  @media (max-width:420px){
+    .headline .line1{font-size:54px}
+    .headline .line3{font-size:46px}
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="mark">Oikos</div>
+  <nav class="nav" aria-label="primary">
+    <a href="#what-we-do">Studio</a>
+    <a href="#journal">Journal</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="meta">Studio <em>·</em> Delhi</div>
+</header>
+
+<section class="hero">
+
+  <article class="left">
+    <p class="eyebrow">
+      <span>Biophilic Interiors</span>
+      <span class="dot">·</span>
+      <span>Conscious Gifting</span>
+      <span class="dot">·</span>
+      <span>Workplace Concierge</span>
+    </p>
+
+    <h1 class="headline">
+      <span class="line1">Oikos.</span>
+      <span class="line2">— for a life that</span>
+      <span class="line3">
+        <span class="cycler">
+          <span class="ghost">nurtures</span>
+          <span class="word w1">sustains</span>
+          <span class="word w2">nurtures</span>
+          <span class="word w3">steadies</span>
+          <span class="word w4">shelters</span>
+        </span> you.
+      </span>
+    </h1>
+
+    <p class="about">
+      Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.
+    </p>
+
+    <div class="ctas">
+      <a href="#what-we-do" class="cta-primary">
+        See what we do
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <a href="#contact" class="cta-secondary">or start a conversation →</a>
+    </div>
+
+    <div class="footnote">
+      <span>Est. Delhi · India · MMXXIV</span>
+      <span class="greek"><b>οἶκος</b><span style="opacity:.65">— n. home, household, a quiet sanctuary.</span></span>
+    </div>
+  </article>
+
+  <aside class="right" aria-hidden="true">
+    <img class="photo"
+         src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=1400&q=85"
+         alt="An amber apothecary bottle resting on a turned-wood pedestal, with soft palm-leaf shadows on a warm cream wall." />
+
+    <div class="plate">
+      Plate Nº 01
+      <em>Quiet objects, slow afternoons.</em>
+    </div>
+    <div class="frameno">01 / 04</div>
+
+    <div class="right-caption">
+      <div class="quote">“The home is a small republic — kind to the body, kind to the world.”</div>
+      <div class="credit">From the studio<br>Spring 2026</div>
+    </div>
+  </aside>
+
+</section>
+
+</body>
+</html>
