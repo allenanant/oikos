@@ -1,0 +1,2120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oikos by Angelina — Vol. I: Quiet Things</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500;600&display=swap">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --cream-soft:#FBF1DE;
+    --cream-deep:#F3E6C9;
+    --paper:#F5E8CC;
+    --forest:#0B3910;
+    --forest-soft:#143A17;
+    --terracotta:#B46A2C;
+    --terracotta-soft:#C98A4F;
+    --sand:#ECCDB2;
+    --honey:#DA9B66;
+    --gold:#E4C58A;
+    --earth:#3C230F;
+    --sage:#939991;
+    --berry:#6E1919;
+    --ink:#2A1A0B;
+    --rule:rgba(11,57,16,.16);
+    --rule-soft:rgba(11,57,16,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  html,body{background:var(--cream);color:var(--earth);overflow-x:hidden}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.55;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* ============================================================
+     STICKY NAVIGATION — quiet, hairline, cream-blur on scroll
+     ============================================================ */
+  .topnav{
+    position:fixed;
+    top:0;left:0;right:0;
+    z-index:50;
+    padding:14px 6vw;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    background:rgba(255,248,235,0);
+    border-bottom:1px solid transparent;
+    transition:background .5s ease, border-color .5s ease, padding .35s ease, backdrop-filter .5s ease;
+    backdrop-filter:blur(0);
+    pointer-events:none;
+  }
+  .topnav.is-scrolled{
+    background:rgba(255,248,235,.78);
+    backdrop-filter:blur(10px) saturate(1.05);
+    border-bottom-color:var(--rule);
+    padding:11px 6vw;
+    pointer-events:auto;
+  }
+  .topnav .navmark{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:18px;
+    color:var(--forest);
+    opacity:0;
+    transform:translateY(-4px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .topnav .navmark .stop{color:var(--terracotta);font-style:normal}
+  .topnav .navlinks{
+    display:flex;align-items:center;gap:32px;
+    opacity:0;
+    transform:translateY(-4px);
+    transition:opacity .5s ease .05s, transform .5s ease .05s;
+  }
+  .topnav .navlinks a{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+    color:var(--forest);
+    opacity:.78;
+    transition:opacity .25s ease;
+  }
+  .topnav .navlinks a:hover{opacity:1}
+  .topnav .navcta{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--terracotta);
+    border-bottom:1px solid rgba(180,106,44,.4);
+    padding-bottom:1px;
+    opacity:0;
+    transform:translateY(-4px);
+    transition:opacity .5s ease .1s, transform .5s ease .1s, color .25s ease, border-color .25s ease;
+  }
+  .topnav .navcta:hover{color:var(--forest);border-bottom-color:var(--forest)}
+  .topnav.is-scrolled .navmark,
+  .topnav.is-scrolled .navlinks,
+  .topnav.is-scrolled .navcta{opacity:1;transform:translateY(0)}
+  @media (max-width:780px){
+    .topnav .navlinks{display:none}
+  }
+
+  /* ============================================================
+     HERO — preserved from HeroReference
+     ============================================================ */
+  .stage{
+    position:relative;
+    min-height:100svh;
+    height:100svh;
+    width:100%;
+    overflow:hidden;
+    isolation:isolate;
+    perspective:1200px;
+  }
+  .layer{
+    position:absolute;
+    inset:-30px;
+    will-change:transform;
+    transition:transform .9s cubic-bezier(.2,.8,.2,1);
+  }
+  .layer-bg{
+    z-index:1;
+    background:
+      radial-gradient(ellipse 70% 55% at 18% 22%, rgba(228,197,138,.42), transparent 60%),
+      radial-gradient(ellipse 60% 70% at 88% 78%, rgba(218,155,102,.18), transparent 65%),
+      radial-gradient(ellipse 90% 70% at 50% 100%, rgba(60,35,15,.06), transparent 60%),
+      linear-gradient(180deg, #FFF8EB 0%, #FCEFD5 60%, #F8E6C7 100%);
+  }
+  .linen{
+    position:absolute;inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(60,35,15,.045) 0 .5px, transparent .5px 2px),
+      repeating-linear-gradient(0deg, rgba(60,35,15,.04) 0 .5px, transparent .5px 2.4px),
+      repeating-linear-gradient(90deg, transparent 0 41px, rgba(60,35,15,.025) 41px 42px, transparent 42px 73px, rgba(60,35,15,.018) 73px 74px);
+    mix-blend-mode:multiply;
+    opacity:.85;
+  }
+  .grain{
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='320' height='320'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.13;
+    mix-blend-mode:multiply;
+  }
+  .layer-mid{ z-index:2; pointer-events:none; }
+  .drape{ position:absolute; filter:blur(48px); opacity:.55; mix-blend-mode:multiply; }
+  .drape.d1{ top:-12%;left:-8%; width:62%;height:90%; background:radial-gradient(ellipse 60% 50% at 50% 40%, rgba(60,35,15,.32), transparent 70%); transform:rotate(-14deg); }
+  .drape.d2{ bottom:-18%;right:-10%; width:58%;height:80%; background:radial-gradient(ellipse 55% 60% at 50% 50%, rgba(180,106,44,.22), transparent 70%); transform:rotate(8deg); }
+  .drape.d3{ top:30%;left:38%; width:38%;height:46%; background:radial-gradient(ellipse 50% 50% at 50% 50%, rgba(228,197,138,.5), transparent 65%); filter:blur(60px); opacity:.7; }
+  .fold{ position:absolute; top:14%;left:-4%; width:55%;height:78%; border-radius:48% 52% 60% 40% / 40% 56% 44% 60%; background:linear-gradient(135deg, rgba(255,248,235,.25) 0%, rgba(180,106,44,.06) 50%, rgba(60,35,15,.14) 100%); filter:blur(34px); transform:rotate(-12deg); opacity:.7; mix-blend-mode:multiply; }
+  .layer-fg{
+    z-index:3;
+    inset:0;
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-rows:auto 1fr auto;
+    padding:44px 7vw 56px;
+  }
+  .top{ display:flex; align-items:center; justify-content:space-between; gap:24px; }
+  .mark{ display:inline-flex;align-items:center;gap:10px; font-family:'EB Garamond',serif; font-size:21px; color:var(--forest); letter-spacing:.01em; }
+  .mark .dot{ width:7px;height:7px;border-radius:50%; background:var(--terracotta); display:inline-block; box-shadow:0 0 0 3px rgba(180,106,44,.12); }
+  .mark em{font-style:italic;font-weight:500}
+  .meta{ font-family:'Inter',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.22em; color:var(--sage); font-weight:500; }
+  .meta .sep{opacity:.45;margin:0 .55em}
+
+  .copy{ position:relative; align-self:center; max-width:780px; margin-top:-4vh; }
+  .eyebrow{ display:inline-flex;align-items:center;gap:14px; font-family:'Inter',sans-serif; font-size:11px; font-weight:500; letter-spacing:.32em; text-transform:uppercase; color:var(--terracotta); margin-bottom:34px; }
+  .eyebrow::before{ content:""; width:38px;height:1px; background:currentColor; opacity:.55; }
+  h1.hero-h1{
+    font-family:'EB Garamond',serif;
+    font-weight:400;
+    color:var(--forest);
+    font-size:clamp(44px, 7.4vw, 104px);
+    line-height:.99;
+    letter-spacing:-.018em;
+    margin-bottom:32px;
+  }
+  h1.hero-h1 .name{font-style:normal;font-weight:500}
+  h1.hero-h1 .verse{font-style:italic}
+  h1.hero-h1 .you{font-style:italic;color:var(--terracotta)}
+  h1.hero-h1 .stop{color:var(--terracotta)}
+
+  /* cycling verb */
+  .cycle{ display:inline-grid; grid-template:1fr / 1fr; vertical-align:baseline; text-align:center; min-width:5.5ch;}
+  .cycle > span{
+    grid-area:1 / 1;
+    opacity:0;
+    transform:translateY(18%);
+    filter:blur(6px);
+    animation:cycle-word 14s infinite cubic-bezier(0.22,1,0.36,1);
+    font-style:italic;
+    color:var(--forest);
+  }
+  .cycle > span:nth-child(1){animation-delay:0s}
+  .cycle > span:nth-child(2){animation-delay:3.5s}
+  .cycle > span:nth-child(3){animation-delay:7s}
+  .cycle > span:nth-child(4){animation-delay:10.5s}
+  @keyframes cycle-word{
+    0%{opacity:0;transform:translateY(22%);filter:blur(8px)}
+    4%{opacity:1;transform:translateY(0);filter:blur(0)}
+    21%{opacity:1;transform:translateY(0);filter:blur(0)}
+    25%{opacity:0;transform:translateY(-22%);filter:blur(8px)}
+    100%{opacity:0;transform:translateY(-22%);filter:blur(8px)}
+  }
+
+  .sub{ font-family:'Inter',sans-serif; font-size:17px; line-height:1.62; font-weight:400; color:#4A3422; max-width:560px; margin-bottom:40px; }
+  .ctas{ display:flex; align-items:center; gap:30px; flex-wrap:wrap; }
+  .cta{ display:inline-flex; align-items:center; gap:12px; text-decoration:none; font-family:'Inter',sans-serif; font-size:14px; font-weight:500; letter-spacing:.01em; transition:transform .35s ease, color .35s ease, background .35s ease; }
+  .cta.primary{ background:var(--forest); color:var(--cream); padding:15px 24px 15px 26px; border-radius:999px; box-shadow:0 1px 0 rgba(255,255,255,.4) inset, 0 14px 30px -16px rgba(11,57,16,.55); }
+  .cta.primary .arrow{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+  .cta.primary:hover{background:#0E4814}
+  .cta.primary:hover .arrow{transform:translateX(4px)}
+  .cta.secondary{ color:var(--earth); padding:15px 4px; position:relative; }
+  .cta.secondary::after{ content:""; position:absolute;left:4px;right:4px;bottom:11px; height:1px;background:var(--earth);opacity:.35; transition:opacity .35s ease, transform .35s ease; transform-origin:left; }
+  .cta.secondary:hover::after{opacity:.85;transform:scaleX(1.04)}
+  .arrow{ width:14px;height:14px; }
+
+  .foot{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; color:var(--sage); font-family:'Inter',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:.22em; font-weight:500; }
+  .foot .scroll{ display:inline-flex;align-items:center;gap:12px; }
+  .scroll .line{ width:54px;height:1px;background:currentColor;opacity:.4; position:relative;overflow:hidden; }
+  .scroll .line::after{ content:""; position:absolute;left:-30%;top:0;width:30%;height:100%; background:var(--terracotta); animation:trace 3.4s ease-in-out infinite; }
+  @keyframes trace{ 0%{left:-30%} 55%{left:100%} 100%{left:100%} }
+  .index{ font-feature-settings:"tnum"; color:#7C6E58; }
+
+  .specimen{
+    position:absolute;
+    right:8vw;
+    top:50%;
+    transform:translateY(-50%) rotate(3.2deg);
+    width:200px;
+    z-index:4;
+    pointer-events:none;
+    will-change:transform;
+    transition:transform .9s cubic-bezier(.2,.8,.2,1);
+  }
+  .card{
+    position:relative;
+    background:linear-gradient(180deg, #FBF1D9 0%, #F2E2C0 100%);
+    padding:18px 16px 16px;
+    border-radius:2px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 0 0 1px rgba(60,35,15,.06), 0 18px 28px -18px rgba(60,35,15,.45), 0 36px 60px -30px rgba(60,35,15,.35);
+  }
+  .card::before{
+    content:""; position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.12; mix-blend-mode:multiply; border-radius:inherit; pointer-events:none;
+  }
+  .card::after{ content:""; position:absolute;inset:6px; border:1px solid rgba(60,35,15,.12); pointer-events:none; }
+  .botanical{ display:block; width:100%; height:228px; }
+  .caption{ margin-top:6px; display:flex; align-items:baseline; justify-content:space-between; gap:8px; padding:0 4px; border-top:1px solid rgba(60,35,15,.12); padding-top:8px; }
+  .caption .latin{ font-family:'EB Garamond',serif; font-style:italic; font-size:13px; color:var(--forest); }
+  .caption .num{ font-family:'Inter',sans-serif; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:#8A7A5E; font-weight:500; }
+  .tape{
+    position:absolute;
+    top:-12px;left:50%;
+    transform:translateX(-50%) rotate(-3deg);
+    width:64px;height:22px;
+    background:rgba(228,197,138,.5);
+    border-left:1px solid rgba(218,155,102,.25);
+    border-right:1px solid rgba(218,155,102,.25);
+    box-shadow:0 4px 8px -4px rgba(60,35,15,.18);
+    backdrop-filter:blur(2px);
+  }
+  .side{ position:absolute; left:28px;top:50%; transform:translateY(-50%) rotate(-90deg); transform-origin:left center; font-family:'Inter',sans-serif; font-size:10.5px; letter-spacing:.42em; text-transform:uppercase; color:var(--sage); font-weight:500; z-index:5; }
+
+  /* ============================================================
+     CHAPTER DIVIDER — recurring book-chapter rule
+     ============================================================ */
+  .chapter{
+    text-align:center;
+    padding:110px 6vw 70px;
+    position:relative;
+  }
+  .chapter .roman{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:.45em;
+    color:var(--terracotta);
+    font-weight:500;
+    text-transform:uppercase;
+    display:inline-block;
+    margin-bottom:22px;
+  }
+  .chapter .roman::before,
+  .chapter .roman::after{
+    content:"";
+    display:inline-block;
+    width:34px;height:1px;
+    background:currentColor;
+    opacity:.55;
+    vertical-align:middle;
+    margin:0 14px 3px;
+  }
+  .chapter h2{
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-size:clamp(34px, 4.2vw, 54px);
+    color:var(--forest);
+    line-height:1.05;
+    letter-spacing:-.01em;
+    margin-bottom:14px;
+  }
+  .chapter h2 em{font-style:italic;font-weight:400}
+  .chapter .subtitle{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:17px;
+    color:var(--sage);
+    max-width:520px;
+    margin:0 auto;
+    line-height:1.55;
+  }
+  .chapter .hairline{
+    width:46px;height:1px;
+    background:var(--rule);
+    margin:28px auto 0;
+  }
+
+  /* ============================================================
+     SECTION II — THE ROOT (etymology, manuscript page)
+     ============================================================ */
+  .section-root{
+    background:var(--cream-deep);
+    padding:90px 6vw 130px;
+    position:relative;
+    overflow:hidden;
+  }
+  .section-root::before{
+    /* manuscript ruled grid — vertical lines every 80px @ 8% forest */
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:repeating-linear-gradient(
+      90deg,
+      rgba(11,57,16,.08) 0 1px,
+      transparent 1px 80px
+    );
+    pointer-events:none;
+    opacity:.85;
+  }
+  .section-root::after{
+    /* paper-grain overlay */
+    content:"";
+    position:absolute; inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.0' numOctaves='2' seed='9' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.18; mix-blend-mode:multiply; pointer-events:none;
+  }
+  .root-wrap{
+    position:relative;
+    max-width:1100px;
+    margin:0 auto;
+    z-index:1;
+  }
+  .root-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:64px;
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:rgba(11,57,16,.55);
+    font-weight:500;
+  }
+  .root-meta .folio{font-feature-settings:"tnum";color:var(--terracotta);opacity:.85}
+
+  .glossary{
+    display:grid;
+    grid-template-columns:38px 1fr;
+    gap:28px;
+    margin-left:12%;
+    margin-bottom:90px;
+  }
+  .glossary .marg{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:12px;
+    color:rgba(11,57,16,.45);
+    writing-mode:vertical-rl;
+    transform:rotate(180deg);
+    text-align:right;
+    line-height:1.4;
+    letter-spacing:.02em;
+    white-space:nowrap;
+  }
+  .glossary-body{
+    display:grid;
+    grid-template-columns:1fr 1.05fr;
+    gap:64px;
+    align-items:start;
+  }
+  .gloss-left .greek{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:28px;
+    color:var(--forest);
+    opacity:.78;
+    margin-bottom:6px;
+  }
+  .gloss-left .roman-word{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(48px,8vw,110px);
+    color:var(--forest);
+    line-height:.95;
+    letter-spacing:-.02em;
+  }
+  .gloss-left .roman-word .stop{color:var(--terracotta);font-style:normal}
+  .gloss-left .pos{
+    margin-top:14px;
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:rgba(11,57,16,.55);
+    font-weight:500;
+  }
+  .gloss-right{padding-top:38px}
+  .gloss-right .meanings{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:22px;
+    line-height:1.45;
+    color:var(--forest);
+    margin-bottom:22px;
+  }
+  .gloss-right .meanings .pip{
+    color:var(--terracotta);
+    font-style:normal;
+    margin:0 .55em;
+    font-weight:500;
+  }
+  .gloss-right .arrow-line{
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+    line-height:1.6;
+    color:rgba(11,57,16,.7);
+    max-width:420px;
+  }
+  .gloss-right .arrow-line .down{color:var(--terracotta)}
+
+  /* The plate (deckle box) holding the branching SVG */
+  .plate{
+    position:relative;
+    max-width:880px;
+    margin:0 auto;
+    background:var(--cream-soft);
+    padding:34px 38px 30px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.7) inset,
+      0 0 0 1px rgba(60,35,15,.08),
+      0 26px 50px -32px rgba(60,35,15,.45);
+  }
+  .plate::before{
+    /* outer deckle shadow */
+    content:"";
+    position:absolute;
+    inset:-6px;
+    background:
+      radial-gradient(ellipse at top left, rgba(60,35,15,.05), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(60,35,15,.04), transparent 60%);
+    z-index:-1;
+  }
+  .plate::after{
+    /* deckle/torn edge via SVG mask */
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.13;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+  .plate-label{
+    position:absolute;
+    top:14px; right:18px;
+    font-family:'Inter',sans-serif;
+    font-size:9.5px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    font-weight:500;
+    z-index:2;
+  }
+  .plate-label .num{color:rgba(11,57,16,.7);margin-left:8px;font-feature-settings:"tnum"}
+  .branchsvg{display:block;width:100%;height:auto;max-width:760px;margin:0 auto}
+  .branchsvg-mobile{display:none}
+  .plate-caption{
+    margin-top:18px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:14px;
+    color:rgba(11,57,16,.6);
+    text-align:center;
+  }
+  .plate-caption .pip{color:var(--terracotta);font-style:normal;margin:0 .35em}
+
+  /* Manifesto block */
+  .manifesto{
+    margin-top:90px;
+    display:grid;
+    grid-template-columns:5fr 7fr;
+    gap:80px;
+    align-items:start;
+  }
+  .manifesto::before{
+    content:"";
+    grid-column:1/-1;
+    height:1px;
+    background:var(--rule);
+    margin-bottom:24px;
+  }
+  .manifesto .left-h{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(38px,4.4vw,56px);
+    color:var(--forest);
+    line-height:1.05;
+    letter-spacing:-.01em;
+  }
+  .manifesto .right-body{
+    padding-left:8%;
+    border-left:1px solid var(--rule-soft);
+    padding-top:6px;
+  }
+  .manifesto .right-body p{
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.75;
+    color:#3F2E1B;
+    margin-bottom:18px;
+  }
+  .manifesto .right-body p em{font-family:'EB Garamond',serif;font-style:italic;font-size:17.5px}
+  .manifesto .right-body .closer{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:clamp(22px,2.4vw,30px);
+    color:var(--terracotta);
+    line-height:1.35;
+    margin-top:14px;
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .manifesto .right-body .closer .manicule{
+    flex:0 0 22px;
+    width:22px;height:22px;
+    margin-top:8px;
+    color:var(--terracotta);
+  }
+  .manifesto .byline{
+    margin-top:32px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13.5px;
+    color:rgba(11,57,16,.5);
+    text-align:right;
+  }
+
+  /* ============================================================
+     CONTENTS / VOCABULARY — justified between hairlines
+     ============================================================ */
+  .contents-list{
+    background:var(--cream);
+    padding:90px 6vw 90px;
+  }
+  .contents-list .inner{
+    max-width:1080px;
+    margin:0 auto;
+    text-align:center;
+    border-top:1px solid var(--rule);
+    border-bottom:1px solid var(--rule);
+    padding:34px 24px;
+    position:relative;
+  }
+  .contents-list .label{
+    position:absolute;
+    top:-9px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--cream);
+    padding:0 16px;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:.4em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    font-weight:500;
+  }
+  .contents-list .qualifiers{
+    font-family:'EB Garamond',serif;
+    font-size:clamp(17px,2vw,22px);
+    line-height:1.7;
+    color:var(--forest);
+    letter-spacing:.005em;
+  }
+  .contents-list .qualifiers em{font-style:italic;color:var(--forest)}
+  .contents-list .qualifiers .nri{font-family:'Inter',sans-serif;font-size:.78em;letter-spacing:.04em;color:rgba(11,57,16,.78)}
+  .contents-list .qualifiers .pip{color:var(--terracotta);margin:0 .55em;font-family:'Inter',sans-serif;font-weight:500}
+
+  /* ============================================================
+     SECTION III — THE TRIFOLD (services as herbarium plates)
+     ============================================================ */
+  .section-trifold{
+    background:var(--cream);
+    padding:30px 6vw 140px;
+    position:relative;
+  }
+  .trifold-wrap{
+    max-width:1180px;
+    margin:0 auto;
+    display:flex;
+    flex-direction:column;
+    gap:140px;
+  }
+  /* one specimen plate */
+  .specimen-plate{
+    position:relative;
+    background:var(--cream-deep);
+    padding:46px 54px 50px;
+    margin:0 auto;
+    width:100%;
+    max-width:920px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.6) inset,
+      0 0 0 1px rgba(60,35,15,.08),
+      0 30px 60px -36px rgba(60,35,15,.45);
+  }
+  .specimen-plate.tilt-l{transform:rotate(-1.1deg)}
+  .specimen-plate.tilt-r{transform:rotate(1.2deg)}
+  .specimen-plate.tilt-l2{transform:rotate(-.9deg)}
+  .specimen-plate::before{
+    /* paper grain */
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.05' numOctaves='2' seed='6' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.16;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+  }
+  .specimen-plate::after{
+    /* faint inner deckle frame */
+    content:"";
+    position:absolute;inset:9px;
+    border:1px solid rgba(60,35,15,.07);
+    pointer-events:none;
+  }
+  .washi{
+    position:absolute;
+    width:88px;height:24px;
+    top:-12px;
+    z-index:3;
+    box-shadow:0 5px 12px -6px rgba(60,35,15,.25);
+    backdrop-filter:blur(2px);
+  }
+  .washi.tape-l{
+    left:8%;
+    transform:rotate(-6deg);
+    background:linear-gradient(180deg, rgba(180,106,44,.65), rgba(201,138,79,.45));
+    border-left:1px solid rgba(140,75,30,.35);
+    border-right:1px solid rgba(140,75,30,.35);
+  }
+  .washi.tape-r{
+    right:8%;
+    transform:rotate(7deg);
+    background:linear-gradient(180deg, rgba(236,205,178,.7), rgba(218,155,102,.55));
+    border-left:1px solid rgba(218,155,102,.5);
+    border-right:1px solid rgba(218,155,102,.5);
+  }
+  .washi.tape-r2{
+    right:8%;
+    transform:rotate(8deg);
+    background:linear-gradient(180deg, rgba(228,197,138,.7), rgba(218,155,102,.45));
+    border-left:1px solid rgba(218,155,102,.45);
+    border-right:1px solid rgba(218,155,102,.45);
+  }
+
+  .plate-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:30px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--rule-soft);
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:rgba(11,57,16,.55);
+    font-weight:500;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .plate-head .left{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+  .plate-head .pl-num{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13px;
+    letter-spacing:.04em;
+    text-transform:none;
+    color:var(--terracotta);
+  }
+  .plate-head .latin{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13px;
+    letter-spacing:.02em;
+    text-transform:none;
+    color:rgba(11,57,16,.7);
+  }
+  .plate-head .latin .sub{color:rgba(11,57,16,.45);margin-left:8px}
+  .plate-head .index-num{font-feature-settings:"tnum"}
+
+  .plate-body{
+    display:grid;
+    grid-template-columns:1.45fr 1fr;
+    gap:46px;
+    align-items:start;
+  }
+  .plate-body .text{padding-right:8px}
+  .plate-body h3{
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-size:clamp(36px,4vw,46px);
+    color:var(--forest);
+    line-height:1.05;
+    letter-spacing:-.01em;
+    margin-bottom:22px;
+  }
+  .plate-body h3 em{font-style:italic;font-weight:400}
+  .plate-body .body{
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    line-height:1.75;
+    color:#3F2E1B;
+    margin-bottom:22px;
+  }
+  .plate-body .gloss{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:14.5px;
+    color:rgba(11,57,16,.65);
+    line-height:1.55;
+    border-left:1px solid var(--rule);
+    padding:6px 0 6px 14px;
+    margin-bottom:24px;
+  }
+  .plate-body .gloss .label-i{
+    font-family:'Inter',sans-serif;
+    font-style:normal;
+    font-size:9.5px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    display:block;
+    margin-bottom:4px;
+  }
+  .plate-cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:18px;
+    color:var(--terracotta);
+    border-bottom:1px solid rgba(180,106,44,.4);
+    padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .plate-cta:hover{color:var(--forest);border-bottom-color:var(--forest)}
+  .plate-cta .manicule{width:18px;height:18px;color:currentColor}
+
+  /* the tipped-in specimen photo */
+  .specimen-photo{
+    position:relative;
+    background:var(--cream-soft);
+    padding:14px 14px 12px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.6) inset,
+      0 0 0 1px rgba(60,35,15,.07),
+      0 18px 30px -18px rgba(60,35,15,.4);
+    transform:rotate(-1.4deg);
+  }
+  .specimen-photo.tilt-pos{transform:rotate(1.6deg)}
+  .specimen-photo::after{
+    content:"";
+    position:absolute;inset:8px;
+    border:1px solid rgba(60,35,15,.08);
+    pointer-events:none;
+  }
+  .specimen-photo img{
+    display:block;
+    width:100%;
+    height:300px;
+    object-fit:cover;
+    filter:saturate(.78) contrast(.94) sepia(.18) brightness(1.02);
+  }
+  .specimen-photo::before{
+    /* warm cream wash to tie photos into the page */
+    content:"";
+    position:absolute;
+    inset:14px;
+    background:linear-gradient(180deg, rgba(180,106,44,.06), rgba(228,197,138,.05));
+    mix-blend-mode:multiply;
+    pointer-events:none;
+    z-index:1;
+  }
+  .specimen-photo .latin-cap{
+    margin-top:10px;
+    padding-top:8px;
+    border-top:1px solid rgba(60,35,15,.12);
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:12.5px;
+    color:var(--forest);
+  }
+  .specimen-photo .latin-cap .right{
+    font-family:'Inter',sans-serif;
+    font-style:normal;
+    font-size:9px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:#8A7A5E;
+  }
+
+  /* tipped-in pull-quote note (service 03) */
+  .quote-note{
+    position:relative;
+    margin-top:34px;
+    background:var(--cream);
+    padding:30px 32px 26px;
+    transform:rotate(-1deg);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.7) inset,
+      0 0 0 1px rgba(60,35,15,.08),
+      0 18px 36px -22px rgba(60,35,15,.45);
+    max-width:560px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .quote-note .washi-q{
+    position:absolute;
+    top:-11px; left:50%;
+    transform:translateX(-50%) rotate(-3deg);
+    width:80px; height:22px;
+    background:rgba(218,155,102,.55);
+    border-left:1px solid rgba(180,106,44,.4);
+    border-right:1px solid rgba(180,106,44,.4);
+    box-shadow:0 4px 8px -4px rgba(60,35,15,.18);
+  }
+  .quote-note .qmark{
+    font-family:'EB Garamond',serif;
+    font-size:48px;
+    color:var(--terracotta);
+    line-height:.4;
+    margin-bottom:6px;
+    opacity:.6;
+  }
+  .quote-note .text{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:clamp(20px,2.2vw,26px);
+    line-height:1.4;
+    color:var(--forest);
+  }
+  .quote-note .attrib{
+    margin-top:14px;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    text-align:right;
+  }
+
+  /* ============================================================
+     SECTION IV — ON INTENTION (manuscript marginalia)
+     ============================================================ */
+  .section-intention{
+    background:var(--cream-soft);
+    padding:30px 6vw 140px;
+    position:relative;
+  }
+  .section-intention::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.0' numOctaves='2' seed='5' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .3 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.18; mix-blend-mode:multiply; pointer-events:none;
+  }
+  .ms-page{
+    position:relative;
+    max-width:1180px;
+    margin:0 auto;
+    background:var(--cream-deep);
+    padding:80px 70px 90px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.55) inset,
+      0 0 0 1px rgba(60,35,15,.08),
+      0 30px 60px -38px rgba(60,35,15,.4);
+  }
+  .ms-page::before{
+    /* deckle inner */
+    content:"";
+    position:absolute;inset:14px;
+    border:1px solid rgba(60,35,15,.07);
+    pointer-events:none;
+  }
+  .ms-page::after{
+    /* paper grain */
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='8' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.16; mix-blend-mode:multiply; pointer-events:none;
+  }
+  .ms-page .folio{
+    position:absolute;
+    top:24px; right:34px;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    font-weight:500;
+    font-feature-settings:"tnum";
+  }
+  .ms-page .folio-l{
+    position:absolute;
+    top:24px; left:34px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:13px;
+    color:rgba(11,57,16,.55);
+  }
+  .ms-lead{
+    max-width:760px;
+    margin:0 auto 64px;
+    text-align:center;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:clamp(28px,3.4vw,42px);
+    line-height:1.35;
+    color:var(--forest);
+    letter-spacing:-.005em;
+    position:relative;
+  }
+  .ms-lead .strike{
+    position:relative;
+    color:rgba(11,57,16,.45);
+  }
+  .ms-lead .strike::after{
+    content:"";
+    position:absolute;
+    left:-3px; right:-3px;
+    top:55%;
+    height:1.5px;
+    background:var(--terracotta);
+    opacity:.7;
+    transform:rotate(-1deg);
+  }
+  .ms-lead .em{color:var(--terracotta)}
+  .ms-lead .lead-rule{
+    display:block;
+    width:60px; height:1px;
+    background:var(--rule);
+    margin:32px auto 0;
+  }
+
+  .ms-margin-grid{
+    display:grid;
+    grid-template-columns:1fr 1.1fr 1fr;
+    gap:50px;
+    align-items:start;
+  }
+  .ms-margin-note{
+    position:relative;
+    padding:6px 0;
+  }
+  .ms-margin-note .pillar-num{
+    display:inline-block;
+    font-family:'Inter',sans-serif;
+    font-size:9.5px;
+    letter-spacing:.34em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    font-weight:500;
+    margin-bottom:10px;
+  }
+  .ms-margin-note h4{
+    font-family:'EB Garamond',serif;
+    font-weight:500;
+    font-size:21px;
+    color:var(--forest);
+    line-height:1.25;
+    margin-bottom:14px;
+    letter-spacing:-.005em;
+  }
+  .ms-margin-note .lead-italic{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:17px;
+    line-height:1.5;
+    color:var(--terracotta);
+    margin-bottom:14px;
+  }
+  .ms-margin-note .body-text{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:15px;
+    line-height:1.65;
+    color:rgba(11,57,16,.78);
+  }
+  .ms-margin-note.left{
+    text-align:right;
+    border-right:1px solid var(--rule);
+    padding-right:22px;
+  }
+  .ms-margin-note.right{
+    text-align:left;
+    border-left:1px solid var(--rule);
+    padding-left:22px;
+  }
+  .ms-center{
+    padding:0 8px;
+  }
+  .ms-center p{
+    font-family:'EB Garamond',serif;
+    font-size:17.5px;
+    line-height:1.7;
+    color:var(--forest);
+    letter-spacing:-.002em;
+    text-align:center;
+  }
+  .ms-center .ornament{
+    display:block;
+    margin:30px auto 26px;
+    width:34px; height:34px;
+    color:var(--terracotta);
+  }
+  .ms-center p em{font-style:italic}
+  .inkblot{
+    position:absolute;
+    width:70px; height:70px;
+    color:var(--forest);
+    opacity:.18;
+    pointer-events:none;
+  }
+  .inkblot.l{top:-10px;left:-26px;transform:rotate(-12deg)}
+  .inkblot.r{bottom:-20px;right:-30px;transform:rotate(40deg)}
+
+  /* ============================================================
+     SECTION V — A LETTER (closing as tipped-in letter card)
+     ============================================================ */
+  .section-letter{
+    background:var(--cream-soft);
+    padding:30px 6vw 140px;
+    position:relative;
+  }
+  .section-letter::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.0' numOctaves='2' seed='4' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .3 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.16; mix-blend-mode:multiply; pointer-events:none;
+  }
+  .letter-card{
+    position:relative;
+    max-width:700px;
+    margin:0 auto;
+    background:var(--cream-deep);
+    padding:64px 60px 52px;
+    transform:rotate(-.6deg);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.55) inset,
+      0 0 0 1px rgba(60,35,15,.08),
+      0 30px 60px -30px rgba(60,35,15,.45),
+      0 60px 100px -50px rgba(60,35,15,.35);
+  }
+  .letter-card::before{
+    content:"";
+    position:absolute;inset:9px;
+    border:1px solid rgba(60,35,15,.08);
+    pointer-events:none;
+  }
+  .letter-card::after{
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.05' numOctaves='2' seed='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.14 0 0 0 0 0.06 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:.18; mix-blend-mode:multiply; pointer-events:none;
+  }
+  .letter-card .washi-tl, .letter-card .washi-tr{
+    position:absolute;
+    width:88px; height:22px;
+    top:-11px;
+    z-index:3;
+    box-shadow:0 5px 12px -6px rgba(60,35,15,.25);
+  }
+  .letter-card .washi-tl{
+    left:14%;
+    transform:rotate(-7deg);
+    background:linear-gradient(180deg, rgba(180,106,44,.6), rgba(201,138,79,.45));
+    border-left:1px solid rgba(140,75,30,.35);
+    border-right:1px solid rgba(140,75,30,.35);
+  }
+  .letter-card .washi-tr{
+    right:14%;
+    transform:rotate(8deg);
+    background:linear-gradient(180deg, rgba(228,197,138,.7), rgba(218,155,102,.5));
+    border-left:1px solid rgba(218,155,102,.5);
+    border-right:1px solid rgba(218,155,102,.5);
+  }
+
+  .letter-card .stamp{
+    position:absolute;
+    top:18px; right:18px;
+    width:72px; height:88px;
+    background:rgba(255,248,235,.55);
+    padding:7px 6px 6px;
+    transform:rotate(4deg);
+    border:1px dashed rgba(60,35,15,.3);
+    box-shadow:0 4px 8px -4px rgba(60,35,15,.2);
+    font-family:'Inter',sans-serif;
+    font-size:7.5px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:rgba(11,57,16,.7);
+    font-weight:500;
+    text-align:center;
+    line-height:1.35;
+  }
+  .letter-card .stamp .stamp-svg{
+    width:42px;height:42px;display:block;margin:2px auto 4px;color:var(--terracotta);opacity:.85;
+  }
+
+  .letter-card .ribbon{
+    text-align:center;
+    font-family:'Inter',sans-serif;
+    font-size:10px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    font-weight:500;
+    margin-bottom:12px;
+  }
+  .letter-card .ribbon-rule{
+    width:46px; height:1px;
+    background:var(--terracotta);
+    opacity:.5;
+    margin:14px auto 28px;
+  }
+  .letter-card h3{
+    font-family:'EB Garamond',serif;
+    font-weight:400;
+    font-size:clamp(28px, 3.4vw, 38px);
+    color:var(--forest);
+    line-height:1.18;
+    letter-spacing:-.008em;
+    text-align:center;
+    margin-bottom:22px;
+  }
+  .letter-card h3 em{font-style:italic;color:var(--terracotta)}
+  .letter-card .body{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:17px;
+    line-height:1.6;
+    color:rgba(11,57,16,.75);
+    text-align:center;
+    max-width:520px;
+    margin:0 auto 36px;
+  }
+  .letter-card .sig{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:18px;
+    color:var(--forest);
+    text-align:center;
+    margin-bottom:30px;
+  }
+  .letter-card .seal-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:22px;
+    flex-wrap:wrap;
+    margin-bottom:24px;
+  }
+  .wax-seal{
+    position:relative;
+    width:74px; height:74px;
+    flex-shrink:0;
+  }
+  .wax-seal svg{display:block;width:100%;height:100%}
+  .letter-cta{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:22px;
+    color:var(--terracotta);
+    border-bottom:1px solid rgba(180,106,44,.4);
+    padding-bottom:2px;
+    transition:color .25s ease, border-color .25s ease;
+  }
+  .letter-cta:hover{color:var(--forest);border-bottom-color:var(--forest)}
+  .letter-card .typewriter{
+    text-align:center;
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:rgba(11,57,16,.55);
+    font-weight:500;
+  }
+  .letter-card .typewriter a:hover{color:var(--terracotta)}
+
+  /* ============================================================
+     SECTION VI — COLOPHON (footer)
+     ============================================================ */
+  .colophon{
+    background:var(--cream);
+    padding:120px 6vw 90px;
+    text-align:center;
+    position:relative;
+  }
+  .colophon .top-rule{
+    width:60px; height:1px;
+    background:var(--rule);
+    margin:0 auto 38px;
+  }
+  .colophon .desc{
+    max-width:520px;
+    margin:0 auto 36px;
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:17px;
+    line-height:1.6;
+    color:rgba(11,57,16,.65);
+  }
+  .colophon .meta-line{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+    font-weight:500;
+    margin-bottom:30px;
+  }
+  .colophon .meta-line .sep{opacity:.55;margin:0 .85em}
+  .colophon .links{
+    display:flex;
+    justify-content:center;
+    gap:36px;
+    margin-bottom:54px;
+    flex-wrap:wrap;
+  }
+  .colophon .links a{
+    font-family:'Inter',sans-serif;
+    font-size:11px;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--forest);
+    opacity:.78;
+    transition:opacity .25s, color .25s;
+  }
+  .colophon .links a:hover{opacity:1;color:var(--terracotta)}
+  .printer-mark{
+    width:64px; height:64px;
+    margin:0 auto 18px;
+    color:var(--terracotta);
+  }
+  .colophon .fin{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-size:16px;
+    color:rgba(11,57,16,.55);
+  }
+
+  /* ============================================================
+     ETYMOLOGY BRANCHING DIAGRAM ANIMATION
+     ============================================================ */
+  .branch-line{
+    stroke-dasharray:1;
+    stroke-dashoffset:1;
+    transition:stroke-dashoffset 1.6s cubic-bezier(0.65,0,0.35,1);
+    transition-delay:var(--branch-delay,0ms);
+  }
+  .is-in .branch-line{stroke-dashoffset:0}
+  .branch-word{
+    opacity:0;
+    transform:translateX(-8px);
+    transition:opacity .9s ease-out, transform .9s cubic-bezier(0.22,1,0.36,1);
+    transition-delay:var(--word-delay,0ms);
+  }
+  .is-in .branch-word{opacity:1;transform:translateX(0)}
+  .branch-word.center{transform:translateX(0)}
+
+  /* ============================================================
+     REVEAL ANIMATIONS
+     ============================================================ */
+  .reveal{
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity 1.2s cubic-bezier(0.22,1,0.36,1), transform 1.2s cubic-bezier(0.22,1,0.36,1);
+    transition-delay:var(--reveal-delay,0ms);
+  }
+  .reveal.is-in{opacity:1;transform:translateY(0)}
+
+  /* ============================================================
+     RESPONSIVE
+     ============================================================ */
+  @media (max-width:1100px){
+    .glossary{margin-left:4%}
+    .glossary-body{gap:36px}
+    .manifesto{gap:48px}
+    .manifesto .right-body{padding-left:0;border-left:none}
+  }
+  @media (max-width:880px){
+    .layer-fg{padding:32px 24px 36px}
+    .specimen{
+      position:relative;
+      right:auto;top:auto;
+      transform:rotate(2.5deg);
+      margin:36px auto 0;
+    }
+    .copy{margin-top:8vh;max-width:none}
+    .side{display:none}
+    .top .meta{display:none}
+    h1.hero-h1{font-size:clamp(40px, 11vw, 64px)}
+    .ctas{gap:16px}
+    .cta.primary{padding:14px 20px}
+    .topnav{padding:12px 22px}
+    .topnav.is-scrolled{padding:10px 22px}
+    .glossary{
+      grid-template-columns:1fr;
+      margin-left:0;
+      gap:14px;
+    }
+    .glossary .marg{
+      writing-mode:horizontal-tb;
+      transform:none;
+      white-space:normal;
+      text-align:left;
+      font-size:11px;
+    }
+    .glossary-body{grid-template-columns:1fr;gap:24px}
+    .gloss-right{padding-top:0}
+    .branchsvg{display:none}
+    .branchsvg-mobile{display:block;margin:0 auto;max-width:420px;width:100%}
+    .plate{padding:28px 22px 26px}
+    .manifesto{
+      grid-template-columns:1fr;
+      gap:28px;
+    }
+    .specimen-plate{padding:34px 26px 36px}
+    .plate-body{grid-template-columns:1fr;gap:32px}
+    .plate-body .text{padding-right:0}
+    .specimen-photo img{height:240px}
+    .ms-page{padding:64px 28px 70px}
+    .ms-margin-grid{
+      grid-template-columns:1fr;
+      gap:40px;
+    }
+    .ms-margin-note.left, .ms-margin-note.right{
+      text-align:left;
+      border:none;
+      padding:18px 0 0;
+      border-top:1px solid var(--rule);
+    }
+    .ms-page .folio, .ms-page .folio-l{display:none}
+    .letter-card{padding:54px 28px 44px;transform:rotate(-.4deg)}
+    .letter-card .stamp{display:none}
+    .section-root{padding:60px 22px 90px}
+    .section-trifold{padding:30px 22px 100px}
+    .trifold-wrap{gap:90px}
+    .section-intention, .section-letter{padding:30px 22px 100px}
+    .colophon{padding:90px 22px 70px}
+    .chapter{padding:80px 22px 50px}
+    .chapter .roman::before, .chapter .roman::after{width:18px;margin:0 8px 3px}
+    .contents-list{padding:60px 22px}
+    .contents-list .inner{padding:28px 18px}
+    .contents-list .qualifiers{font-size:15.5px;line-height:1.85}
+  }
+  @media (max-width:480px){
+    .layer-fg{padding:28px 22px 32px}
+    .eyebrow{font-size:10px;letter-spacing:.28em;margin-bottom:24px}
+    .sub{font-size:15.5px}
+    .specimen{width:170px}
+    .botanical{height:200px}
+    .gloss-left .roman-word{font-size:64px}
+    .ms-lead{font-size:24px;line-height:1.4}
+    .letter-card h3{font-size:24px}
+    .letter-card .body{font-size:15px}
+    .letter-cta{font-size:18px}
+    .specimen-plate.tilt-l, .specimen-plate.tilt-r, .specimen-plate.tilt-l2{transform:none}
+    .specimen-photo, .specimen-photo.tilt-pos{transform:none}
+  }
+
+  /* reduced motion */
+  @media (prefers-reduced-motion:reduce){
+    .layer,.specimen{transition:none !important;transform:none}
+    .scroll .line::after{animation:none}
+    .cycle > span{animation:none;opacity:1;filter:none;transform:none;position:relative}
+    .cycle > span:not(:first-child){display:none}
+    .reveal{opacity:1;transform:none;transition:none}
+    .branch-line{stroke-dashoffset:0;transition:none}
+    .branch-word{opacity:1;transform:none;transition:none}
+  }
+</style>
+</head>
+<body>
+
+  <!-- ====================================================
+       STICKY TOP NAVIGATION (quiet, hairline, blur on scroll)
+       ==================================================== -->
+  <nav class="topnav" id="topnav">
+    <a href="#top" class="navmark">oikos<span class="stop">.</span></a>
+    <div class="navlinks">
+      <a href="#what-we-do">Work</a>
+      <a href="#why">Why</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#contact" class="navcta">Begin a correspondence</a>
+  </nav>
+
+  <!-- ====================================================
+       HERO (preserved from HeroReference)
+       ==================================================== -->
+  <div class="stage" id="stage">
+
+    <div class="layer layer-bg" data-depth=".25">
+      <div class="linen"></div>
+      <div class="grain"></div>
+    </div>
+
+    <div class="layer layer-mid" data-depth=".6">
+      <div class="drape d1"></div>
+      <div class="drape d2"></div>
+      <div class="drape d3"></div>
+      <div class="fold"></div>
+    </div>
+
+    <div class="layer layer-fg" data-depth="0">
+      <header class="top">
+        <span class="mark">
+          <span class="dot" aria-hidden="true"></span>
+          Oikos <em>by Angelina</em>
+        </span>
+        <span class="meta" aria-hidden="true">
+          <span>Studio</span><span class="sep">·</span><span>Delhi</span><span class="sep">·</span><span>MMXXVI</span>
+        </span>
+      </header>
+
+      <section class="copy">
+        <p class="eyebrow">A practice in well-living</p>
+        <h1 class="hero-h1">
+          <span class="name">Oikos<span class="stop">.</span></span> <span class="verse">For a life</span><br>
+          <span class="verse">that </span><span class="cycle" aria-label="sustains">
+            <span>sustains</span>
+            <span>nurtures</span>
+            <span>steadies</span>
+            <span>shelters</span>
+          </span> <span class="you">you</span><span class="stop">.</span>
+        </h1>
+        <p class="sub">Biophilic interiors, conscious gifting, and a quiet workplace concierge — designed by someone who believes that doing right by the planet should also feel beautiful, calm, and personal.</p>
+        <div class="ctas">
+          <a class="cta primary" href="#what-we-do">
+            See what we do
+            <svg class="arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2.5 8h11M9.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="cta secondary" href="#contact">Or start a conversation</a>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <span class="scroll" aria-hidden="true">
+          <span>Scroll</span>
+          <span class="line"></span>
+        </span>
+        <span class="index">No. 14 — Linen, light, a single sprig</span>
+      </footer>
+    </div>
+
+    <aside class="specimen" id="specimen" aria-hidden="true" data-depth="1">
+      <div class="tape"></div>
+      <div class="card">
+        <svg class="botanical" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#0B3910"/>
+              <stop offset="100%" stop-color="#1F4D24"/>
+            </linearGradient>
+            <linearGradient id="leafback" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#3D5A3A"/>
+              <stop offset="100%" stop-color="#6B7E5C"/>
+            </linearGradient>
+          </defs>
+          <path d="M 40 6 C 41 30 39 70 40 110 C 41 130 39 144 38 156"
+                stroke="#3C230F" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".82"/>
+          <path d="M 40 28 C 36 30 32 32 28 36" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <path d="M 40 38 C 44 40 48 42 52 46" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <path d="M 40 60 C 36 62 32 64 28 68" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <path d="M 40 70 C 44 72 48 74 52 78" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <path d="M 40 92 C 36 94 32 96 28 100" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <path d="M 40 102 C 44 104 48 106 52 110" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <path d="M 39 124 C 35 126 32 128 30 132" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <path d="M 39 138 C 42 140 45 142 47 146" stroke="#3C230F" stroke-width=".5" fill="none" opacity=".65"/>
+          <g>
+            <path d="M 28 36 C 22 32 16 30 12 30 C 16 32 22 35 28 36 Z" fill="url(#leaf)"/>
+            <path d="M 52 46 C 58 41 64 38 68 38 C 64 41 58 44 52 46 Z" fill="url(#leafback)" opacity=".85"/>
+            <path d="M 28 68 C 21 65 14 64 9 64 C 14 66 21 69 28 68 Z" fill="url(#leafback)" opacity=".88"/>
+            <path d="M 52 78 C 60 72 67 68 71 68 C 67 71 60 75 52 78 Z" fill="url(#leaf)"/>
+            <path d="M 28 100 C 22 96 16 94 11 94 C 16 96 22 99 28 100 Z" fill="url(#leaf)"/>
+            <path d="M 52 110 C 60 105 66 102 70 102 C 66 105 60 108 52 110 Z" fill="url(#leafback)" opacity=".82"/>
+            <path d="M 30 132 C 25 130 19 128 15 129 C 20 131 25 132 30 132 Z" fill="url(#leafback)" opacity=".88"/>
+            <path d="M 47 146 C 53 143 58 140 62 140 C 58 143 53 145 47 146 Z" fill="url(#leaf)"/>
+            <path d="M 40 6 C 36 12 33 18 32 24 C 36 19 39 13 40 6 Z" fill="url(#leaf)"/>
+            <path d="M 40 6 C 44 12 47 18 48 24 C 44 19 41 13 40 6 Z" fill="url(#leafback)" opacity=".85"/>
+          </g>
+          <g stroke="#FFF8EB" stroke-width=".22" fill="none" opacity=".35">
+            <path d="M 13 31 Q 20 33 27 35"/>
+            <path d="M 67 39 Q 60 42 53 45"/>
+            <path d="M 10 65 Q 18 67 27 68"/>
+            <path d="M 70 69 Q 62 73 53 77"/>
+            <path d="M 12 95 Q 19 97 27 99"/>
+            <path d="M 69 103 Q 61 106 53 109"/>
+          </g>
+          <ellipse cx="42.5" cy="84" rx="2.6" ry="3.6" fill="#3C230F"/>
+          <ellipse cx="42" cy="83.2" rx=".8" ry="1.2" fill="#6B7E5C" opacity=".7"/>
+          <ellipse cx="38" cy="116" rx="2.4" ry="3.3" fill="#3C230F"/>
+          <ellipse cx="37.5" cy="115.3" rx=".7" ry="1.1" fill="#6B7E5C" opacity=".7"/>
+        </svg>
+        <div class="caption">
+          <span class="latin">Olea europaea</span>
+          <span class="num">Pl. XIV</span>
+        </div>
+      </div>
+    </aside>
+
+    <span class="side" aria-hidden="true">Vol. I — Quiet Things</span>
+  </div>
+
+  <!-- ====================================================
+       II — THE ROOT  (chapter divider)
+       ==================================================== -->
+  <section class="chapter reveal">
+    <div class="roman">— II —</div>
+    <h2>The <em>Root</em></h2>
+    <p class="subtitle">A glossary entry, copied by hand into the front of this volume.</p>
+    <div class="hairline"></div>
+  </section>
+
+  <!-- ====================================================
+       ETYMOLOGY (cream-deep paper, ruled grid, plate)
+       ==================================================== -->
+  <section class="section-root" id="etymology">
+    <div class="root-wrap">
+
+      <div class="root-meta reveal">
+        <span>From the Press of Oikos · Vol. I — Quiet Things</span>
+        <span>Folio <span class="folio">xii</span> · Recto</span>
+      </div>
+
+      <div class="glossary reveal">
+        <aside class="marg" aria-hidden="true">
+          [ a glossary entry, hand-copied from a 1923 dictionary ]
+        </aside>
+        <div class="glossary-body">
+          <div class="gloss-left">
+            <div class="greek">οἶκος</div>
+            <div class="roman-word">oíkos<span class="stop">.</span></div>
+            <div class="pos">noun &middot; ancient Greek</div>
+          </div>
+          <div class="gloss-right">
+            <p class="meanings">home<span class="pip">·</span>household<span class="pip">·</span>the small ecosystem within it</p>
+            <p class="arrow-line">Centuries later, the same root branched into two words that began their lives as one <span class="down">↓</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- THE PLATE: branching diagram boxed like an ink sketch -->
+      <div class="plate reveal" id="branch-plate">
+        <span class="plate-label">Pl. II<span class="num">— FIG. I</span></span>
+
+        <!-- Desktop SVG -->
+        <svg class="branchsvg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="false" role="img">
+          <text x="400" y="48" text-anchor="middle"
+                font-family="EB Garamond, serif" font-style="italic" font-size="44"
+                fill="#0B3910" class="branch-word center" style="--word-delay:200ms">οἶκος</text>
+
+          <path d="M 380,68 C 280,110 200,150 175,200" stroke="#B46A2C" stroke-width="1.1" fill="none"
+                pathLength="1" class="branch-line" style="--branch-delay:600ms"/>
+          <path d="M 420,68 C 520,110 600,150 625,200" stroke="#B46A2C" stroke-width="1.1" fill="none"
+                pathLength="1" class="branch-line" style="--branch-delay:800ms"/>
+
+          <circle cx="175" cy="200" r="3" fill="#B46A2C" class="branch-word" style="--word-delay:1400ms"/>
+          <circle cx="625" cy="200" r="3" fill="#B46A2C" class="branch-word" style="--word-delay:1600ms"/>
+
+          <text x="175" y="240" text-anchor="middle"
+                font-family="EB Garamond, serif" font-style="italic" font-size="42"
+                fill="#0B3910" class="branch-word" style="--word-delay:1500ms">ecology</text>
+          <text x="175" y="266" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="11" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".55" class="branch-word" style="--word-delay:1700ms">THE STUDY OF HOME</text>
+
+          <text x="625" y="240" text-anchor="middle"
+                font-family="EB Garamond, serif" font-style="italic" font-size="42"
+                fill="#0B3910" class="branch-word" style="--word-delay:1900ms">economy</text>
+          <text x="625" y="266" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="11" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".55" class="branch-word" style="--word-delay:2100ms">THE MANAGEMENT OF HOME</text>
+
+          <text x="400" y="312" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="11" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".4" class="branch-word" style="--word-delay:2200ms">TWO WORDS · ONE ROOT</text>
+        </svg>
+
+        <!-- Mobile SVG -->
+        <svg class="branchsvg-mobile" viewBox="0 0 420 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <text x="210" y="46" text-anchor="middle"
+                font-family="EB Garamond, serif" font-style="italic" font-size="40"
+                fill="#0B3910" class="branch-word center" style="--word-delay:200ms">οἶκος</text>
+          <path d="M 198,62 C 150,100 110,150 95,210" stroke="#B46A2C" stroke-width="1.1" fill="none"
+                pathLength="1" class="branch-line" style="--branch-delay:600ms"/>
+          <path d="M 222,62 C 270,100 310,150 325,210" stroke="#B46A2C" stroke-width="1.1" fill="none"
+                pathLength="1" class="branch-line" style="--branch-delay:800ms"/>
+          <circle cx="95" cy="210" r="3.2" fill="#B46A2C" class="branch-word" style="--word-delay:1400ms"/>
+          <circle cx="325" cy="210" r="3.2" fill="#B46A2C" class="branch-word" style="--word-delay:1600ms"/>
+          <text x="95" y="252" text-anchor="middle"
+                font-family="EB Garamond, serif" font-style="italic" font-size="34"
+                fill="#0B3910" class="branch-word" style="--word-delay:1500ms">ecology</text>
+          <text x="95" y="284" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="11" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".55" class="branch-word" style="--word-delay:1700ms">THE STUDY</text>
+          <text x="95" y="304" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="11" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".55" class="branch-word" style="--word-delay:1750ms">OF HOME</text>
+          <text x="325" y="252" text-anchor="middle"
+                font-family="EB Garamond, serif" font-style="italic" font-size="34"
+                fill="#0B3910" class="branch-word" style="--word-delay:1900ms">economy</text>
+          <text x="325" y="284" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="11" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".55" class="branch-word" style="--word-delay:2100ms">THE MANAGEMENT</text>
+          <text x="325" y="304" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="11" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".55" class="branch-word" style="--word-delay:2150ms">OF HOME</text>
+          <text x="210" y="346" text-anchor="middle"
+                font-family="Inter, sans-serif" font-size="13" letter-spacing="3"
+                fill="#0B3910" fill-opacity=".4" class="branch-word" style="--word-delay:2300ms">TWO WORDS · ONE ROOT</text>
+        </svg>
+
+        <p class="plate-caption"><em>Fig. 1</em><span class="pip">—</span> οἶκος, branching c. 1620.</p>
+      </div>
+
+      <!-- Manifesto -->
+      <div class="manifesto reveal">
+        <div class="left-h">A return<br>to that idea.</div>
+        <div class="right-body">
+          <p>Oikos by Angelina is a return to that idea: bringing nature, intention, and lightness into the places we spend our lives.</p>
+          <p>Our mission is to guide you in creating a thoughtful and lasting change — whether through mindful corporate gifting or biophilic home design.</p>
+          <p>We believe sustainability isn't just about reducing harm; it's about <em>designing systems</em> that nurture both people and the planet.</p>
+          <div class="closer">
+            <svg class="manicule" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <!-- hand-drawn manicule (pointing finger) -->
+              <path d="M2 13 C 5 13, 8 13, 11 12.5 M11 12.5 C 12 11, 13 9, 14.5 8 C 15 7.5, 15.5 7.5, 15.6 8 C 15.6 8.6, 15 10, 14 11.5 M14 11.5 C 16 11, 18 11, 19 11.5 C 20 12, 20 13, 19 13.5 M19 13.5 C 20 14, 20 15, 19 15.5 M19 15.5 C 19.5 16, 19.5 17, 18.5 17.5 C 17 18, 14 18, 11.5 17.5"
+                    stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".88"/>
+            </svg>
+            <em>Let's collaborate to build a future that sustains us all.</em>
+          </div>
+          <div class="byline">— A. (founder), in her own hand</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====================================================
+       CONTENTS-PAGE QUALIFIER LIST (vocabulary)
+       ==================================================== -->
+  <section class="contents-list reveal">
+    <div class="inner">
+      <span class="label">A list of qualifiers</span>
+      <p class="qualifiers">
+        <em>biophilic</em><span class="pip">·</span>
+        <span class="nri">seasonal</span><span class="pip">·</span>
+        <em>handmade</em><span class="pip">·</span>
+        <span class="nri">refillable</span><span class="pip">·</span>
+        <em>low-waste</em><span class="pip">·</span>
+        <span class="nri">intentional</span><span class="pip">·</span>
+        <em>plant-led</em><span class="pip">·</span>
+        <span class="nri">slow-made</span><span class="pip">·</span>
+        <em>earth-toned</em><span class="pip">·</span>
+        <span class="nri">considered</span><span class="pip">·</span>
+        <em>restorative</em><span class="pip">·</span>
+        <span class="nri">paper-tied</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       III — THE TRIFOLD  (chapter divider)
+       ==================================================== -->
+  <section class="chapter reveal" id="what-we-do">
+    <div class="roman">— III —</div>
+    <h2>The <em>Trifold</em></h2>
+    <p class="subtitle">Three specimens, three rooms in the house of Oikos.</p>
+    <div class="hairline"></div>
+  </section>
+
+  <!-- ====================================================
+       SERVICES — three herbarium plates DOWN the page
+       ==================================================== -->
+  <section class="section-trifold">
+    <div class="trifold-wrap">
+
+      <!-- PLATE III · BIOPHILIC DESIGN -->
+      <article class="specimen-plate tilt-l reveal">
+        <span class="washi tape-l" aria-hidden="true"></span>
+        <span class="washi tape-r" aria-hidden="true"></span>
+        <header class="plate-head">
+          <div class="left">
+            <span class="pl-num">Pl. III —</span>
+            <span class="latin">Olea europaea<span class="sub">/ Sub-class: design</span></span>
+          </div>
+          <div>Index №. <span class="index-num">0042</span></div>
+        </header>
+        <div class="plate-body">
+          <div class="text">
+            <h3>Biophilic <em>Design</em></h3>
+            <p class="body">We design offices that draw from nature rather than shut it out. Plants chosen for the light you actually have. Materials that age well. Layouts that follow how a body wants to move through a room. Air, texture, and greenery treated as part of the architecture, not decoration laid on top.</p>
+            <p class="gloss">
+              <span class="label-i">Suited for —</span>
+              Studios, café and retail interiors, and corporate offices that want to feel less like corporate offices.
+            </p>
+            <a href="#contact" class="plate-cta">
+              See our design work
+              <svg class="manicule" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M2 13 C 5 13, 8 13, 11 12.5 M11 12.5 C 12 11, 13 9, 14.5 8 C 15 7.5, 15.5 7.5, 15.6 8 C 15.6 8.6, 15 10, 14 11.5 M14 11.5 C 16 11, 18 11, 19 11.5 C 20 12, 20 13, 19 13.5 M19 13.5 C 20 14, 20 15, 19 15.5 M19 15.5 C 19.5 16, 19.5 17, 18.5 17.5 C 17 18, 14 18, 11.5 17.5"
+                      stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".88"/>
+              </svg>
+            </a>
+          </div>
+          <figure class="specimen-photo">
+            <img src="https://images.unsplash.com/photo-1545241047-6083a3684587?w=900&q=85&auto=format&fit=crop"
+                 alt="A warm interior corner with a single potted plant catching the morning light." loading="eager">
+            <figcaption class="latin-cap">
+              <span><em>The studio at 9.40am.</em></span>
+              <span class="right">Sp. 03 · Pl. III</span>
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+
+      <!-- PLATE IV · CONSCIOUS GIFTING -->
+      <article class="specimen-plate tilt-r reveal">
+        <span class="washi tape-l" aria-hidden="true"></span>
+        <span class="washi tape-r2" aria-hidden="true"></span>
+        <header class="plate-head">
+          <div class="left">
+            <span class="pl-num">Pl. IV —</span>
+            <span class="latin">Cedrus libani<span class="sub">/ Sub-class: gifting</span></span>
+          </div>
+          <div>Index №. <span class="index-num">0118</span></div>
+        </header>
+        <div class="plate-body">
+          <figure class="specimen-photo tilt-pos">
+            <img src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=900&q=85&auto=format&fit=crop"
+                 alt="A small stack of hand-bound books and journals on a warm peach surface — things people keep." loading="eager">
+            <figcaption class="latin-cap">
+              <span><em>Things kept, in a stack.</em></span>
+              <span class="right">Sp. 11 · Pl. IV</span>
+            </figcaption>
+          </figure>
+          <div class="text">
+            <h3>Conscious <em>Gifting</em></h3>
+            <p class="body">Curated gifts for festivals, corporate occasions, and the moments in between — assembled by hand, sourced from small makers, and built around things people actually keep.</p>
+            <p class="gloss">
+              <span class="label-i">Suited for —</span>
+              Personal gifting, wedding favours, client appreciation, employee onboarding, festive hampers.
+            </p>
+            <a href="#contact" class="plate-cta">
+              Browse gifting
+              <svg class="manicule" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M2 13 C 5 13, 8 13, 11 12.5 M11 12.5 C 12 11, 13 9, 14.5 8 C 15 7.5, 15.5 7.5, 15.6 8 C 15.6 8.6, 15 10, 14 11.5 M14 11.5 C 16 11, 18 11, 19 11.5 C 20 12, 20 13, 19 13.5 M19 13.5 C 20 14, 20 15, 19 15.5 M19 15.5 C 19.5 16, 19.5 17, 18.5 17.5 C 17 18, 14 18, 11.5 17.5"
+                      stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".88"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- PLATE V · CONCIERGE (with pull-quote note) -->
+      <article class="specimen-plate tilt-l2 reveal">
+        <span class="washi tape-l" aria-hidden="true"></span>
+        <span class="washi tape-r" aria-hidden="true"></span>
+        <header class="plate-head">
+          <div class="left">
+            <span class="pl-num">Pl. V —</span>
+            <span class="latin">Citrus medica<span class="sub">/ Sub-class: concierge</span></span>
+          </div>
+          <div>Index №. <span class="index-num">0207</span></div>
+        </header>
+        <div class="plate-body">
+          <div class="text">
+            <h3>An eco-friendly <em>Workplace Concierge</em></h3>
+            <p class="body">A standing supply service for the things your workplace quietly runs on — tissues, hand soap, room scents, pantry refills, washroom essentials, seasonal touches. Sourced from sustainable brands, delivered on a schedule that matches your usage, and replenished before anyone has to ask.</p>
+            <p class="gloss">
+              <span class="label-i">Suited for —</span>
+              Offices, co-working spaces, boutique hotels, clinics, studios.
+            </p>
+            <a href="#contact" class="plate-cta">
+              Set up a consultation
+              <svg class="manicule" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M2 13 C 5 13, 8 13, 11 12.5 M11 12.5 C 12 11, 13 9, 14.5 8 C 15 7.5, 15.5 7.5, 15.6 8 C 15.6 8.6, 15 10, 14 11.5 M14 11.5 C 16 11, 18 11, 19 11.5 C 20 12, 20 13, 19 13.5 M19 13.5 C 20 14, 20 15, 19 15.5 M19 15.5 C 19.5 16, 19.5 17, 18.5 17.5 C 17 18, 14 18, 11.5 17.5"
+                      stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".88"/>
+              </svg>
+            </a>
+          </div>
+          <figure class="specimen-photo">
+            <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=900&q=85&auto=format&fit=crop"
+                 alt="Amber glass refillable bottles arranged on a warm wood surface." loading="eager">
+            <figcaption class="latin-cap">
+              <span><em>Amber, refilled in winter.</em></span>
+              <span class="right">Sp. 24 · Pl. V</span>
+            </figcaption>
+          </figure>
+        </div>
+        <!-- tipped-in pull-quote note -->
+        <aside class="quote-note">
+          <span class="washi-q" aria-hidden="true"></span>
+          <div class="qmark">&ldquo;</div>
+          <p class="text">One conversation at the start. Ongoing care after that.</p>
+          <p class="attrib">—  A note tipped in by the studio</p>
+        </aside>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ====================================================
+       IV — ON INTENTION (chapter divider)
+       ==================================================== -->
+  <section class="chapter reveal" id="why">
+    <div class="roman">— IV —</div>
+    <h2>On <em>Intention</em></h2>
+    <p class="subtitle">Marginalia, in the studio's own hand.</p>
+    <div class="hairline"></div>
+  </section>
+
+  <!-- ====================================================
+       VALUES — manuscript page with marginalia
+       ==================================================== -->
+  <section class="section-intention">
+    <div class="ms-page reveal">
+      <div class="folio-l"><em>fol.</em> xxxiv</div>
+      <div class="folio">— xxxiv —</div>
+
+      <p class="ms-lead">
+        At Oikos, sustainability isn't about <span class="strike">perfection</span>;<br>
+        it's about <span class="em">intention</span>.
+        <span class="lead-rule"></span>
+      </p>
+
+      <div class="ms-margin-grid">
+        <!-- LEFT MARGIN NOTE -->
+        <aside class="ms-margin-note left">
+          <span class="pillar-num">— I — A NOTE IN THE MARGIN</span>
+          <h4>Creative Solutions, Rooted in Nature</h4>
+          <p class="lead-italic">We believe that responsibility can be beautiful.</p>
+          <p class="body-text">Our approach blends creativity with ecology — transforming spaces with biophilic art, upcycled materials, and nature-inspired design.</p>
+          <!-- tiny ink-blot SVG -->
+          <svg class="inkblot l" viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M50 10 C 70 12, 88 28, 84 50 C 90 60, 78 78, 60 84 C 48 92, 28 88, 18 72 C 8 60, 6 42, 18 30 C 24 18, 38 8, 50 10 Z" fill="currentColor"/>
+            <circle cx="76" cy="22" r="4" fill="currentColor"/>
+            <circle cx="22" cy="80" r="3" fill="currentColor"/>
+          </svg>
+        </aside>
+
+        <!-- CENTER MANUSCRIPT BODY -->
+        <div class="ms-center">
+          <p>We help you bring purpose, creativity, and authenticity into the way you live and work — <em>one conscious choice at a time.</em></p>
+          <svg class="ornament" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+            <path d="M30 8 C 22 18, 14 26, 14 36 C 14 46, 22 50, 30 50 C 38 50, 46 46, 46 36 C 46 26, 38 18, 30 8 Z"
+                  stroke="currentColor" stroke-width="1.1" fill="none" opacity=".55"/>
+            <path d="M30 12 L 30 50" stroke="currentColor" stroke-width=".8" opacity=".5"/>
+            <circle cx="30" cy="36" r="1.6" fill="currentColor" opacity=".8"/>
+          </svg>
+          <p>The two notes that follow have been pinned to either side of this page — pillars by which the studio sets its work, copied here in the margin so they sit close to the body of the text.</p>
+        </div>
+
+        <!-- RIGHT MARGIN NOTE -->
+        <aside class="ms-margin-note right">
+          <span class="pillar-num">— II — A NOTE IN THE MARGIN</span>
+          <h4>Practical Guidance, Personal Approach</h4>
+          <p class="lead-italic">We listen, collaborate, and co-create realistic strategies tailored to your lifestyle or business.</p>
+          <p class="body-text">Whether it's planning a festive hamper, greening an office, or rethinking how your workplace stocks its essentials, our goal is to make sustainability intuitive — not intimidating.</p>
+          <svg class="inkblot r" viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M48 14 C 66 18, 82 32, 82 50 C 86 64, 72 80, 56 82 C 44 88, 24 80, 18 64 C 12 52, 14 32, 28 24 C 36 16, 44 12, 48 14 Z" fill="currentColor"/>
+            <circle cx="78" cy="76" r="3" fill="currentColor"/>
+          </svg>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================
+       V — A LETTER (chapter divider)
+       ==================================================== -->
+  <section class="chapter reveal" id="contact">
+    <div class="roman">— V —</div>
+    <h2>A <em>Letter</em></h2>
+    <p class="subtitle">Begin a correspondence.</p>
+    <div class="hairline"></div>
+  </section>
+
+  <!-- ====================================================
+       CLOSING — tipped-in letter card
+       ==================================================== -->
+  <section class="section-letter">
+    <article class="letter-card reveal">
+      <span class="washi-tl" aria-hidden="true"></span>
+      <span class="washi-tr" aria-hidden="true"></span>
+
+      <!-- POSTAGE stamp -->
+      <div class="stamp" aria-hidden="true">
+        <svg class="stamp-svg" viewBox="0 0 50 50" fill="none">
+          <circle cx="25" cy="25" r="22" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".6"/>
+          <circle cx="25" cy="25" r="14" stroke="currentColor" stroke-width="1" fill="none" opacity=".5"/>
+          <text x="25" y="29" text-anchor="middle" font-family="EB Garamond, serif" font-style="italic" font-size="14" fill="currentColor">o</text>
+        </svg>
+        OIKOS<br>DELHI<br>2026
+      </div>
+
+      <p class="ribbon">Letter of Invitation</p>
+      <div class="ribbon-rule"></div>
+
+      <h3>Tell us about <em>your space</em>, <em>your occasion</em>,<br>or your office.</h3>
+
+      <p class="body">We'll take it from there. One short conversation is usually all it takes to find the right starting point.</p>
+
+      <p class="sig">— Angelina, <em>Oikos</em></p>
+
+      <div class="seal-row">
+        <!-- WAX SEAL -->
+        <div class="wax-seal" aria-hidden="true">
+          <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="wax" cx=".4" cy=".35" r=".75">
+                <stop offset="0%" stop-color="#D88858"/>
+                <stop offset="55%" stop-color="#B46A2C"/>
+                <stop offset="100%" stop-color="#7C3F11"/>
+              </radialGradient>
+              <filter id="waxshadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="1.2"/>
+              </filter>
+            </defs>
+            <!-- irregular wax outer -->
+            <path d="M40 6 C 56 4, 70 16, 74 32 C 78 46, 70 62, 56 70 C 42 78, 22 74, 12 60 C 4 48, 4 30, 16 18 C 24 10, 34 6, 40 6 Z"
+                  fill="url(#wax)" stroke="#5C2E0A" stroke-width="1.1"/>
+            <!-- inner stamp impression -->
+            <circle cx="40" cy="40" r="22" fill="none" stroke="#FFF8EB" stroke-width="0.8" opacity=".25"/>
+            <circle cx="40" cy="40" r="18" fill="none" stroke="#5C2E0A" stroke-width="1" opacity=".55"/>
+            <text x="40" y="46" text-anchor="middle" font-family="EB Garamond, serif" font-style="italic" font-size="22" fill="#FFF8EB" opacity=".88">o</text>
+            <!-- highlight -->
+            <ellipse cx="30" cy="22" rx="10" ry="5" fill="#FFF8EB" opacity=".18"/>
+          </svg>
+        </div>
+
+        <a class="letter-cta" href="mailto:oikosbyangelina@gmail.com">
+          Get in touch →
+        </a>
+      </div>
+
+      <p class="typewriter"><a href="mailto:oikosbyangelina@gmail.com">oikosbyangelina@gmail.com</a></p>
+    </article>
+  </section>
+
+  <!-- ====================================================
+       VI — COLOPHON (footer)
+       ==================================================== -->
+  <footer class="colophon">
+    <div class="top-rule"></div>
+    <p class="desc reveal">
+      <em>This volume was set in EB Garamond and Inter, on the principle that beautiful things should also be useful. Printed on screens in Delhi, India.</em>
+    </p>
+    <p class="meta-line reveal">OIKOS<span class="sep">·</span>BY ANGELINA<span class="sep">—</span>VOLUME ONE<span class="sep">—</span>© 2026<span class="sep">—</span>DELHI</p>
+    <div class="links reveal">
+      <a href="#what-we-do">Work</a>
+      <a href="#why">Why</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <!-- printer's mark -->
+    <div class="printer-mark reveal" aria-hidden="true">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="28" stroke="currentColor" stroke-width="1.2" fill="none" opacity=".75"/>
+        <circle cx="32" cy="32" r="22" stroke="currentColor" stroke-width=".8" fill="none" opacity=".55"/>
+        <text x="32" y="40" text-anchor="middle" font-family="EB Garamond, serif" font-style="italic" font-size="26" fill="currentColor">o</text>
+        <!-- tiny laurel hint -->
+        <path d="M10 32 C 14 28, 16 22, 18 18" stroke="currentColor" stroke-width=".7" fill="none" opacity=".55"/>
+        <path d="M54 32 C 50 28, 48 22, 46 18" stroke="currentColor" stroke-width=".7" fill="none" opacity=".55"/>
+        <path d="M10 32 C 14 36, 16 42, 18 46" stroke="currentColor" stroke-width=".7" fill="none" opacity=".55"/>
+        <path d="M54 32 C 50 36, 48 42, 46 46" stroke="currentColor" stroke-width=".7" fill="none" opacity=".55"/>
+      </svg>
+    </div>
+    <p class="fin reveal"><em>Fin.</em></p>
+  </footer>
+
+  <!-- ============================================================
+       SCRIPTS — hero parallax + reveals + branch + nav
+       ============================================================ -->
+  <script>
+    /* HERO parallax (preserved from HeroReference) */
+    (function(){
+      const stage = document.getElementById('stage');
+      if(!stage) return;
+      const layers = stage.querySelectorAll('[data-depth]');
+      const specimen = document.getElementById('specimen');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduce) return;
+      const MAX = 15;
+      let tx = 0, ty = 0, cx = 0, cy = 0;
+      let raf = null;
+      function apply(){
+        cx += (tx - cx) * 0.08;
+        cy += (ty - cy) * 0.08;
+        layers.forEach(l => {
+          const d = parseFloat(l.dataset.depth) || 0;
+          const x = (cx * MAX * d).toFixed(2);
+          const y = (cy * MAX * d).toFixed(2);
+          l.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
+        });
+        if(specimen){
+          const x = (cx * MAX * 1.0).toFixed(2);
+          const y = (cy * MAX * 1.0).toFixed(2);
+          specimen.style.transform = 'translateY(-50%) translate3d(' + x + 'px,' + y + 'px,0) rotate(3.2deg)';
+        }
+        if(Math.abs(tx-cx) > 0.001 || Math.abs(ty-cy) > 0.001){
+          raf = requestAnimationFrame(apply);
+        } else { raf = null; }
+      }
+      function setTarget(nx, ny){
+        tx = nx; ty = ny;
+        if(!raf) raf = requestAnimationFrame(apply);
+      }
+      window.addEventListener('mousemove', (e) => {
+        if(window.scrollY > window.innerHeight) return;
+        const w = window.innerWidth, h = window.innerHeight;
+        const nx = (e.clientX / w) * 2 - 1;
+        const ny = (e.clientY / h) * 2 - 1;
+        setTarget(nx, ny);
+      }, { passive:true });
+      let lastY = window.scrollY;
+      window.addEventListener('scroll', () => {
+        const ny = Math.max(-1, Math.min(1, window.scrollY / Math.max(window.innerHeight, 1)));
+        setTarget(0, ny);
+        lastY = window.scrollY;
+      }, { passive:true });
+      if(window.DeviceOrientationEvent){
+        window.addEventListener('deviceorientation', (e) => {
+          if(e.gamma == null || e.beta == null) return;
+          const nx = Math.max(-1, Math.min(1, e.gamma / 30));
+          const ny = Math.max(-1, Math.min(1, (e.beta - 30) / 45));
+          setTarget(nx, ny);
+        }, { passive:true });
+      }
+      setTarget(-0.05, 0.05);
+    })();
+
+    /* Reveal observer */
+    (function(){
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const revealAll = () => {
+        document.querySelectorAll('.reveal, #branch-plate').forEach(el => el.classList.add('is-in'));
+      };
+      if(reduce){
+        revealAll();
+        return;
+      }
+      const io = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      }), { threshold: 0.12, rootMargin: '0px 0px 200px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+      /* Fallback: in screenshot / very-tall-viewport mode, reveal everything after a beat */
+      const isLikelyScreenshot = window.innerHeight > 1800
+        || (document.documentElement.scrollHeight > 0 && window.innerHeight >= document.documentElement.scrollHeight - 4);
+      setTimeout(() => { if(isLikelyScreenshot) revealAll(); }, 600);
+      setTimeout(revealAll, 2200);
+    })();
+
+    /* Sticky nav scroll state */
+    (function(){
+      const nav = document.getElementById('topnav');
+      if(!nav) return;
+      const tick = () => {
+        if(window.scrollY > 80) nav.classList.add('is-scrolled');
+        else nav.classList.remove('is-scrolled');
+      };
+      tick();
+      window.addEventListener('scroll', tick, { passive: true });
+    })();
+  </script>
+</body>
+</html>
