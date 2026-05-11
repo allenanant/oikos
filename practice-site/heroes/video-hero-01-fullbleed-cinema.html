@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>oikos — a practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=Inter:wght@200;300;400;500&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:    #FFF8EB;
+    --cream-soft: rgba(255, 248, 235, 0.72);
+    --cream-faint: rgba(255, 248, 235, 0.55);
+    --forest:   #0B3910;
+    --terracotta:#B46A2C;
+    --sand:     #ECCDB2;
+    --honey:    #DA9B66;
+    --gold:     #E4C58A;
+    --earth:    #3C230F;
+    --berry:    #6E1919;
+    --sage:     #939991;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--earth);color:var(--cream);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+  .hero{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    height:100dvh;
+    overflow:hidden;
+    background:var(--earth);
+  }
+
+  /* full-bleed video */
+  .hero__video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    filter:saturate(.95) contrast(1.03) brightness(.92);
+    z-index:1;
+  }
+
+  /* forest-tinted vertical wash. top 0% -> bottom 35%. legible, not blacked-out. */
+  .hero__wash{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(11, 57, 16, 0.00) 0%,
+        rgba(11, 57, 16, 0.06) 32%,
+        rgba(11, 57, 16, 0.18) 62%,
+        rgba(11, 57, 16, 0.35) 100%
+      );
+    pointer-events:none;
+  }
+
+  /* second wash, very subtle, biased to the lower-left where the headline sits */
+  .hero__wash--left{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    background:
+      radial-gradient(
+        ellipse 70% 55% at 22% 78%,
+        rgba(11, 57, 16, 0.30) 0%,
+        rgba(11, 57, 16, 0.08) 55%,
+        rgba(11, 57, 16, 0.00) 100%
+      );
+    pointer-events:none;
+    mix-blend-mode:multiply;
+  }
+
+  /* chrome */
+  .hero__chrome{
+    position:absolute;
+    inset:0;
+    z-index:3;
+    display:grid;
+    grid-template-rows:auto 1fr auto;
+    padding:clamp(20px, 3.2vw, 44px) clamp(22px, 4vw, 56px);
+    pointer-events:none;
+  }
+
+  .hero__chrome > *{pointer-events:auto}
+
+  .hero__top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:24px;
+  }
+
+  .wordmark{
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    font-size:clamp(22px, 1.9vw, 30px);
+    letter-spacing:-0.01em;
+    color:var(--cream);
+    line-height:1;
+    text-decoration:none;
+  }
+
+  .wordmark__dot{
+    display:inline-block;
+    width:5px;height:5px;
+    border-radius:50%;
+    background:var(--sand);
+    margin-left:6px;
+    vertical-align:5px;
+  }
+
+  .nav{
+    display:flex;
+    gap:clamp(18px, 2.4vw, 34px);
+    align-items:center;
+  }
+
+  .nav a{
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--cream-soft);
+    text-decoration:none;
+    transition:color .4s cubic-bezier(.22,1,.36,1);
+  }
+
+  .nav a:hover{color:var(--cream)}
+
+  /* the headline column, anchored lower-left */
+  .hero__stage{
+    align-self:end;
+    justify-self:start;
+    max-width:min(880px, 78vw);
+    padding-bottom:clamp(12px, 2vh, 28px);
+  }
+
+  .headline{
+    font-family:'Inter',sans-serif;
+    font-weight:200;
+    color:var(--cream);
+    font-size:clamp(38px, 5.6vw, 88px);
+    line-height:1.06;
+    letter-spacing:-0.022em;
+    text-wrap:balance;
+  }
+
+  .headline__line{
+    display:block;
+  }
+
+  .headline em{
+    font-family:'EB Garamond',serif;
+    font-style:italic;
+    font-weight:500;
+    color:var(--sand);
+    letter-spacing:-0.01em;
+  }
+
+  .meta{
+    margin-top:clamp(22px, 3vh, 36px);
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    font-size:11px;
+    letter-spacing:0.32em;
+    text-transform:lowercase;
+    color:var(--cream-faint);
+  }
+
+  .meta__dot{
+    display:inline-block;
+    margin:0 10px;
+    opacity:.7;
+  }
+
+  .cta{
+    margin-top:clamp(22px, 3vh, 32px);
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 26px;
+    border:1px solid var(--cream-soft);
+    border-radius:999px;
+    background:transparent;
+    color:var(--cream);
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    font-size:14px;
+    letter-spacing:0.02em;
+    text-decoration:none;
+    cursor:pointer;
+    transition:border-color .5s cubic-bezier(.22,1,.36,1), background-color .5s cubic-bezier(.22,1,.36,1), color .5s cubic-bezier(.22,1,.36,1);
+  }
+
+  .cta:hover{
+    border-color:var(--cream);
+    background:rgba(255, 248, 235, 0.08);
+  }
+
+  .cta__arrow{
+    display:inline-block;
+    width:18px;
+    height:1px;
+    background:currentColor;
+    position:relative;
+  }
+  .cta__arrow::after{
+    content:"";
+    position:absolute;
+    right:0;top:50%;
+    width:7px;height:7px;
+    border-top:1px solid currentColor;
+    border-right:1px solid currentColor;
+    transform:translateY(-50%) rotate(45deg);
+  }
+
+  .hero__bottom{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:24px;
+    margin-top:clamp(28px, 4vh, 44px);
+  }
+
+  .colophon{
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--cream-faint);
+    align-self:end;
+  }
+
+  .scroll-hint{
+    font-family:'Inter',sans-serif;
+    font-weight:300;
+    font-size:11px;
+    letter-spacing:0.28em;
+    color:var(--cream-faint);
+    text-transform:lowercase;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    align-self:end;
+  }
+
+  .scroll-hint__rule{
+    display:inline-block;
+    width:34px;height:1px;
+    background:var(--cream-faint);
+  }
+
+  /* reduced motion: pause video, lean on poster */
+  @media (prefers-reduced-motion: reduce){
+    .hero__video{
+      animation:none !important;
+    }
+  }
+
+  /* phones: shift headline down a touch, reduce side padding */
+  @media (max-width: 640px){
+    .hero__chrome{
+      padding:18px 20px;
+    }
+    .nav{display:none}
+    .hero__stage{max-width:92vw}
+    .meta{letter-spacing:0.22em}
+    .scroll-hint{display:none}
+  }
+</style>
+</head>
+<body>
+  <section class="hero" aria-label="oikos — a practice in delhi">
+
+    <video
+      class="hero__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="../../web/public/photos/biophilic.jpg"
+      aria-hidden="true">
+      <source src="../video/hero.mp4" type="video/mp4" />
+    </video>
+
+    <div class="hero__wash" aria-hidden="true"></div>
+    <div class="hero__wash--left" aria-hidden="true"></div>
+
+    <div class="hero__chrome">
+
+      <header class="hero__top">
+        <a class="wordmark" href="#" aria-label="oikos — home">
+          oikos<span class="wordmark__dot" aria-hidden="true"></span>
+        </a>
+
+        <nav class="nav" aria-label="primary">
+          <a href="#what">what</a>
+          <a href="#why">why</a>
+          <a href="#how">how</a>
+          <a href="#voices">voices</a>
+        </nav>
+      </header>
+
+      <div class="hero__stage">
+        <h1 class="headline">
+          <span class="headline__line">we restructure offices</span>
+          <span class="headline__line">into rooms that <em>breathe</em>,</span>
+          <span class="headline__line">by hand, in delhi.</span>
+        </h1>
+
+        <div class="meta">
+          a practice<span class="meta__dot">·</span>delhi<span class="meta__dot">·</span>est. 2022
+        </div>
+
+        <a class="cta" href="#contact">
+          <span>begin a conversation</span>
+          <span class="cta__arrow" aria-hidden="true"></span>
+        </a>
+      </div>
+
+      <div class="hero__bottom">
+        <div class="colophon">a small studio · plants, materials, makers</div>
+        <div class="scroll-hint" aria-hidden="true">
+          <span class="scroll-hint__rule"></span>
+          <span>scroll</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    // reduced-motion: pause the video, let the poster carry the frame.
+    (function(){
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const v = document.querySelector('.hero__video');
+      if(!v) return;
+      function apply(){
+        if(mq.matches){
+          try{ v.pause(); }catch(e){}
+          v.removeAttribute('autoplay');
+        }
+      }
+      apply();
+      if(mq.addEventListener) mq.addEventListener('change', apply);
+    })();
+  </script>
+</body>
+</html>

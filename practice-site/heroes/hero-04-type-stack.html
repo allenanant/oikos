@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>oikos · practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=Inter:wght@200;300;400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream:     #FFF8EB;
+    --forest:    #0B3910;
+    --terracotta:#B46A2C;
+    --sand:      #ECCDB2;
+    --honey:     #DA9B66;
+    --gold:      #E4C58A;
+    --earth:     #3C230F;
+    --berry:     #6E1919;
+    --sage:      #939991;
+
+    --display: "Inter", "Helvetica Neue", system-ui, sans-serif;
+    --serif:   "EB Garamond", "Georgia", serif;
+    --body:    "Poppins", "Inter", system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--forest);
+    font-family: var(--body);
+    font-weight: 300;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Hero shell — single full-viewport composition */
+  .hero {
+    min-height: 100vh;
+    width: 100%;
+    padding: clamp(28px, 4.5vw, 56px) clamp(28px, 6vw, 88px) clamp(28px, 4.5vw, 56px);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: clamp(40px, 7vh, 96px);
+    position: relative;
+  }
+
+  /* TOP STACK: wordmark + meta */
+  .top {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 720px;
+  }
+
+  .wordmark {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(22px, 2.1vw, 28px);
+    letter-spacing: -0.01em;
+    color: var(--forest);
+    line-height: 1;
+  }
+
+  .meta {
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    color: var(--sage);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .meta .dot {
+    width: 3px; height: 3px;
+    background: var(--sage);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  /* MIDDLE STACK: manifesto */
+  .stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(32px, 5.5vh, 56px);
+    max-width: 1180px;
+  }
+
+  .manifesto {
+    font-family: var(--display);
+    font-weight: 200;
+    color: var(--forest);
+    font-size: clamp(38px, 6.4vw, 92px);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .manifesto .line {
+    display: block;
+  }
+
+  /* Indent rhythm — gives the stack the breathing of a typeset page */
+  .manifesto .line.l2 { padding-left: clamp(28px, 4.5vw, 84px); }
+  .manifesto .line.l3 { padding-left: clamp(56px, 9vw, 168px); }
+
+  .accent {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracotta);
+    letter-spacing: -0.005em;
+  }
+
+  /* Long terracotta hairline */
+  .rule {
+    height: 1px;
+    background: var(--terracotta);
+    width: 100%;
+    transform-origin: left center;
+    opacity: 0.85;
+  }
+
+  /* BOTTOM STACK: closing line + CTA + scroll cue */
+  .bottom {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: clamp(24px, 4vw, 64px);
+    max-width: 1180px;
+  }
+
+  .closing {
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: clamp(14.5px, 1.15vw, 17px);
+    line-height: 1.55;
+    color: var(--forest);
+    max-width: 52ch;
+    margin: 0;
+    opacity: 0.86;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .cta {
+    --pad-y: 14px;
+    --pad-x: 22px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: var(--pad-y) var(--pad-x);
+    background: var(--forest);
+    color: var(--cream);
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: 0.005em;
+    border: 1px solid var(--forest);
+    transition: background 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cta:hover {
+    background: var(--earth);
+    transform: translateY(-1px);
+  }
+  .cta:focus-visible {
+    outline: 2px solid var(--terracotta);
+    outline-offset: 3px;
+  }
+  .cta .arrow {
+    width: 14px; height: 10px;
+    display: inline-block;
+  }
+  .cta .arrow line, .cta .arrow polyline {
+    stroke: var(--cream);
+    stroke-width: 1;
+    fill: none;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+  }
+
+  /* Scroll cue — bottom right, very small */
+  .scroll-cue {
+    position: absolute;
+    right: clamp(28px, 6vw, 88px);
+    bottom: clamp(28px, 4.5vw, 56px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+  }
+  .scroll-cue .label {
+    font-family: var(--body);
+    font-weight: 300;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--sage);
+    text-transform: lowercase;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+  .scroll-cue svg {
+    width: 8px; height: 28px;
+    overflow: visible;
+  }
+  .scroll-cue svg line {
+    stroke: var(--sage);
+    stroke-width: 1;
+    stroke-linecap: square;
+  }
+
+  /* Subtle reveal on first paint — exponential ease-out, single orchestrated entrance */
+  @media (prefers-reduced-motion: no-preference) {
+    .top, .stage, .bottom { opacity: 0; transform: translateY(8px); }
+    .top   { animation: rise 900ms cubic-bezier(0.16, 1, 0.3, 1) 60ms forwards; }
+    .stage { animation: rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) 220ms forwards; }
+    .bottom{ animation: rise 1000ms cubic-bezier(0.16, 1, 0.3, 1) 420ms forwards; }
+    .rule  { transform: scaleX(0); animation: drawRule 1400ms cubic-bezier(0.19, 1, 0.22, 1) 540ms forwards; }
+    .scroll-cue { opacity: 0; animation: fadeIn 1200ms ease-out 900ms forwards; }
+  }
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes drawRule {
+    to { transform: scaleX(1); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* Tablet */
+  @media (max-width: 900px) {
+    .manifesto { font-size: clamp(36px, 7.4vw, 64px); }
+    .manifesto .line.l2 { padding-left: 18px; }
+    .manifesto .line.l3 { padding-left: 36px; }
+    .bottom { grid-template-columns: 1fr; }
+    .actions { justify-self: start; }
+    .scroll-cue { display: none; }
+  }
+
+  /* Phone */
+  @media (max-width: 560px) {
+    .hero {
+      padding: 28px 22px 32px;
+      gap: 48px;
+    }
+    .manifesto {
+      font-size: clamp(32px, 9vw, 44px);
+      line-height: 1.12;
+    }
+    .manifesto .line.l2 { padding-left: 12px; }
+    .manifesto .line.l3 { padding-left: 24px; }
+    .closing { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" aria-label="oikos by angelina">
+
+  <!-- top: wordmark + meta -->
+  <header class="top">
+    <span class="wordmark">oikos</span>
+    <span class="meta">
+      <span>delhi</span>
+      <span class="dot" aria-hidden="true"></span>
+      <span>est. 2022</span>
+    </span>
+  </header>
+
+  <!-- middle: manifesto -->
+  <div class="stage">
+    <h1 class="manifesto">
+      <span class="line l1">we work <span class="accent">slowly</span>,</span>
+      <span class="line l2">by <span class="accent">hand</span>,</span>
+      <span class="line l3">in plants and <span class="accent">quiet</span> materials.</span>
+    </h1>
+    <div class="rule" aria-hidden="true"></div>
+  </div>
+
+  <!-- bottom: closing + CTA -->
+  <footer class="bottom">
+    <p class="closing">
+      a small practice for biophilic interiors, conscious gifting,
+      and quieter workplaces. one room, one set of favours,
+      one studio at a time.
+    </p>
+    <div class="actions">
+      <a class="cta" href="#contact">
+        begin a conversation
+        <svg class="arrow" viewBox="0 0 14 10" aria-hidden="true">
+          <line x1="0" y1="5" x2="13" y2="5"></line>
+          <polyline points="9,1 13,5 9,9"></polyline>
+        </svg>
+      </a>
+    </div>
+  </footer>
+
+  <!-- scroll cue: single thin line, no stock icon -->
+  <div class="scroll-cue" aria-hidden="true">
+    <span class="label">scroll</span>
+    <svg viewBox="0 0 8 28">
+      <line x1="4" y1="0" x2="4" y2="22"></line>
+      <line x1="4" y1="22" x2="1" y2="19"></line>
+      <line x1="4" y1="22" x2="7" y2="19"></line>
+    </svg>
+  </div>
+
+</section>
+
+</body>
+</html>

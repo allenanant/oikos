@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>oikos — practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=Inter:wght@300;400;500&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8EB;
+    --forest: #0B3910;
+    --terracotta: #B46A2C;
+    --sand: #ECCDB2;
+    --honey: #DA9B66;
+    --gold: #E4C58A;
+    --earth: #3C230F;
+    --berry: #6E1919;
+    --sage: #939991;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--forest);
+    color: var(--cream);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+  }
+
+  .hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Real photo — saturation / contrast tune via filter so it reads as interior, not stock */
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 55%;
+    filter: saturate(0.92) contrast(1.04) brightness(0.96);
+    z-index: 0;
+  }
+
+  /* Soft radial vignette — tinted with forest, not black */
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(
+        ellipse 120% 90% at 50% 45%,
+        rgba(11, 57, 16, 0) 40%,
+        rgba(11, 57, 16, 0.18) 78%,
+        rgba(11, 57, 16, 0.34) 100%
+      );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Lower-third gradient floor for legibility — forest-tinted, not harsh black */
+  .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(11, 57, 16, 0.10) 0%,
+        rgba(11, 57, 16, 0) 28%,
+        rgba(11, 57, 16, 0) 50%,
+        rgba(60, 35, 15, 0.32) 82%,
+        rgba(60, 35, 15, 0.55) 100%
+      );
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Top-left wordmark */
+  .wordmark {
+    position: absolute;
+    top: 32px;
+    left: 40px;
+    z-index: 3;
+    font-family: 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--cream);
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .wordmark__dot {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    margin-left: 4px;
+    transform: translateY(-2px);
+  }
+
+  /* Top-right tiny nav — kept to a single, unstyled-feeling item to avoid magazine chrome */
+  .topnav {
+    position: absolute;
+    top: 38px;
+    right: 40px;
+    z-index: 3;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    color: var(--cream);
+    opacity: 0.78;
+  }
+
+  .topnav a {
+    color: inherit;
+    text-decoration: none;
+    margin-left: 28px;
+    transition: opacity 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .topnav a:hover { opacity: 0.65; }
+
+  /* Lower-left content block */
+  .content {
+    position: absolute;
+    bottom: 88px;
+    left: 40px;
+    max-width: 640px;
+    z-index: 3;
+    color: var(--cream);
+  }
+
+  .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: lowercase;
+    color: var(--cream);
+    opacity: 0.72;
+    margin-bottom: 22px;
+  }
+
+  .headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(34px, 4.6vw, 64px);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
+    color: var(--cream);
+    margin-bottom: 28px;
+    text-wrap: balance;
+  }
+
+  .headline em {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--sand);
+    /* fractional letter-spacing pulls the italic into proper serif rhythm */
+    letter-spacing: 0;
+    padding: 0 0.04em;
+  }
+
+  .sub {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--cream);
+    opacity: 0.86;
+    max-width: 460px;
+    margin-bottom: 36px;
+  }
+
+  /* CTA pill — terracotta fill, cream type, no shadow */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--terracotta);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 14px 22px 14px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 1px solid rgba(255, 248, 235, 0.18);
+    transition: background 220ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .cta:hover {
+    background: #A05F25;
+    transform: translateY(-1px);
+  }
+
+  .cta__arrow {
+    display: inline-block;
+    width: 14px;
+    height: 1px;
+    background: var(--cream);
+    position: relative;
+    transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .cta__arrow::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 7px;
+    height: 7px;
+    border-top: 1px solid var(--cream);
+    border-right: 1px solid var(--cream);
+    transform: rotate(45deg);
+    transform-origin: right center;
+  }
+
+  .cta:hover .cta__arrow { width: 18px; }
+
+  /* Bottom meta strip — quiet, tracked, dot-separated */
+  .meta {
+    position: absolute;
+    bottom: 32px;
+    left: 40px;
+    right: 40px;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--cream);
+    opacity: 0.62;
+  }
+
+  .meta__group {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+
+  .meta__sep {
+    color: var(--sand);
+    opacity: 0.7;
+  }
+
+  .meta__right {
+    opacity: 0.55;
+  }
+
+  /* Responsive — keep the gesture intact on smaller screens */
+  @media (max-width: 720px) {
+    .wordmark { top: 24px; left: 24px; font-size: 20px; }
+    .topnav { top: 28px; right: 24px; font-size: 11px; }
+    .topnav a { margin-left: 18px; }
+    .content { left: 24px; right: 24px; bottom: 96px; max-width: none; }
+    .headline { font-size: clamp(28px, 8vw, 44px); }
+    .meta { left: 24px; right: 24px; bottom: 24px; flex-direction: column; align-items: flex-start; gap: 8px; }
+  }
+
+  /* Subtle entrance — no bounce, ease-out exponential */
+  @keyframes lift {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .wordmark, .topnav, .content > *, .meta {
+    animation: lift 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .wordmark { animation-delay: 80ms; }
+  .topnav { animation-delay: 140ms; }
+  .eyebrow { animation-delay: 220ms; }
+  .headline { animation-delay: 300ms; }
+  .sub { animation-delay: 420ms; }
+  .cta { animation-delay: 540ms; }
+  .meta { animation-delay: 680ms; }
+
+  /* Photo gets a very slow slow-zoom — under 4% over 14s, imperceptible but alive */
+  @keyframes drift {
+    from { transform: scale(1.02); }
+    to   { transform: scale(1.055); }
+  }
+  .hero__photo {
+    animation: drift 18s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+  }
+</style>
+</head>
+<body>
+  <section class="hero">
+    <img class="hero__photo" src="../../web/public/photos/hero.jpg" alt="A quiet interior with plants and warm afternoon light, Delhi.">
+
+    <a class="wordmark" href="#">oikos<span class="wordmark__dot"></span></a>
+
+    <nav class="topnav">
+      <a href="#practice">practice</a>
+      <a href="#work">work</a>
+      <a href="#studio">studio</a>
+    </nav>
+
+    <div class="content">
+      <div class="eyebrow">a small studio in delhi</div>
+      <h1 class="headline">
+        rooms that grow <em>steadier</em><br>
+        the longer you live in them.
+      </h1>
+      <p class="sub">
+        We work slowly, with plants, paper, lime plaster and reclaimed wood. One living room, one nursery, one set of wedding favours at a time.
+      </p>
+      <a class="cta" href="#contact">
+        begin a conversation
+        <span class="cta__arrow"></span>
+      </a>
+    </div>
+
+    <div class="meta">
+      <div class="meta__group">
+        <span>delhi</span>
+        <span class="meta__sep">·</span>
+        <span>est. 2022</span>
+        <span class="meta__sep">·</span>
+        <span>by hand</span>
+      </div>
+      <div class="meta__right">scroll</div>
+    </div>
+  </section>
+</body>
+</html>

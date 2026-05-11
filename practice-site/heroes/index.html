@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>oikos — hero variants</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Inter:wght@200;300;400;500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FFF8EB;
+    --forest:#0B3910;
+    --terracotta:#B46A2C;
+    --sand:#ECCDB2;
+    --sage:#939991;
+    --rule:rgba(11,57,16,.14);
+    --mute:rgba(11,57,16,.6);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--cream);color:var(--forest);font-family:'Inter',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:32px;
+    padding:20px 40px;
+    background:rgba(255,248,235,.92);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--rule);
+    font-size:13px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;font-weight:500;font-size:16px;letter-spacing:-.2px}
+  .brand .b{width:8px;height:8px;border-radius:50%;background:var(--terracotta)}
+  .crumb{color:var(--mute);font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+  .controls{display:flex;align-items:center;gap:14px}
+  .controls label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute)}
+  .controls select{
+    border:1px solid var(--rule);background:var(--cream);color:var(--forest);
+    font:inherit;font-size:12px;padding:8px 14px;border-radius:999px;cursor:pointer;
+  }
+  .controls a.solo{
+    color:var(--terracotta);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border-bottom:1px solid var(--terracotta);padding-bottom:1px
+  }
+
+  .intro{padding:60px 40px 28px;max-width:980px}
+  .intro h1{font-family:'Inter';font-weight:200;font-size:clamp(36px,4.6vw,64px);letter-spacing:-1.6px;line-height:1.02}
+  .intro h1 em{font-family:'EB Garamond';font-style:italic;font-weight:400;color:var(--terracotta);letter-spacing:-1px}
+  .intro p{font-family:'Poppins';font-weight:300;font-size:16px;line-height:1.65;color:var(--mute);margin-top:18px;max-width:680px}
+  .legend{display:flex;flex-wrap:wrap;gap:24px;font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--mute);margin-top:22px}
+  .legend span b{color:var(--terracotta);font-weight:500;margin-right:6px}
+
+  .grid{padding:8px 40px 80px;display:grid;grid-template-columns:repeat(2,1fr);gap:32px}
+  @media (max-width:1100px){.grid{grid-template-columns:1fr}}
+
+  .card{display:flex;flex-direction:column;gap:14px}
+  .card .ix{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+  .card .num{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mute)}
+  .card .name{font-family:'Inter';font-weight:300;font-size:24px;letter-spacing:-.6px;color:var(--forest)}
+  .card .name em{font-family:'EB Garamond';font-style:italic;color:var(--terracotta);font-weight:400}
+  .card .note{font-family:'Poppins';font-size:13.5px;line-height:1.55;color:var(--mute);max-width:560px}
+  .frame{
+    position:relative;width:100%;aspect-ratio:16/10;border:1px solid var(--rule);
+    background:var(--cream);overflow:hidden;border-radius:2px;
+  }
+  .frame iframe{
+    position:absolute;top:0;left:0;
+    width:200%;height:200%;
+    border:0;transform-origin:0 0;transform:scale(.5);
+    pointer-events:none;
+  }
+  .frame a.cover{position:absolute;inset:0;display:block;text-indent:-9999em}
+  .meta{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--mute)}
+  .meta a{color:var(--terracotta);text-decoration:none;border-bottom:1px solid var(--terracotta);padding-bottom:1px}
+  .meta .tag{display:inline-flex;gap:6px;align-items:center}
+  .meta .tag .dot{width:6px;height:6px;border-radius:50%}
+  .tag.photo .dot{background:var(--terracotta)}
+  .tag.type .dot{background:var(--sage)}
+
+  footer{padding:36px 40px 60px;border-top:1px solid var(--rule);color:var(--mute);font-size:12px;letter-spacing:1.5px;text-transform:uppercase}
+  footer a{color:var(--terracotta);text-decoration:none;border-bottom:1px solid var(--terracotta);padding-bottom:1px;margin-left:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><span class="b"></span>oikos &nbsp;<span class="crumb">/ hero variants</span></div>
+  <div class="crumb" style="justify-self:center">5 video + 10 still · brand-locked</div>
+  <div class="controls">
+    <a class="solo" href="../index.html">view current site →</a>
+  </div>
+</header>
+
+<section class="intro">
+  <h1>five <em>moving</em> openers,<br>ten still ones.</h1>
+  <p>The top five use the new ElevenLabs office video as the moving piece. The ten below are still / typographic. All fifteen use the brand palette extracted from the Wix theme (cream <b style="color:var(--terracotta)">#FFF8EB</b>, forest <b style="color:var(--terracotta)">#0B3910</b>, terracotta <b style="color:var(--terracotta)">#B46A2C</b>) and type stack (EB Garamond italic + Inter + Poppins).</p>
+  <div class="legend">
+    <span><b>video</b>uses the seedance office take</span>
+    <span><b>photo</b>uses a real interior still</span>
+    <span><b>type</b>pure typographic</span>
+  </div>
+</section>
+
+<section style="padding:0 40px 8px"><div style="font-family:'Inter';font-weight:400;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid var(--rule);padding-bottom:14px">moving · with video</div></section>
+
+<section class="grid">
+
+  <article class="card">
+    <div class="ix"><div class="name">V1 · full-bleed <em>cinema</em></div><div class="num">video · viewport</div></div>
+    <div class="note">Video fills the screen. Wordmark + 3-line headline lower-left, one italic word in sand. Subtle forest gradient for legibility.</div>
+    <div class="frame"><iframe src="video-hero-01-fullbleed-cinema.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="video-hero-01-fullbleed-cinema.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag" style="color:var(--terracotta)"><span class="dot" style="background:var(--terracotta)"></span>video</span><a href="video-hero-01-fullbleed-cinema.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">V2 · <em>letterbox</em> cinema</div><div class="num">video · 21:9</div></div>
+    <div class="note">Three cream bands. Nav top, 21:9 video middle, manifesto + meta bottom. Like a film festival programme card.</div>
+    <div class="frame"><iframe src="video-hero-02-letterbox.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="video-hero-02-letterbox.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag" style="color:var(--terracotta)"><span class="dot" style="background:var(--terracotta)"></span>video</span><a href="video-hero-02-letterbox.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">V3 · side <em>panel</em></div><div class="num">video · 62/38</div></div>
+    <div class="note">Asymmetric video tile with 40px cream breathing space + a text column with the manifesto + office body paragraph + CTA.</div>
+    <div class="frame"><iframe src="video-hero-03-side-panel.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="video-hero-03-side-panel.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag" style="color:var(--terracotta)"><span class="dot" style="background:var(--terracotta)"></span>video</span><a href="video-hero-03-side-panel.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">V4 · vertical <em>column</em></div><div class="num">video · 38% portrait</div></div>
+    <div class="note">Tall video column flush to the right edge, cream typography on the left with three-step "understand / restructure / care" row.</div>
+    <div class="frame"><iframe src="video-hero-04-vertical-column.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="video-hero-04-vertical-column.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag" style="color:var(--terracotta)"><span class="dot" style="background:var(--terracotta)"></span>video</span><a href="video-hero-04-vertical-column.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">V5 · <em>diptych</em></div><div class="num">video + still</div></div>
+    <div class="note">50/50 video + still photo with a terracotta hairline between. Manifesto band beneath. "Working day, just finishing" beside "a corner restored".</div>
+    <div class="frame"><iframe src="video-hero-05-diptych.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="video-hero-05-diptych.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag" style="color:var(--terracotta)"><span class="dot" style="background:var(--terracotta)"></span>video</span><a href="video-hero-05-diptych.html" target="_blank">open full →</a></div>
+  </article>
+
+</section>
+
+<section style="padding:32px 40px 8px"><div style="font-family:'Inter';font-weight:400;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--terracotta);border-bottom:1px solid var(--rule);padding-bottom:14px">still · earlier round</div></section>
+
+<section class="grid">
+
+  <article class="card">
+    <div class="ix"><div class="name">01 · <em>cinematic</em> full-bleed</div><div class="num">photo · viewport</div></div>
+    <div class="note">A single biophilic photo fills the screen, with one italic word carrying the emotion. Most magazine-cinematic of the ten.</div>
+    <div class="frame"><iframe src="hero-01-cinematic-fullbleed.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-01-cinematic-fullbleed.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag photo"><span class="dot"></span>photo</span><a href="hero-01-cinematic-fullbleed.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">02 · architectural <em>grid</em></div><div class="num">photo · 12-col</div></div>
+    <div class="note">BB-inspired 12-column grid. Headline left, small 4/5 photo right, four-up meta strip below a hairline. Practice-as-architect.</div>
+    <div class="frame"><iframe src="hero-02-architectural-grid.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-02-architectural-grid.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag photo"><span class="dot"></span>photo</span><a href="hero-02-architectural-grid.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">03 · editorial <em>split</em></div><div class="num">photo · 60/40</div></div>
+    <div class="note">60/40 split with a vertical hairline. Long-form intro paragraph + dark CTA on the left, portrait photo on the right with a single italic phrase overlaid.</div>
+    <div class="frame"><iframe src="hero-03-editorial-split.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-03-editorial-split.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag photo"><span class="dot"></span>photo</span><a href="hero-03-editorial-split.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">04 · <em>type</em> stack</div><div class="num">type · no photo</div></div>
+    <div class="note">Pure typography, no image. Three-line manifesto, one italic terracotta word per line. Reads like a deliberate book page.</div>
+    <div class="frame"><iframe src="hero-04-type-stack.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-04-type-stack.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag type"><span class="dot"></span>type</span><a href="hero-04-type-stack.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">05 · <em>letter</em> opener</div><div class="num">type · column</div></div>
+    <div class="note">A 640px centered column, one 3-sentence first-person paragraph, signature line. Feels like a contributor note, not a sales page.</div>
+    <div class="frame"><iframe src="hero-05-letter-opener.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-05-letter-opener.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag type"><span class="dot"></span>type</span><a href="hero-05-letter-opener.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">06 · <em>diptych</em></div><div class="num">photo · two-up</div></div>
+    <div class="note">Quiet centered headline above, two 4/5 photos flush to the bottom edge with a terracotta hairline between. Practice as portfolio.</div>
+    <div class="frame"><iframe src="hero-06-diptych.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-06-diptych.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag photo"><span class="dot"></span>photo</span><a href="hero-06-diptych.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">07 · wordmark as <em>art</em></div><div class="num">type · monumental</div></div>
+    <div class="note">The word "oikos" itself, set at 22vw, becomes the hero. Terracotta tittle dot. Etymology micro-stack to its bottom-right.</div>
+    <div class="frame"><iframe src="hero-07-wordmark-as-art.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-07-wordmark-as-art.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag type"><span class="dot"></span>type</span><a href="hero-07-wordmark-as-art.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">08 · studio <em>portrait</em></div><div class="num">photo · founder</div></div>
+    <div class="note">50/50, left holds Angelina's first-person manifesto with a sage-circle attribution; right is a full-bleed biophilic photo. Substack-like.</div>
+    <div class="frame"><iframe src="hero-08-studio-portrait.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-08-studio-portrait.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag photo"><span class="dot"></span>photo</span><a href="hero-08-studio-portrait.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">09 · process <em>strip</em></div><div class="num">photo · three-up</div></div>
+    <div class="note">Centered manifesto with one italic word. Below a terracotta hairline, a 3-up flat photo ribbon: interiors / favours / studios.</div>
+    <div class="frame"><iframe src="hero-09-process-strip.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-09-process-strip.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag photo"><span class="dot"></span>photo</span><a href="hero-09-process-strip.html" target="_blank">open full →</a></div>
+  </article>
+
+  <article class="card">
+    <div class="ix"><div class="name">10 · sage <em>monochrome</em></div><div class="num">type · quietest</div></div>
+    <div class="note">The most restrained. Sage is the dominant accent; terracotta appears exactly once, on a single italic word.</div>
+    <div class="frame"><iframe src="hero-10-sage-monochrome.html" scrolling="no" loading="lazy"></iframe><a class="cover" href="hero-10-sage-monochrome.html" target="_blank">open</a></div>
+    <div class="meta"><span class="tag type"><span class="dot"></span>type</span><a href="hero-10-sage-monochrome.html" target="_blank">open full →</a></div>
+  </article>
+
+</section>
+
+<footer>
+  brand tokens locked · cream #FFF8EB · forest #0B3910 · terracotta #B46A2C
+  <a href="../index.html">view current practice site →</a>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>oikos — a small practice, Delhi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@1&family=Inter:wght@200;300;400&family=Poppins:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream:      #FFF8EB;
+      --forest:     #0B3910;
+      --terracotta: #B46A2C;
+      --sage:       #939991;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--forest);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 48px 24px;
+    }
+
+    .column {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Hairline above wordmark */
+    .rule {
+      width: 56px;
+      height: 1px;
+      background: var(--sage);
+      margin: 0 0 28px 0;
+      border: 0;
+    }
+
+    .wordmark {
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      font-size: 22px;
+      letter-spacing: 0.02em;
+      color: var(--sage);
+      margin: 0 0 18px 0;
+      line-height: 1;
+    }
+
+    .tag {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 10.5px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin: 0 0 56px 0;
+      line-height: 1;
+    }
+
+    .tag .glyph {
+      display: inline-block;
+      margin: 0 10px;
+      transform: translateY(-1px);
+    }
+
+    .headline {
+      font-family: 'Inter', sans-serif;
+      font-weight: 200;
+      color: var(--forest);
+      font-size: clamp(28px, 4.4vw, 44px);
+      line-height: 1.22;
+      letter-spacing: -0.012em;
+      margin: 0 0 36px 0;
+      max-width: 620px;
+      text-wrap: pretty;
+    }
+
+    .headline em {
+      font-family: 'EB Garamond', 'Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      color: var(--terracotta);
+      font-size: 1.08em;
+      letter-spacing: 0;
+    }
+
+    .body {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 300;
+      color: var(--forest);
+      font-size: 14.5px;
+      line-height: 1.7;
+      max-width: 520px;
+      margin: 0 0 40px 0;
+      opacity: 0.82;
+    }
+
+    .link {
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      color: var(--forest);
+      text-decoration: none;
+      padding-bottom: 4px;
+      border-bottom: 1px solid var(--sage);
+      transition: border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+      display: inline-block;
+    }
+
+    .link:hover,
+    .link:focus-visible {
+      border-bottom-color: var(--forest);
+      outline: none;
+    }
+
+    .link .arrow {
+      display: inline-block;
+      margin-right: 6px;
+      transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .link:hover .arrow,
+    .link:focus-visible .arrow {
+      transform: translateX(3px);
+    }
+
+    @media (max-width: 520px) {
+      .tag { font-size: 9.5px; letter-spacing: 0.18em; margin-bottom: 44px; }
+      .body { font-size: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .link, .link .arrow { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <div class="column">
+      <hr class="rule" aria-hidden="true" />
+
+      <p class="wordmark">oikos</p>
+
+      <p class="tag">
+        oikos<span class="glyph" aria-hidden="true">—</span>all hand, delhi<span class="glyph" aria-hidden="true">·</span>est. 2022
+      </p>
+
+      <h1 class="headline">
+        a small practice for biophilic interiors,<br />
+        conscious gifting, and <em>quieter</em><br />
+        workplaces.
+      </h1>
+
+      <p class="body">
+        Angelina works on one room, one favour box, one studio at a time. Plants, plaster, raw wood, slow hands. Delhi-based, by appointment.
+      </p>
+
+      <a class="link" href="#contact">
+        <span class="arrow" aria-hidden="true">&rarr;</span>begin a conversation
+      </a>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>oikos · a practice in delhi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FFF8EB;
+    --forest: #0B3910;
+    --terracotta: #B46A2C;
+    --sand: #ECCDB2;
+    --honey: #DA9B66;
+    --gold: #E4C58A;
+    --earth: #3C230F;
+    --berry: #6E1919;
+    --sage: #939991;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    background: var(--cream);
+    color: var(--forest);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Stage: two columns. Text 62%, video 38%. */
+  .stage {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 62fr 38fr;
+  }
+
+  /* ───────── LEFT: typographic composition ───────── */
+  .text-col {
+    position: relative;
+    padding: clamp(28px, 4vw, 56px) clamp(28px, 5vw, 80px);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+  }
+
+  /* Top block — wordmark + meta */
+  .topline {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .wordmark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    font-size: clamp(22px, 1.8vw, 28px);
+    letter-spacing: -0.01em;
+    color: var(--forest);
+    line-height: 1;
+  }
+
+  .meta-top {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--sage);
+  }
+
+  .meta-top .dot {
+    display: inline-block;
+    margin: 0 8px;
+    color: var(--terracotta);
+    transform: translateY(-1px);
+  }
+
+  /* Middle block — manifesto headline */
+  .headline-wrap {
+    align-self: center;
+    max-width: 720px;
+  }
+
+  .headline {
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    color: var(--forest);
+    font-size: clamp(38px, 5.4vw, 78px);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+  }
+
+  .headline .line { display: block; }
+
+  .headline .breathe {
+    font-family: 'EB Garamond', 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracotta);
+    letter-spacing: -0.01em;
+    /* optical: italic serif sits slightly heavier next to thin sans */
+    padding-right: 0.06em;
+  }
+
+  /* Hairline */
+  .hairline {
+    margin-top: clamp(32px, 4vw, 48px);
+    height: 1px;
+    background: var(--terracotta);
+    width: 100%;
+    max-width: 480px;
+    opacity: 0.85;
+  }
+
+  /* 3-up meta row */
+  .triplet {
+    margin-top: clamp(18px, 2vw, 24px);
+    display: flex;
+    gap: clamp(28px, 4vw, 56px);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--forest);
+  }
+
+  .triplet span { white-space: nowrap; }
+  .triplet .sep {
+    color: var(--sage);
+    opacity: 0.5;
+  }
+
+  /* Bottom block — CTA + footer note */
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--forest);
+    color: var(--cream);
+    padding: 14px 22px 14px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    transition: background 320ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .cta:hover {
+    background: var(--earth);
+    transform: translateX(2px);
+  }
+
+  .cta svg {
+    display: block;
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .cta:hover svg { transform: translateX(3px); }
+
+  .corner-note {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--sage);
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* ───────── RIGHT: vertical video column ───────── */
+  .video-col {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--forest);
+  }
+
+  .video-col video,
+  .video-col .poster-fallback {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .poster-fallback {
+    background-image: url('../../web/public/photos/biophilic.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Left-edge blend: forest-tinted cream-fade so the column does not feel pasted-on */
+  .video-col::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 32px;
+    background: linear-gradient(
+      to right,
+      rgba(255, 248, 235, 0.96) 0%,
+      rgba(255, 248, 235, 0.55) 35%,
+      rgba(11, 57, 16, 0.10) 75%,
+      rgba(11, 57, 16, 0.00) 100%
+    );
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Vignette inside the column — keeps top/bottom from feeling raw */
+  .video-col::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 57, 16, 0.18) 0%,
+      rgba(11, 57, 16, 0.00) 18%,
+      rgba(11, 57, 16, 0.00) 82%,
+      rgba(11, 57, 16, 0.22) 100%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ───────── Mobile: video on top as 21:9 strip, text below ───────── */
+  @media (max-width: 900px) {
+    .stage {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+    }
+
+    .video-col {
+      height: auto;
+      aspect-ratio: 21 / 9;
+      width: 100%;
+    }
+
+    .video-col::before {
+      /* On mobile, the seam is bottom-of-video → top-of-text. Re-aim the fade. */
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: auto;
+      height: 32px;
+      background: linear-gradient(
+        to top,
+        rgba(255, 248, 235, 0.96) 0%,
+        rgba(255, 248, 235, 0.55) 40%,
+        rgba(11, 57, 16, 0.00) 100%
+      );
+    }
+
+    .text-col {
+      min-height: auto;
+      padding: 40px 24px 48px;
+      gap: 48px;
+    }
+
+    .headline {
+      font-size: clamp(34px, 7.5vw, 52px);
+    }
+
+    .headline-wrap {
+      margin: 24px 0;
+    }
+
+    .hairline { max-width: 100%; }
+
+    .triplet {
+      gap: 18px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+    }
+
+    .bottom { gap: 20px; }
+
+    .corner-note { text-align: left; }
+  }
+
+  /* Reduced motion: pause autoplay, lean on poster */
+  @media (prefers-reduced-motion: reduce) {
+    video.hero-video {
+      display: none;
+    }
+    .poster-fallback {
+      display: block;
+    }
+  }
+
+  /* Quiet entrance — no bounce, ease-out only */
+  .reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: rise 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .reveal.r1 { animation-delay: 100ms; }
+  .reveal.r2 { animation-delay: 280ms; }
+  .reveal.r3 { animation-delay: 460ms; }
+  .reveal.r4 { animation-delay: 640ms; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<main class="stage">
+
+  <!-- LEFT: typographic composition -->
+  <section class="text-col">
+
+    <div class="topline">
+      <div class="wordmark reveal r1">oikos</div>
+      <div class="meta-top reveal r1">a practice in delhi<span class="dot">·</span>est. 2022</div>
+    </div>
+
+    <div class="headline-wrap reveal r2">
+      <h1 class="headline">
+        <span class="line">we take tired offices</span>
+        <span class="line">and make them <span class="breathe">breathe</span></span>
+        <span class="line">again. by hand.</span>
+      </h1>
+
+      <div class="hairline reveal r3"></div>
+
+      <div class="triplet reveal r3">
+        <span>understand</span>
+        <span class="sep">/</span>
+        <span>restructure</span>
+        <span class="sep">/</span>
+        <span>care</span>
+      </div>
+    </div>
+
+    <div class="bottom reveal r4">
+      <a class="cta" href="#contact">
+        begin a conversation
+        <svg width="22" height="8" viewBox="0 0 22 8" fill="none" aria-hidden="true">
+          <path d="M0 4 H20 M17 1 L20 4 L17 7" stroke="currentColor" stroke-width="1" stroke-linecap="square" stroke-linejoin="miter" fill="none"/>
+        </svg>
+      </a>
+      <div class="corner-note">
+        biophilic workspaces<br>
+        small studio, by hand
+      </div>
+    </div>
+
+  </section>
+
+  <!-- RIGHT: vertical video column -->
+  <aside class="video-col" aria-hidden="true">
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster="../../web/public/photos/biophilic.jpg">
+      <source src="../video/hero.mp4" type="video/mp4">
+    </video>
+    <div class="poster-fallback" style="display:none"></div>
+  </aside>
+
+</main>
+
+<script>
+  // Reduced-motion: explicitly pause and surface the poster.
+  (function () {
+    var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) {
+      var v = document.querySelector('video.hero-video');
+      if (v) {
+        try { v.pause(); } catch (e) {}
+      }
+      var pf = document.querySelector('.poster-fallback');
+      if (pf) pf.style.display = 'block';
+    }
+  })();
+</script>
+
+</body>
+</html>

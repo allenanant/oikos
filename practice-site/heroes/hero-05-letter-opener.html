@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>oikos — a note before we begin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=Inter:wght@400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;1,400&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --cream:      #FFF8EB;
+    --forest:     #0B3910;
+    --terracotta: #B46A2C;
+    --sand:       #ECCDB2;
+    --honey:      #DA9B66;
+    --gold:       #E4C58A;
+    --earth:      #3C230F;
+    --berry:      #6E1919;
+    --sage:       #939991;
+
+    --col: 640px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: var(--forest);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ------- top bar: wordmark + tiny meta on the right ------- */
+  .topbar {
+    width: 100%;
+    padding: 32px 40px 0 40px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .wordmark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: var(--forest);
+  }
+
+  .topmeta {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  /* ------- main column ------- */
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px 96px;
+  }
+
+  .note {
+    width: 100%;
+    max-width: var(--col);
+    text-align: left;
+  }
+
+  /* small label above the italic line */
+  .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin: 0 0 28px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .label::before {
+    content: "";
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--sage);
+  }
+
+  /* the single italic opener (Poppins italic, per spec) */
+  .opener {
+    margin: 0 0 36px 0;
+    font-family: 'Poppins', sans-serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(22px, 2.4vw, 28px);
+    line-height: 1.45;
+    color: var(--forest);
+    letter-spacing: 0;
+  }
+
+  /* the paragraph */
+  .body {
+    margin: 0 0 44px 0;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: clamp(16px, 1.35vw, 18px);
+    line-height: 1.72;
+    color: var(--forest);
+    max-width: 62ch;
+    text-wrap: pretty;
+  }
+
+  /* the highlighted phrase: EB Garamond italic, terracotta */
+  .body em.gar {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--terracotta);
+    font-size: 1.08em;
+    letter-spacing: 0.005em;
+  }
+
+  /* signature line */
+  .sig {
+    margin: 0 0 40px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--sage);
+  }
+  .sig .name {
+    color: var(--forest);
+    font-weight: 500;
+  }
+  .sig .dot {
+    display: inline-block;
+    margin: 0 8px;
+    color: var(--sand);
+  }
+
+  /* CTA pill */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px 12px 22px;
+    background: var(--forest);
+    color: var(--cream);
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    transition: background 220ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cta:hover {
+    background: var(--earth);
+    transform: translateY(-1px);
+  }
+  .cta .arrow {
+    display: inline-block;
+    width: 14px;
+    height: 1px;
+    background: var(--cream);
+    position: relative;
+    transition: width 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .cta .arrow::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-top: 1px solid var(--cream);
+    border-right: 1px solid var(--cream);
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .cta:hover .arrow { width: 20px; }
+
+  /* footer-ish bottom band (very small, optional) */
+  .bottom {
+    padding: 0 40px 28px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .bottom .tiny {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--sage);
+  }
+
+  @media (max-width: 600px) {
+    .topbar { padding: 24px 22px 0 22px; }
+    main { padding: 56px 22px 72px; }
+    .bottom { padding: 0 22px 22px 22px; }
+    .opener { font-size: 21px; }
+    .body { font-size: 16px; line-height: 1.7; }
+  }
+</style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="wordmark">oikos</div>
+    <div class="topmeta">delhi · since 2022</div>
+  </header>
+
+  <main>
+    <article class="note">
+
+      <p class="label">a note</p>
+
+      <p class="opener">a note before we begin —</p>
+
+      <p class="body">
+        we are a small studio in delhi. we work on one room, one nursery, or a short run of wedding favours at a time,
+        <em class="gar">by hand, in small numbers</em>, with plants and biophilic materials we know by name.
+        if our pace and our materials suit you, write to us and we will see whether we are a good fit for the work.
+      </p>
+
+      <p class="sig">
+        <span class="name">— angelina, with the team.</span>
+        <span class="dot">·</span>delhi
+        <span class="dot">·</span>est. 2022
+      </p>
+
+      <a class="cta" href="#write">
+        write to us
+        <span class="arrow" aria-hidden="true"></span>
+      </a>
+
+    </article>
+  </main>
+
+  <footer class="bottom">
+    <span class="tiny">practice</span>
+    <span class="tiny">no. 05 · letter opener</span>
+  </footer>
+
+</body>
+</html>

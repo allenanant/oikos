@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>oikos — architectural grid hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=Inter:wght@300;400;500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream:      #FFF8EB;
+    --forest:     #0B3910;
+    --terracotta: #B46A2C;
+    --sand:       #ECCDB2;
+    --honey:      #DA9B66;
+    --gold:       #E4C58A;
+    --earth:      #3C230F;
+    --berry:      #6E1919;
+    --sage:       #939991;
+
+    --ink:        var(--forest);
+    --ink-muted:  rgba(11, 57, 16, 0.62);
+    --ink-faint:  rgba(11, 57, 16, 0.32);
+    --rule:       rgba(11, 57, 16, 0.22);
+
+    --gutter: clamp(20px, 2.4vw, 36px);
+    --pad-x:  clamp(28px, 4vw, 64px);
+    --pad-y:  clamp(28px, 3.4vw, 52px);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: var(--pad-y) var(--pad-x);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto 1fr auto auto;
+    column-gap: var(--gutter);
+    row-gap: clamp(28px, 3.4vw, 52px);
+    position: relative;
+  }
+
+  /* ── row 1 · top bar ──────────────────────────────────────── */
+  .wordmark {
+    grid-column: 1 / span 6;
+    grid-row: 1;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: clamp(20px, 1.6vw, 24px);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    line-height: 1;
+    align-self: start;
+  }
+
+  .city-tag {
+    grid-column: 7 / span 6;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: lowercase;
+    color: var(--ink-muted);
+    line-height: 1;
+  }
+  .city-tag .bracket {
+    color: var(--ink-faint);
+    margin: 0 0.5ch;
+    font-weight: 300;
+  }
+
+  /* ── row 2 · headline + photo ────────────────────────────── */
+  .headline {
+    grid-column: 1 / span 8;
+    grid-row: 2;
+    align-self: end;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    font-size: clamp(34px, 4.6vw, 64px);
+    line-height: 1.08;
+    letter-spacing: -0.018em;
+    margin: 0;
+    text-wrap: balance;
+    max-width: 16ch;
+  }
+  .headline .italic {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+  }
+  .headline .period {
+    color: var(--terracotta);
+  }
+
+  .photo-frame {
+    grid-column: 9 / span 4;
+    grid-row: 2;
+    align-self: end;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--sand);
+    position: relative;
+  }
+  .photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* gentle warming, no filter slop */
+    filter: saturate(0.92) contrast(1.02);
+  }
+  .photo-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 1px rgba(11, 57, 16, 0.06);
+    pointer-events: none;
+  }
+  .photo-caption {
+    grid-column: 9 / span 4;
+    grid-row: 3;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: lowercase;
+    color: var(--ink-muted);
+    line-height: 1;
+    margin: 0;
+    align-self: start;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .photo-caption .tick {
+    width: 6px;
+    height: 1px;
+    background: var(--terracotta);
+    display: inline-block;
+  }
+
+  /* ── row 3 · ruler ───────────────────────────────────────── */
+  .ruler {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    height: 1px;
+    background: var(--rule);
+    margin-top: clamp(24px, 4vw, 56px);
+    align-self: end;
+    position: relative;
+  }
+  .ruler::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -3px;
+    width: 1px;
+    height: 7px;
+    background: var(--terracotta);
+  }
+
+  /* ── row 4 · meta strip ──────────────────────────────────── */
+  .meta {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gutter);
+  }
+  .meta-item {
+    grid-column: span 3;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .meta-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: lowercase;
+    color: var(--ink-faint);
+    line-height: 1;
+  }
+  .meta-value {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: clamp(13px, 1vw, 15px);
+    color: var(--ink);
+    line-height: 1.35;
+    letter-spacing: -0.005em;
+  }
+  .meta-value .em {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: var(--ink-muted);
+    font-size: 0.95em;
+  }
+
+  /* ── responsive collapse ─────────────────────────────────── */
+  @media (max-width: 860px) {
+    .hero {
+      grid-template-rows: auto auto auto auto auto;
+      row-gap: 28px;
+    }
+    .wordmark    { grid-column: 1 / span 6; }
+    .city-tag    { grid-column: 7 / span 6; }
+    .headline    { grid-column: 1 / -1; grid-row: 2; max-width: none; }
+    .photo-frame { grid-column: 1 / span 7; grid-row: 3; aspect-ratio: 5 / 4; }
+    .photo-caption { grid-column: 8 / span 5; grid-row: 3; align-self: end; }
+    .ruler       { grid-row: 4; margin-top: 8px; }
+    .meta        { grid-row: 5; }
+    .meta-item   { grid-column: span 6; }
+  }
+
+  @media (max-width: 480px) {
+    .meta-item   { grid-column: span 12; }
+    .photo-frame { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
+    .photo-caption { grid-column: 1 / -1; grid-row: 4; }
+    .ruler       { grid-row: 5; }
+    .meta        { grid-row: 6; }
+  }
+</style>
+</head>
+<body>
+  <section class="hero" aria-label="oikos by angelina — practice introduction">
+
+    <div class="wordmark">oikos.</div>
+
+    <div class="city-tag">
+      <span class="bracket">[</span>delhi<span class="bracket">]</span>
+    </div>
+
+    <h1 class="headline">
+      a small practice for <span class="italic">biophilic</span> interiors, conscious gifting, and quieter workplaces<span class="period">.</span>
+    </h1>
+
+    <figure class="photo-frame" role="img" aria-label="A biophilic interior detail — plants and natural materials in soft daylight.">
+      <img
+        src="../../web/public/photos/biophilic.jpg"
+        alt="A biophilic interior detail — plants and natural materials in soft daylight"
+        loading="eager"
+        decoding="async"
+      />
+    </figure>
+
+    <p class="photo-caption">
+      <span class="tick" aria-hidden="true"></span>
+      a recent room, delhi
+    </p>
+
+    <div class="ruler" role="separator" aria-hidden="true"></div>
+
+    <div class="meta">
+      <div class="meta-item">
+        <div class="meta-label">practice</div>
+        <div class="meta-value">interiors, gifting, workplaces</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">studio</div>
+        <div class="meta-value">angelina <span class="em">&amp; two makers</span></div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">established</div>
+        <div class="meta-value">2019</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">location</div>
+        <div class="meta-value">new delhi, india</div>
+      </div>
+    </div>
+
+  </section>
+</body>
+</html>

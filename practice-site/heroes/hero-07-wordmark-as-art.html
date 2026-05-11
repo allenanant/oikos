@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>oikos by angelina — practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream:     #FFF8EB;
+    --forest:    #0B3910;
+    --terracotta:#B46A2C;
+    --sand:      #ECCDB2;
+    --honey:     #DA9B66;
+    --gold:      #E4C58A;
+    --earth:     #3C230F;
+    --berry:     #6E1919;
+    --sage:      #939991;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    color: var(--forest);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* --- TOP NAV: minimal, lowercase, matter-of-fact --- */
+  .nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--forest);
+    z-index: 10;
+  }
+  .nav .mark {
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 11px;
+  }
+  .nav ul {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav a {
+    color: var(--forest);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 200ms ease-out;
+  }
+  .nav a:hover { opacity: 1; }
+
+  /* --- STAGE --- */
+  .stage {
+    position: relative;
+    min-height: 100vh;
+    padding: 0 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  /* --- WORDMARK BLOCK (sits ~36vh from top) --- */
+  .wordmark-wrap {
+    margin-top: 36vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+
+  .wordmark-row {
+    position: relative;
+    display: inline-flex;
+    align-items: flex-end;
+    line-height: 0.82;
+  }
+
+  .wordmark {
+    font-family: 'Inter', sans-serif;
+    font-weight: 200;
+    font-size: clamp(160px, 22vw, 360px);
+    letter-spacing: -0.045em;
+    color: var(--forest);
+    line-height: 0.82;
+    margin: 0;
+    padding: 0;
+    text-transform: lowercase;
+    position: relative;
+    /* hide the i's dot, we draw our own */
+    font-feature-settings: "kern" 1;
+  }
+
+  /* The "i" in "oikos" is the second glyph.
+     Inter at weight 200 has a very small round dot. We mask it
+     by tucking a cream rectangle over that exact column,
+     then paint our terracotta dot where the i-tittle would be.
+     Reliable approach: a single ::before on the wordmark covers the
+     default tittle by reusing the body bg color. */
+  .wordmark::before {
+    content: "";
+    position: absolute;
+    /* approximate column of the "i" tittle in "oikos"
+       (between the o and the k). Tight tolerance, looks right at
+       a wide range of sizes because letter-spacing is fixed. */
+    left: clamp(38px, 5.1vw, 86px);
+    top: clamp(-2px, 0.3vw, 6px);
+    width: clamp(18px, 2.4vw, 40px);
+    height: clamp(18px, 2.4vw, 40px);
+    background: var(--cream);
+    border-radius: 50%;
+  }
+
+  /* the real terracotta dot — small, perfect, anchored at the
+     bottom-right of the wordmark's baseline-to-x-height column */
+  .tittle {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    /* placed at the bottom-right of the wordmark group:
+       a few px down from the baseline, just past the final "s" */
+    right: -22px;
+    bottom: 14px;
+  }
+
+  /* --- ETYMOLOGY MICRO BLOCK (bottom-right of wordmark) --- */
+  .etym {
+    position: absolute;
+    right: 0;
+    bottom: -6px;
+    transform: translate(calc(100% + 24px), 0);
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    line-height: 1.85;
+    color: var(--forest);
+  }
+  .etym .greek {
+    color: var(--terracotta);
+  }
+  .etym .meaning {
+    /* optional EB Garamond italic for rhythm —
+       small enough that it whispers, doesn't sing */
+    font-family: 'EB Garamond', 'Inter', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    color: var(--forest);
+    opacity: 0.78;
+  }
+  .etym .place {
+    color: var(--forest);
+    opacity: 0.55;
+  }
+
+  /* --- HAIRLINE --- */
+  .hairline {
+    margin-top: 64px;
+    width: 100%;
+    height: 1px;
+    background: var(--terracotta);
+    opacity: 0.85;
+  }
+
+  /* --- META COLUMNS --- */
+  .meta {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 48px;
+    width: 100%;
+  }
+  .meta .col {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: var(--forest);
+  }
+  .meta .label {
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    font-size: 10px;
+    color: var(--terracotta);
+    margin-bottom: 6px;
+    display: block;
+  }
+  .meta .body {
+    font-weight: 300;
+    color: var(--forest);
+    opacity: 0.85;
+  }
+
+  /* --- BOTTOM CTA --- */
+  .anchor {
+    position: absolute;
+    bottom: 40px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .pill {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    background: var(--forest);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 240ms ease-out, transform 240ms ease-out;
+  }
+  .pill:hover {
+    background: var(--earth);
+    transform: translateY(-1px);
+  }
+  .pill .arrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--terracotta);
+    transform: translateY(-1px);
+  }
+
+  /* --- CORNER SIGNATURES (quiet) --- */
+  .corner-l {
+    position: absolute;
+    left: 48px;
+    bottom: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--forest);
+    opacity: 0.55;
+  }
+  .corner-r {
+    position: absolute;
+    right: 48px;
+    bottom: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--forest);
+    opacity: 0.55;
+    text-align: right;
+  }
+
+  /* --- RESPONSIVE QUIET DOWNGRADE --- */
+  @media (max-width: 880px) {
+    .nav { padding: 22px 28px; }
+    .nav ul { gap: 22px; }
+    .stage { padding: 0 28px; }
+    .wordmark-wrap { margin-top: 30vh; }
+    .etym {
+      position: static;
+      transform: none;
+      margin-top: 18px;
+      text-align: left;
+    }
+    .meta {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+    .corner-l, .corner-r { display: none; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <span class="mark">oikos by angelina</span>
+    <ul>
+      <li><a href="#">practice</a></li>
+      <li><a href="#">work</a></li>
+      <li><a href="#">favours</a></li>
+      <li><a href="#">journal</a></li>
+      <li><a href="#">contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="stage">
+
+    <div class="wordmark-wrap">
+      <div class="wordmark-row">
+        <h1 class="wordmark">oikos</h1>
+        <span class="tittle" aria-hidden="true"></span>
+
+        <div class="etym">
+          <div><span class="greek">noun &middot; greek</span></div>
+          <div class="meaning">the home, the dwelling place</div>
+          <div class="place">a practice in delhi</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hairline"></div>
+
+    <section class="meta">
+      <div class="col">
+        <span class="label">what</span>
+        <span class="body">interiors / favours / studios</span>
+      </div>
+      <div class="col">
+        <span class="label">how</span>
+        <span class="body">by hand, slowly</span>
+      </div>
+      <div class="col">
+        <span class="label">where</span>
+        <span class="body">delhi &amp; ncr</span>
+      </div>
+    </section>
+
+    <div class="corner-l">est. by angelina</div>
+    <div class="corner-r">practice no. 07 / wordmark</div>
+
+    <div class="anchor">
+      <a class="pill" href="#contact">
+        begin a conversation
+        <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+
+  </main>
+
+</body>
+</html>

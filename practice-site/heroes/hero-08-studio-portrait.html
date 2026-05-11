@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>oikos — the practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400;1,500&family=Inter:wght@400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream:      #FFF8EB;
+    --forest:     #0B3910;
+    --terracotta: #B46A2C;
+    --sand:       #ECCDB2;
+    --honey:      #DA9B66;
+    --gold:       #E4C58A;
+    --earth:      #3C230F;
+    --berry:      #6E1919;
+    --sage:       #939991;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--cream);
+    color: var(--forest);
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ---------- hero shell ---------- */
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  /* ---------- left column ---------- */
+
+  .col-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 56px 7vw 56px 7vw;
+    max-width: 760px;
+  }
+
+  .col-left .top {
+    padding-top: 8px;
+  }
+
+  .wordmark {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--forest);
+    line-height: 1;
+  }
+
+  .col-left .middle {
+    padding-top: 18vh;
+    padding-bottom: 4vh;
+  }
+
+  .label {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--forest);
+    opacity: 0.55;
+    margin-bottom: 28px;
+  }
+
+  .manifesto {
+    font-family: 'Poppins', system-ui, sans-serif;
+    font-weight: 300;
+    font-size: clamp(18px, 1.55vw, 22px);
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    color: var(--forest);
+    max-width: 38ch;
+    text-wrap: pretty;
+  }
+
+  .manifesto p + p {
+    margin-top: 18px;
+  }
+
+  .highlight {
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--terracotta);
+    font-size: 1.08em;
+    letter-spacing: 0.005em;
+  }
+
+  .write-link {
+    display: inline-block;
+    margin-top: 36px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.01em;
+    color: var(--terracotta);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .write-link:hover {
+    border-bottom-color: var(--terracotta);
+  }
+
+  .write-link .arrow {
+    display: inline-block;
+    margin-right: 4px;
+    transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .write-link:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  /* ---------- attribution row ---------- */
+
+  .attribution {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 4vh;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 50%;
+    background: var(--sage);
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    /* very subtle inner tone */
+    box-shadow: inset 0 0 0 1px rgba(11, 57, 16, 0.06);
+  }
+
+  .credit {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+    color: var(--forest);
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+
+  .credit b {
+    font-weight: 500;
+    opacity: 1;
+  }
+
+  /* ---------- right column: photo ---------- */
+
+  .col-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--sage);
+  }
+
+  .col-right img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+    /* gentle warm bias so the photo doesn't fight the cream */
+    filter: saturate(0.96) contrast(1.02);
+  }
+
+  /* a near-invisible inner edge so the photo doesn't read as a sticker
+     against the cream when the screen is wide */
+  .col-right::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 8px 0 24px -20px rgba(11, 57, 16, 0.18);
+    pointer-events: none;
+  }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .col-left {
+      padding: 40px 28px 48px;
+      order: 2;
+      max-width: 100%;
+    }
+    .col-left .middle {
+      padding-top: 36px;
+    }
+    .col-right {
+      order: 1;
+      height: 56vh;
+      min-height: 380px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<main class="hero">
+  <section class="col-left">
+    <div class="top">
+      <div class="wordmark">oikos</div>
+    </div>
+
+    <div class="middle">
+      <div class="label">the practice</div>
+
+      <div class="manifesto">
+        <p>
+          i run a small studio in delhi. we work on one room, one nursery, or
+          one batch of wedding favours at a time.
+        </p>
+        <p>
+          the work is slow and made by hand, with plants and honest materials,
+          because <span class="highlight">a home should feel like it grew, not like it was bought</span>.
+        </p>
+      </div>
+
+      <a class="write-link" href="mailto:angelina@oikosbyangelina.com">
+        <span class="arrow">&rarr;</span> write to angelina
+      </a>
+    </div>
+
+    <div class="attribution">
+      <div class="avatar" aria-hidden="true">AS</div>
+      <div class="credit">
+        <b>angelina sharma</b> &middot; founder, oikos
+      </div>
+    </div>
+  </section>
+
+  <section class="col-right" aria-hidden="true">
+    <img src="../../web/public/photos/biophilic.jpg" alt="" />
+  </section>
+</main>
+
+</body>
+</html>
